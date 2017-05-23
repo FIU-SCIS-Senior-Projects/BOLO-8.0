@@ -1,0 +1,52 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Edit User Guide
+
+   
+block admin-content
+    div.pull-right
+        a.btn.btn-primary(href="/admin/edit/userGuide/preview/root") Preview
+    br
+    br
+    form(action= "/admin/edit/userGuide" method="post")
+
+        label.control-label( for=title ) Enter a Name for the title of the User Guide.
+        div.input-group
+            input.form-control(name="title" type="text" value=title)
+            span.input-group-btn
+                button.btn.btn-secondary(name='save' type='submit' value='Save' role='submit') Save
+        br
+        br
+
+    p.lead Total Sections: #{sections.length}
+
+    a.btn.btn-default(href="/admin/edit/userGuide/add") Add New Section
+
+    if sections.length
+        table.table.table-striped
+            thead
+                tr
+                    th Name
+                    th Level of Access
+            tbody
+                each section in sections
+                    -var levels = []
+                    if (section.ROOT)
+                       -levels.push("Root")
+                    if (section.ADMINISTRATOR)
+                       -levels.push("Administrator")
+                    if (section.SUPERVISOR)
+                       -levels.push("Supervisor")
+                    if (section.OFFICER)
+                       -levels.push("Officer")
+
+                    tr
+                        td: a( href='/admin/edit/userGuide/' + section.id ) #{section.title}
+                        td #{levels.join(", ")}
+                              
+                
+

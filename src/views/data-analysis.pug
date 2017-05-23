@@ -1,0 +1,47 @@
+extends ./admin-layout.jade
+
+// Author John Burke
+block jumbo-desc
+    p Admin Portal: Data Analysis
+
+block admin-content
+    if (tier === 'ROOT')
+        p.lead Retrieve data for analysis
+        .col-xl-3.col-lg-3.hidden-md.hidden-sm.hidden-xs
+            select.selectpicker.pull-left(data-actions-box="true" id="agency-select" title="Select an Agency" mobile = "true" data-width="200px" multiple data-selected-text-format="count>1")
+                  for agency in agencies
+                      option(value=agency.name ) #{agency.name}
+
+            br
+            br
+        .col-xl-3.col-lg-3.hidden-md.hidden-sm.hidden-xs
+            .form-group
+                a.btn.btn-default.pull-left( id="download-button" type = "submit" value = "submit") Download
+        .hidden-lg.hidden-xl
+            br
+            h3.strong(style='color:red;') I apologize for the inconvenience, you are temporary restricted
+                | from this action because you might be on a mobile device
+    else
+        h1.strong(style='color:red;') Well this is embarrassing! Who are you?
+
+    script.
+        $('#download-button').click(function(e){
+          var agencies = [];
+          agencies = $('#agency-select').val();
+
+
+          if(agencies.length > 0){
+               console.log("TRUE")
+               var $this = $(this);
+              $.ajax({
+                url: '/admin/dataAnalysis/bolotoCsv',
+                type: 'GET',
+                data: {agencies},
+                success: function(pathToFile){
+                  window.location = pathToFile;
+
+                }
+              })
+            }
+
+          });

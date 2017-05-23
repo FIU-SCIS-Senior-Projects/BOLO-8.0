@@ -1,0 +1,81 @@
+extends layout
+
+
+block jumbo
+    .jumbotron
+        .container
+            div#wrapper
+            div
+                p Active BOLOs
+            div.input-group.pull-right
+                    span
+              select.selectpicker(id="parent-menu" title="Filter By" mobile = "true" onchange="location = this.value" data-width="fit")
+                    option(value="/bolo/mybolos" ) My Bolos
+                    option(value="/bolo/agency/" + userAgency.id name="agencyID" ) My Agency
+                    option(value="/bolo/" ) All Bolos
+
+                form-inline(role="form" action="/admin/users/create" enctype="multipart/form-data" method="post" )
+                    div.input-group
+                        span.input-group-btn
+                            select.selectpicker(multiple title="Select Agencies" id="agency-select" data-width="160px" mobile = "true" data-selected-text-format="count>1"  )
+                                for agency in agencies
+                                    //if(agency.id !== userAgency.id)
+                                    option(value=agency.name ) #{agency.name}
+                        button.btn.btn-default(type = "submit" value = "send" id="submit-select") Submit
+                                    script.
+                                          $('#submit-select').hide();
+                                          $(window).load(function(e){
+
+                                          if($('#agency-select').is(":visible")){
+                                              console.log($('#agency-select').is(":visible"))
+                                            $('#submit-select').show();
+                                          }
+
+
+                                          $('#submit-select').click(function(e){
+                                            var agencies = [];
+                                              agencies = $('#agency-select').val();
+
+
+                                              if(agencies.length > 0){
+                                                  $.ajax({
+                                                    url: '/bolo/agencies',
+                                                    type: 'POST',
+                                                    data: {agencies},
+                                                    success: function(response){
+                                                      window.location = response.redirect;;
+                                                    }
+                                                  })
+                                                }
+
+                                              })
+                                            })
+
+block content
+    include ./partials/global-alerts.jade
+        h2 #{filter}
+    if bolos && 0 === bolos.length
+        p.lead No active BOLOs at this time.
+
+    .row
+        for bolo in bolos
+            if bolo && bolo.confirmed === true
+                include ./partials/bolo-thumbnail.jade
+                    if (tier === 'ROOT' || tier === 'ADMINISTRATOR' )
+                        .actions
+                            a.btn.btn-info( href="/bolo/edit/" + bolo.id, role="button" ) Edit
+                            a.btn.btn-primary( href="/bolo/details/" + bolo.id role="button" ) Details
+                            a.btn.btn-warning( href="/bolo/archive/" + bolo.id role="button" onclick="return confirm('Are you sure you want to archive this bolo?')"
+                            ) Archive
+                    else if (username  === bolo.authorUName )
+                        .actions
+                            a.btn.btn-info( href="/bolo/edit/" + bolo.id, role="button" ) Edit
+                            a.btn.btn-primary( href="/bolo/details/" + bolo.id role="button" ) Details
+                    else
+                        .actions
+                            a.btn.btn-primary( href="/bolo/details/" + bolo.id role="button" ) Details
+
+
+    .row.text-center
+        - var route = '/bolo/agency/'+agencyRoute
+        include ./partials/paging-byAgency.jade

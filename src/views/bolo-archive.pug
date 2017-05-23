@@ -1,0 +1,35 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Archived BOLOs
+            input#input.hidden(value='archived')
+            if (userTier === 'ROOT' && labels)
+                div.pull-right
+                    form( action='/bolo/archive' method="post")
+                        label.label(for='range')
+                            | Bolos Older Than: 
+                        select#purgeRange.selectpicker(name="range")
+                            each label in labels
+                                option(value=label.id) #{label.name}
+                        button.btn.btn-danger(type='submit') Purge
+
+
+            label.label(for='filter')
+                | Filter BOLOs By:
+            div(style='display:inline-block')
+                select#filter.selectpicker(title="Filter By" data-width="fit" style='display:inline-block')
+                    option(value="allBolos" selected="selected") All Bolos
+                    option(value="myAgency") My Agency
+                    option(value="internal") Internal
+                    option(value="myBolos") My Bolos
+     
+block content
+    .container
+        #bolo-list.row.text-center
+        .row.text-center
+              nav(aria-label="Page navigation")
+                ul#bolo-paging.pagination
+        script(src="/js/renderPage.js" )
+

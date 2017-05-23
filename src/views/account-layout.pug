@@ -1,0 +1,20 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            block jumbo-desc
+
+block content
+    .container
+        .row
+            .col-xs-12.col-sm-3
+                ul.nav.nav-pills.nav-stacked( role="nav" )
+                    li
+                        a( href="/account" ) Account Details
+                    li
+                        a( href="/password/renderResetPass" ) Change Password
+                    li
+                        a( href="/account/notifications") Notifications
+            .col-xs-12.col-sm-9
+                block account-content

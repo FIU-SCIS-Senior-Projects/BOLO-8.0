@@ -1,0 +1,52 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Category Preview
+
+
+block admin-content
+    a.btn.btn-default( type = "button" onClick="history.go(-1);return true;") Back to Category
+    h2 #{category.name} BOLO
+    h4 The current Date and Time is #{Date()}
+            br
+            br
+            .form-group
+                .row
+                    -
+                        var date = new Date();
+                        var day = date.getDate() < 10 ? '0' + date.getDate():date.getDate();
+                        var month = date.getMonth() < 10 ? '0' + date.getMonth():date.getMonth();
+                        var currDate = day + '/' + month + '/' + date.getFullYear();
+                        var currTime = date.getHours() + ':' + date.getMinutes();
+                    .col-sm-6
+                        +input_text( "dateReported", "Date Reported", "MM/DD/YYYY", true, currDate )
+                    .col-sm-6
+                        +input_text( "timeReported", "Time Reported", "HH:MM", true, currTime )
+                -
+                div
+                    each cat in category.fields
+                        if cat !== ""
+                            div.form-group
+                                label.control-label(for = cat) #{cat}
+                                input.form-control(name = cat)
+                .row
+                    .col-sm-4
+                        label.control-label( for="main" ) Featured Image
+                        input#main( name="featured" type="file" accept="image/*" )
+
+                    .col-sm-4
+                        label.control-label( for="other1" ) Image Upload
+                        input#other1( name="other1" type="file" accept="image/*" )
+
+                    .col-sm-4
+                        label.control-label( for="other2" ) Image Upload
+                        input#other2( name="other2" type="file" accept="image/*" )
+
+                +input_text( "vid", "Video Link", "", false, vid1, "url" )
+                +input_textarea( "info", "Additional Info", "", false, info1 )
+                +input_textarea( "summary", "Summary", "", false, summary1 )
+
+                //button.btn.btn-default( name = "option" type = "submit" value = "submit") SUBMIT
+
+

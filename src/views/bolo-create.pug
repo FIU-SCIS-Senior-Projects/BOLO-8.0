@@ -1,0 +1,95 @@
+extends layout
+
+block scripts
+    script(src="/jquery-validation-1.15.0/jquery.validate.js")
+    script(src="/jquery-validation-1.15.0/form-validation.js")
+    script(src="/jquery-validation-1.15.0/additional-methods.js")
+    script(src="/js/JIC.min.js")
+    script(src="/js/imageCompression.js")
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Create a BOLO
+
+block content
+    .container
+        include partials/options
+        noscript
+            h2.text-danger Javascript is disabled in your browser! You can not create a bolo without javascript enabled!
+
+        form#create-bolo-form(name='createBoloForm' action= "/bolo/create" enctype="multipart/form-data" method="post")
+            .form-group
+                input(name="internal" type="checkbox" checked=internal1) 
+                label.checkbox-inline(for="internal") Internal
+            .row
+                .col-sm-6
+                    +input_text( "dateReported", "Date Reported", "MM/DD/YYYY", false, dateReported1 )
+                .col-sm-6
+                    +input_text( "timeReported", "Time Reported", "HH:MM", false, timeReported1 )
+            div#category
+                -
+                    var categoryNames = ['Select a Category']
+                    for (var num in categories)
+                    categoryNames.push(categories[num].name);
+                +select_options( "category", "Category", categoryNames)
+            div#categoryForms
+            script.
+                var categorySelectorDiv = $('#category');
+                categorySelectorDiv.change(function () {
+                    var newForms = document.getElementById('categoryForms')
+                    while (newForms.firstChild) {
+                        newForms.removeChild(newForms.firstChild);
+                    }
+                    var val = categorySelectorDiv.find("option:selected").index() - 1;
+                    if (val !== -1) {
+                        var categories = !{JSON.stringify(categories)};
+                        var selectedCategory = categories[val];
+                        for (num in selectedCategory.fields) {
+                            var newDiv = document.createElement('div'),
+                                    newLabel = document.createElement('label'),
+                                    newField = document.createElement('input');
+                                    //newField = newField.toLowerCase();//to lowercase input
+                            newDiv.className = 'form-group';
+                            newLabel.className = 'control-label';
+                            newLabel.htmlFor = selectedCategory.fields[num];
+                            newLabel.innerHTML = selectedCategory.fields[num];
+                            newField.className = 'form-control';
+                            newField.name = 'field';
+                            newDiv.appendChild(newLabel);
+                            newDiv.appendChild(newField);
+                            newForms.appendChild(newDiv);
+                        }
+                    }
+                });
+
+            .form-group
+                .row
+                    .col-sm-4
+                        label.control-label( for="main" ) Featured Image
+                        input#main( name="featured" type="file" accept="image/*" )
+
+                    .col-sm-4
+                        label.control-label( for="other1" ) Image Upload
+                        input#other1( name="other1" type="file" accept="image/*" )
+
+                    .col-sm-4
+                        label.control-label( for="other2" ) Image Upload
+                        input#other2( name="other2" type="file" accept="image/*" )
+            .form-group
+                .row
+                    #compressedFeaturedPrev.col-sm-4
+                    #compressedOther1Prev.col-sm-4
+                    #compressedOther2Prev.col-sm-4
+
+            //input#compressedFeatured( name = 'compressedFeatured' type='hidden' )
+            //input#compressedOther1( name = 'compressedOther1' type='hidden' )
+            //input#compressedOther2( name = 'compressedOther2' type='hidden' )
+
+            +input_text( "videoURL", "Video Link", "", false, vid1, "url" )
+            +input_textarea( "info", "Additional Info", "", false, info1 )
+            +input_textarea( "summary", "Summary", "", false, summary1 )
+            .form-group
+                button.btn.btn-default( name = "option" type = "submit" value = "submit") SUBMIT
+                button.btn.btn-default( name = "option" type = "submit" value = "preview" ) PREVIEW
+

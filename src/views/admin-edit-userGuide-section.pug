@@ -1,0 +1,36 @@
+﻿extends admin-layout
+include includes/mixins
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Edit Section of User Guide
+            button.btn.btn-primary(onclick='location = "/admin/edit/userGuide";') Go Back
+
+block admin-content   
+    .container-fluid
+        if (id)
+            div.pull-right
+                a.btn.btn-danger(href="/admin/edit/userGuide/delete/" + id) DELETE
+            br
+            br
+        form( action= (id) ? ("/admin/edit/userGuide/" + id) : ("/admin/edit/userGuide/add") method="post")
+            .form-group
+                label.control-label( for=level ) Select the Level(s) of Access.
+                br 
+                select.form-control.selectpicker( name='level[]' title="" multiple)
+                   +option( "ROOT", ROOT )
+                   +option( "ADMINISTRATOR", ADMINISTRATOR )
+                   +option( "SUPERVISOR", SUPERVISOR )
+                   +option( "OFFICER", OFFICER )
+            .form-group
+                label.control-label( for=title ) Enter a Name for the Section Heading.
+                input.form-control(name="title"  type="text" value=title1)
+            .form-group
+                label.control-label( for=data ) Enter Instructions for this Section.
+                textarea.form-control( style="height:350px" name="data" type="text") #{(data) ? data : ''}
+            .form-group
+                button.btn.btn-default(name='save' type='submit' value='Save' role='submit') Save
+
+        script(rel='javascript' src='/js/showdown.min.js')
+        script(rel='javascript' src='/js/selectpicker.js')

@@ -1,0 +1,55 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    div.row
+        div.col-sm-10
+            h3 User Management
+        //div.col-sm-2.dropdown
+            button.btn.btn-default.dropdown-toggle(type = "button" data-toggle="dropdown") Sort
+                span.caret
+            ul.dropdown-menu
+                -var dimensions = "width: 100%; margin: auto;"
+                -var route = "/admin/users/sorted/"
+                -var option1 = "agency"
+                -var option2 = "lname"
+                -var option3 = "username"
+                -var option4 = "tier"
+                a.btn.btn-default(href=route + option1 style=dimensions) Sort by agency
+                a.btn.btn-default(href=route + option2 style=dimensions) Sort by name
+                a.btn.btn-default(href=route + option3 style=dimensions) Sort by username
+                a.btn.btn-default(href=route + option4 style=dimensions) Sort by role
+
+block admin-content
+    p.lead Total Users: #{users.length}
+
+    a.btn.btn-default(href="/admin/user/create") Add New User
+    a.btn.btn-default(href="/admin/user/multiple") CSV User Upload
+
+    if users.length
+        table.table.table-striped
+            thead
+                tr
+                    th Username
+                    th Agency
+                    th.hidden-xs  Name
+                    th.hidden-sm.hidden-xs Email
+                    th.hidden-xs  Role
+                    th Active
+            tbody
+                each user in users
+                    tr
+                        td: a( href='/admin/user/' + user.id )  #{user.username}
+                        td #{user.agency.name}
+                        td.hidden-xs  #{user.firstname} #{user.lastname}
+                        td.hidden-sm.hidden-xs #{user.email}
+                        td.hidden-xs  #{user.tier}
+                        if(user.isActive === true)
+                            td.text-info Active
+                        else
+                            td.text-warning Not Active
+                        td: a.text-large(href="/admin/user/edit/" + user.id)
+                            span.glyphicon.glyphicon-cog
+    else
+        p No Users Found
+

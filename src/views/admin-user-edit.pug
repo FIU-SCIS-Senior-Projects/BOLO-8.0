@@ -1,0 +1,43 @@
+extends admin-layout
+
+block jumbo-desc
+    h3 Edit User Details
+
+block admin-content
+
+    h3 #{user.username}
+    p Fill out the form and submit to update the user.
+
+    if (userTier === 'ROOT' || (userTier === 'ADMINISTRATOR' && userAgency._id === user.agency._id))
+        form( action=( '/admin/user/activation/' + user.id ) method="post" )
+            .form-group
+                if(user.isActive === false)
+                    button#activation.btn.btn-success.pull-right(type='submit')
+                        | Activate User
+                else
+                    button#activation.btn.btn-warning.pull-right(type='submit')
+                        | Deactivate User
+            br
+
+    form(action= '/admin/user/edit/' + user.id method="post" )
+        +input_text("username", "User Name", user.username, false)
+        +input_text("fname", "First Name", user.firstname, false)
+        +input_text("lname", "Last Name", user.lastname, false)
+        +input_text("email", "Email ", user.email, false)
+        if (userTier === 'ROOT')
+            +select_options( "role", "Role", ['OFFICER', 'SUPERVISOR', 'ADMINISTRATOR', 'ROOT'], false, user.tier )
+        else
+            +select_options( "role", "Role", ['OFFICER', 'SUPERVISOR', 'ADMINISTRATOR'], false, user.tier )
+        //TODO list agencies so that only ROOT users can change another user's agency
+        //if (userTier === 'ROOT')
+            +select_options("agency", "Agency", ['1', '2', '3'], true, "")
+
+        +input_text("badge", "Badge No.", user.badge, false)
+        +input_text("sectunit", "Section / Unit", user.unit, false)
+        +input_text("ranktitle", "Rank / Title", user.rank, false)
+
+        .form-group
+            button.btn.btn-primary(type="submit" value="save") Submit
+            if (userTier === 'ROOT' || (userTier === 'ADMINISTRATOR' && userAgency._id === user.agency._id))
+                a.btn.btn-danger.pull-right(href='/admin/user/delete/' + user._id)
+                    | Delete User

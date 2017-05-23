@@ -1,0 +1,41 @@
+extends admin-layout
+
+block jumbo-desc
+    h3 User Delete: #{user.name}
+
+block admin-content
+    .col-md-12
+        .page-header
+            h2 WARNING. THIS CAN NOT BE UNDONE
+            p.text-danger
+                | This will delete the user and remove the user as an
+                | author from any bolos created by this user
+
+    table.table
+        tr
+            td Name
+            td #{user.firstname} #{user.lastname}
+        tr
+            td Email
+            td #{user.email}
+        tr
+            td Badge Number
+            td #{user.badge}
+        tr
+            td Section / Unit
+            td #{user.unit}
+        tr
+            td Rank / Title
+            td #{user.rank}
+        tr
+            td Role
+            td #{user.tier}
+        tr
+            td Agency
+            td #{user.agency.name}
+        tr
+            td Date Created
+            td #{user.userDate}
+    form(action= '/admin/user/delete/' + user.id  method="post" )
+        +input_text('password', 'Enter Your Password and Click DELETE to remove this user', 'Enter Password', false, '', 'password')
+        button.btn.btn-danger( type="submit" value="save" ) DELETE

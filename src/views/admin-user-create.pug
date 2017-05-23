@@ -1,0 +1,58 @@
+extends admin-layout
+
+block jumbo-desc
+    h3 New User Registration
+
+block admin-content
+    p  Fill out the form and submit to create a new user.
+
+    form( action="/admin/user/create" method="post" )
+        +input_text( "username", "Username ", "", true, user1)
+        +input_text( "fname", "First Name", "", true, fname1 )
+        +input_text( "lname", "Last Name", "", true,  lname1 )
+
+        div#agency
+            -
+                var agencyNames = ['Select an Agency']
+                for (var num in agencies)
+                    if (userTier === 'ROOT' ||
+                    (userTier === 'ADMINISTRATOR' && userAgency.name === agencies[num].name))
+                        agencyNames.push(agencies[num].name);
+
+            +select_options("agency", "Agency", agencyNames, true, agency1)
+
+        .form-group
+            label.control-label( for='email' ) Email
+            div.input-group
+                input.form-control( name='email' type=type ? type : 'text' value=email1 id='email')
+                div#emailDomain.input-group-addon
+                    | N/A
+        script.
+            var agencySelector = $('#agency'),
+                    emailDomain = $('#emailDomain')
+            agencies = !{JSON.stringify(agencies)};;
+            var changeEmailDomain = function () {
+                const val = agencySelector.find("option:selected").index() - 1;
+                if (val !== -1) {
+                    emailDomain.text(agencies[val].emailDomain);
+                } else {
+                    emailDomain.text('N/A');
+                }
+            }
+            emailDomain.ready(function() {
+                changeEmailDomain();
+                });
+            agencySelector.change(function () {
+                changeEmailDomain();
+            });
+        if (userTier === 'ROOT')
+            +select_options("role", "Role", ['OFFICER', 'SUPERVISOR', 'ADMINISTRATOR', 'ROOT'], true, role1)
+        else
+            +select_options("role", "Role", ['OFFICER', 'SUPERVISOR', 'ADMINISTRATOR'], true, role1)
+
+        +input_text( "badge", "Badge No.", "", true,  badge1 )
+        +input_text( "sectunit", "Section / Unit", "", true,  unit1 )
+        +input_text( "ranktitle", "Rank / Title", "", true,  rank1 )
+
+        .form-group
+            button.btn.btn-primary( type="submit" value="save" ) Submit

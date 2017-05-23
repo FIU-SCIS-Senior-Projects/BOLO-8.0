@@ -1,0 +1,63 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Category Preview
+
+
+block admin-content
+    a.btn.btn-default( type = "button" onClick="history.go(-1);return true;" style="float:left") Back to Category Details
+    form(method="POST" action="/admin/category/edit/remove/" + category.id )
+        button.btn.btn-default(type='submit') Delete Category
+    h2 #{category.name} BOLO
+
+    script.
+        $(function () {
+            $(document).on('click', '.btn-add', function (e) {
+                e.preventDefault();
+                var controlForm = $('.controls form:first'),
+                        currentEntry = $(this).parents('.entry:first'),
+                        newEntry = $(currentEntry.clone()).appendTo(controlForm);
+                newEntry.find('input').val('');
+                controlForm.find('.entry:not(:last) .btn-add')
+                        .removeClass('btn-add').addClass('btn-remove')
+                        .removeClass('btn-success').addClass('btn-danger')
+                        .html('<span class="glyphicon glyphicon-minus"></span>')
+            }).on('click', '.btn-remove', function (e) {
+                $(this).parents('.entry:first').remove();
+
+                e.preventDefault();
+                return false;
+            });
+        });
+
+    div.controls
+        form( action="/admin/category/editCat/" + category.id method="post" id="editCategory")
+            label.control-label(for="name") Enter A Name For The New BOLO Category
+            input.form-control(name="name"  type="text" value = category.name)
+
+            h3 Edit Fields
+
+            div.entry.input-group
+                each cat in category.fields
+                    if cat !== ""
+                        div.entry.input-group
+                            input.form-control(name="fields[]"  type="text" value = cat style = "height: 40px; width: 806px")
+                            span.input-group-btn
+                                button.btn.btn-danger.btn-remove(type="button")
+                                    span.glyphicon.glyphicon-minus
+            div.entry.input-group
+                input.form-control(name="fields[]" type="text" placeholder = "Enter Title For New Field..." style = "height: 40px; width: 806px")
+                span.input-group-btn
+                    button.btn.btn-success.btn-add(type="button")
+                        span.glyphicon.glyphicon-plus
+            br
+
+
+        button.btn.btn-primary( form = "editCategory" type="submit" value="save" style="position: float") Submit Edited Category
+        button.btn.btn-default( form = "editCategory" name = "option" type = "submit" value = "preview" ) Preview BOLO Template
+    br
+
+
+
+

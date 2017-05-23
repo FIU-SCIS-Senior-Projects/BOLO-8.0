@@ -1,0 +1,440 @@
+/** Bootstrap Overrides **/
+.navbar {
+    border-radius: 0;
+    margin-bottom: 0;
+    background-color: #01020a;
+}
+
+.nav-stacked {
+    margin-bottom: 2em;
+}
+
+/** Sticky footer with fixed navbar **/
+/** http://getbootstrap.com/2.3.2/examples/sticky-footer-navbar.html# **/
+html, body {
+    height: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+#markdown {
+    overflow: auto;
+    border: 1px solid black;
+}
+
+#pad {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+    border: none;
+    overflow: auto;
+    outline: none;
+    resize: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+#wrap {
+    min-height: 100%;
+    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+}
+
+#footer, .push {
+    height: 155px; /* .push must be the same height as .footer */
+}
+
+/** Custom Styles **/
+#wrap > .container {
+    margin-bottom: 48px;
+}
+
+.details-image img {
+    max-width: 90%;
+}
+
+input[type="file"] {
+    line-height: 2.5em;
+}
+
+.account-details > tbody > tr > td {
+    border-top: none;
+}
+
+.account-details > tbody > tr > td:first-child {
+    font-weight: bold;
+}
+
+.table tr.no-border td {
+    border-top: none;
+}
+
+.strong {
+    font-weight: 700;
+}
+
+.strongSpace {
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.btn {
+    margin: 0 3px;
+}
+
+.jumbotron {
+    background-color: #030b2f;
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #f9f9f9;
+    color: black;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #f9f9f9;
+}
+
+/* The container <div> - needed to position the dropdown content
+.dropdown {
+    z-index: 10;
+}*/
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+    display: block;
+}
+
+/* For the pictures in the about us page */
+.aboutUsPicture {
+    object-fit: cover;
+    width: 300px;
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thumbnail {
+    border: solid #cccccc 2px;
+    word-wrap: break-word;
+    background-color: #f2f2f2;
+}
+
+.img-thumbnail:hover {
+    background-color: #004b63;
+}
+
+.img-thumbnail:active {
+    background-color: #5bc0de;
+}
+
+.boloImageCenterer a img {
+    height: 250px;
+    width: 250px;
+}
+
+/*BOLO Flier Image Settings for Rendering */
+/*========================================*/
+
+/*Secondary Settings used when there are only two images to render*/
+
+/*Used to center two images by increasing the margin on the left*/
+#secondarysettingsleft {
+    object-fit: cover;
+    width: 300px;
+    height: 250px;
+    margin-left: 210px;
+    margin-right: 50px;
+}
+
+/*Used to center two images by increasing the margin on the right*/
+#secondarysettingsright {
+    object-fit: cover;
+    width: 300px;
+    height: 250px;
+    margin-left: 210px;
+    margin-right: 50px;
+}
+
+/*BOLO Primary Image*/
+#featured {
+    object-fit: cover;
+    width: 300px;
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*BOLO Secondary Image*/
+#secondaryimage {
+    object-fit: cover;
+    width: 300px;
+    height: 250px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+/*BOLO Tertiary Image*/
+#tertiaryimage {
+    object-fit: cover;
+    width: 300px;
+    height: 250px;
+    margin-left: 50px;
+    margin-right: auto;
+}
+
+.boloPictures {
+    max-height: 600px;
+    margin: 10px auto;
+}
+
+.status select {
+    background-color: inherit;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 900;
+    color: red;
+    text-transform: uppercase;
+    text-align-last: center;
+    font-size: 20px;
+    width: 230px;
+    margin-left: 15px;
+}
+
+.status select option {
+    background: #f2f2f2;
+}
+
+.status h2 {
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 900;
+    color: red;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    /* position: absolute;*/
+    top: 10%;
+    left: 50%;
+    font-size: 2rem;
+    /*transform: translate(-50%, -50%);*/
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #008cba;
+}
+
+#logo {
+    float: right;
+    padding-left: 120 px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+
+}
+
+#categorytext {
+    font-size: 60px;
+    height: auto;
+}
+
+#editedcategorytext {
+    color: black;
+    font-size: 60px;
+    height: auto;
+}
+
+#badge {
+
+}
+
+#updatedstatus {
+    text-align: center;
+    padding: 0;
+    transform: rotate(55deg);
+    font-size: 280px;
+    max-width: 60%;
+    position: absolute;
+    z-index: 100;
+}
+
+#thumbnailstatus {
+    text-align: center;
+    padding: 90px 0;
+    transform: rotate(45deg);
+    font-size: 50px;
+    max-width: 110%;
+    position: absolute;
+    z-index: 100;
+}
+
+#boloDetails {
+    top: 0;
+    left: 18%;
+}
+
+.panel-body dl{
+    margin-bottom: 0;
+}
+
+.panel-body .dl-horizontal dt{
+    text-align: left;
+    margin-bottom: 4px;
+}
+.panel-body .dl-horizontal dd{
+    text-align: right;
+    margin-bottom: 4px;
+}
+
+.dl-horizontal dt {
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.dl-horizontal dd {
+    text-align: right;
+    margin-bottom: 8px;
+}
+
+dt {
+    font-weight: 700;
+}
+
+#created {
+    top: 0; /*[wherever you want it]*/
+    left: 31%; /*[wherever you want it]*/
+
+}
+
+#additionalDetails {
+    top: 0; /*[wherever you want it]*/
+    left: 31%; /*[wherever you want it]*/
+
+}
+
+.ui-dialog-titlebar-close {
+    display: none;
+}
+
+#purgeRange {
+    margin-left: 10px;
+}
+
+#pop {
+    z-index: 2;
+    position: absolute;
+    border: 1px solid #333333;
+    text-align: center;
+    background: #ffffff;
+}
+
+#close {
+    float: right;
+    margin-right: 5px;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #666666;
+    width: 12px;
+    position: relative;
+    margin-top: -1px;
+    text-align: center;
+}
+
+#wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 960px;
+}
+
+/*Multi level dropdown*/
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-right-width: 0;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-right {
+    float: none;
+}
+
+.dropdown-submenu.pull-right > .dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.ui-datepicker {
+    background: lightgrey;
+    border: 1px solid #555;
+    color: black;
+    padding: 25px;
+    margin: 25px
+}

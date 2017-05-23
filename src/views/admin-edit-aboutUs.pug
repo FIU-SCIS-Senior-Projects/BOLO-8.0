@@ -1,0 +1,17 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Edit About Us
+
+block admin-content
+    .container-fluid
+        form(action= "/admin/edit/aboutUs" method="post")
+            +input_textarea('in', 'AboutUs Markdown Editor', 'Write text here...', true, markdown)
+            .row
+                h3 Preview
+                #markdown.col-lg-12
+            .form-group
+                button.btn.btn-default(name='save' type='submit' value='Save' role='submit') Save
+        script(rel='javascript' src='/js/showdown.min.js')
+        script(rel='javascript' src='/js/mdEditor.js')

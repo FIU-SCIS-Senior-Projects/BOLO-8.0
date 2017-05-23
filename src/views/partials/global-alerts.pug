@@ -1,0 +1,12 @@
+include ../includes/mixins
+
+if success_msg.length
+    +alert_info(success_msg)
+if error_msg.length
+    +alert_warning(error_msg)
+if passport_success.length
+    +alert_info(passport_success + userName)
+if passport_error.length
+    +alert_error(passport_error)
+if errors
+    +alert_error_array(errors)

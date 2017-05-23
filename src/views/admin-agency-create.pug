@@ -1,0 +1,44 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 New Agency Registration
+
+block admin-content
+    -
+        var states = [
+        "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL",
+        "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+        "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
+        "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "RI", "SC",
+        "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"
+        ]
+
+    p  Fill out the form and submit to create a new agency.
+
+    form(action='/admin/agency/create' enctype="multipart/form-data" method="post")
+
+        +input_text( "name", "Agency Name", "", true, name1 )
+        +input_text( "domain", "Agency Domain", "@example-fl.gov", true, domain1 )
+        +input_text( "address", "Address", "", true, address1 )
+        +input_text( "city", "City", "", true, city1 )
+        +select_options( "state", "State", states, true, "FL" )
+        +input_text( "zip", "Zip Code", "", true,  zip1 )
+        +input_text( "phone", "Phone Number", "", true, phone1 )
+
+        //Images upload
+        .row
+            .col-sm-4
+                //#logo was already taken
+                label.control-label( for="logo1" ) Logo Image Upload
+                input#logo1.btn-file( name="logo" type="file" accept="image/*" )
+            .col-sm-4
+                label.control-label( for="shield" ) Shield Image Upload
+                input#shield( name="shield" type="file" accept="image/*" )
+            .col-sm-4
+                label.control-label( for="watermark" ) Watermark Image Upload
+                input#watermark( name="watermark" type="file" accept="image/*" )
+
+        //Submit
+        .form-group
+            button.btn.btn-primary( type="submit" value="save" ) Submit

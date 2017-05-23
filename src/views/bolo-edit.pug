@@ -1,0 +1,120 @@
+extends layout
+
+block scripts
+    script(src="/jquery-validation-1.15.0/jquery.validate.js")
+    script(src="/jquery-validation-1.15.0/form-validation.js")
+    script(src="/jquery-validation-1.15.0/additional-methods.js")
+    script(src="/js/JIC.min.js")
+    script(src="/js/imageCompression.js")
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Update BOLO Details
+            button.btn.btn-primary(onclick='history.go(-1);') Go Back
+
+block content
+    .row
+        .col-xs-8.col-xs-offset-2
+            .panel.panel-default
+                .panel-heading: p.panel-title.strong.text-center Bolo Details
+                .panel-body
+                    dl.dl-horizontal
+                        dt ID:
+                        dd #{bolo.id}
+                        dt Status:
+                        dd #{bolo.status}
+                        dt Author:
+                        dd #{bolo.author.firstname} #{bolo.author.lastname}
+                        dt Agency:
+                        dd #{bolo.agency.name}
+                        dt Created:
+                        dd #{bolo.createdOn}
+                        if (Math.abs(bolo.createdOn - bolo.lastUpdated) > 5000)
+                            dt Updated:
+                            dd #{bolo.lastUpdated}
+
+    form( name='editBoloForm' action="/bolo/edit/" + bolo.id enctype="multipart/form-data" method="post" )
+        .form-group
+            input(name="internal" type="checkbox" checked=prevForm.internal) 
+            label.checkbox-inline(for="internal") Internal
+        div#category
+            -
+                var statuses = [ 'ACTIVE', 'FOUND', 'ARRESTED', 'RESOLVED']
+            +select_options( "status", "Status", statuses)
+
+
+        .form-group
+            .row
+            .col-xs-12.col-md-6
+                +input_text( "dateReported", "Date Reported (MM/DD/YYYY)", "", false, prevForm.dateReported )
+            .col-xs-12.col-md-6
+                +input_text( "timeReported", "Time Reported (HH:MM)", "", false, prevForm.timeReported )
+
+            +input_text_static( "category", "Category", "", true, bolo.category.name)
+            div#categoryForms
+            script.
+                window.onload = function () {
+                    var newForms = document.getElementById('categoryForms')
+                    const category = !{JSON.stringify(bolo.category)};
+                    const boloFields = !{JSON.stringify(prevForm.fields)};
+                    for (num in category.fields) {
+                        var newDiv = document.createElement('div'),
+                                newLabel = document.createElement('label'),
+                                newField = document.createElement('input');
+                        newDiv.className = 'form-group';
+                        newLabel.className = 'control-label';
+                        newLabel.htmlFor = category.fields[num];
+                        newLabel.innerHTML = category.fields[num];
+                        newField.id = category.fields[num];
+                        newField.className = 'form-control';
+                        newField.name = 'field';
+                        newField.value = boloFields[num];
+                        newDiv.appendChild(newLabel);
+                        newDiv.appendChild(newField);
+                        newForms.appendChild(newDiv);
+                    }
+                };
+
+            .form-group
+                .col-xs-12.col-sm-7
+                    label.control-label( for="featured1" ) Upload New Featured Image
+                    input#featured1( name="featured" type="file" accept="image/*" )
+                .col-xs-12.col-sm-5
+                    p.strong.text-center Current Featured Image
+                    if (bolo.featured.data)
+                        img.img-responsive(src='/img/bolo/featured/' + bolo.id)
+                    else
+                        i No Image Found
+            .form-group
+                .col-xs-12.col-sm-7
+                    label.control-label( for="other1" ) Upload New Other Picture 1
+                    input#other1( name="other1" type="file" accept="image/*" )
+                .col-xs-12.col-sm-5
+                    p.strong.text-center Current Other Picture 1
+                    if (bolo.other1.data)
+                        img.img-responsive(src='/img/bolo/other1/' + bolo.id)
+                    else
+                        i No Image Found
+            .form-group
+                .col-xs-12.col-sm-7
+                    label.control-label( for="other2" ) Upload New Other Picture 2
+                    input#other2( name="other2" type="file" accept="image/*" )
+                .col-xs-12.col-sm-5
+                    p.strong.text-center Current Other Picture 2
+                    if (bolo.other2.data)
+                        img.img-responsive(src='/img/bolo/other2/' + bolo.id)
+
+                    else
+                        i No Image Found
+
+            .col-xs-12
+                +input_text( "video_url", "Video Link", "", false, prevForm.vid)
+            .col-xs-12
+                +input_textarea( "info", "Additional Info", "", false, prevForm.info)
+            .col-xs-12
+                +input_textarea( "summary", "Summary", "", false, prevForm.summary)
+
+            .col-xs-12
+                button.btn.btn-primary( type="submit" value="save" id= "buttonClickEdit" disabled = false ) Update
+

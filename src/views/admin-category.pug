@@ -1,0 +1,25 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Category Management
+
+block admin-content
+    p.lead Total Categories: #{categories.length}
+
+    a.btn.btn-default(href="/admin/category/create") Add New Category
+
+    if categories.length
+        table.table.table-striped
+            thead
+                tr
+                    th Name
+                    th Created On
+            tbody
+                each category in categories
+                    tr
+                        td: a( href='/admin/category/edit/' + category.id ) #{category.name}
+                        td #{category.createdOn}
+    else
+        p No Categories Found
+

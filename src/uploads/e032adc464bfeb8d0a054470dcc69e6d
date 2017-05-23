@@ -1,0 +1,5 @@
+Username,Email,Firstname,Lastname,Role,Agency,BadgeNumber,Unit,Title
+AlphaQ,AlphaQ@fiu.edu,Quebec,Alpha,OFFICER,FIU,3333333,Patrol,First Officer
+AlphaR,AlphaR@fiu.edu,Romeo,Alpha,SUPERVISOR,FIU,9999999,Patrol,Colonel
+AlphaS,AlphaS@fiu.edu,Sierra,Alpha,ADMINISTRATOR,FIU,1111111,Patrol,Lt
+AlphaT,AlphaT@fiu.edu,Tango,Alpha,ROOT,FIU,2222222,Patrol,Petty Officer

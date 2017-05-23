@@ -1,0 +1,24 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Category Details
+
+
+block admin-content
+    .row
+        .col-md-12
+            .page-header
+                h2 BOLO Category Details
+                h2.strong #{category.name}
+                a.btn.btn-default(href="/admin/category/edit/" + category.id) Edit Category
+    div
+        each cat in category.fields
+            if cat !== ""
+                div.form-group
+                    label.control-label(for = cat) #{cat}
+                    input.form-control(name = cat)
+
+
+
+

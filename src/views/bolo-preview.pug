@@ -1,0 +1,109 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            h3 BOLO Preview
+            .pull-left
+                button.btn.btn-primary(onclick='history.go(-1);') Go Back
+
+block content
+    .row
+        .col-xs-2
+            img.img-responsive( src='/img/agency/logo/' + bolo.agency alt="Agency Logo")
+        .col-xs-8.text-center
+            p.text-danger #{"UNCLASSIFIED// FOR OFFICIAL USE ONLY// LAW ENFORCEMENT SENSITIVE"}
+                p.strong #{agency.name} Police Department
+                p
+                    em #{agency.address}
+                p
+                    em #{agency.city}, #{agency.state}. #{agency.zip}
+                p
+                    em #{agency.phone}
+        .col-xs-2
+            img.img-responsive( src='/img/agency/shield/' + bolo.agency alt="Agency Shield" )
+    .row
+        if(bolo.status !== 'ACTIVE')
+            div#updatedstatus.col-xs-12
+                h2.text-center.text-danger.strong #{bolo.status}
+        else
+            div.col-xs-12
+                h2.text-center.text-danger.strong #{bolo.category.name} -- #{bolo.status}
+
+    //Render Images
+    .row
+        .col-xs-12.col-md-12
+            if (buffer.featured.data && !buffer.other1.data && !buffer.other2.data)
+                .col-xs-12.col-md-10.col-md-offset-1
+                    img#a.img-responsive.boloPictures
+            else if (buffer.featured.data && buffer.other1.data && !buffer.other2.data)
+                .col-xs-12.col-md-6
+                    img#a.img-responsive.boloPictures
+                .col-xs-12.col-md-6
+                    img#b.img-responsive.boloPictures
+            else if (buffer.featured.data && !buffer.other1.data && buffer.other2.data)
+                .col-xs-12.col-md-6
+                    img#a.img-responsive.boloPictures
+                .col-xs-12.col-md-6.col-xs-12
+                    img#c.img-responsive.boloPictures
+            else if (buffer.featured.data && buffer.other1.data && buffer.other2.data)
+                .col-xs-12.col-md-4
+                    img#b.img-responsive.boloPictures
+                .col-xs-12.col-md-4
+                    img#a.img-responsive.boloPictures
+                .col-xs-12.col-md-4
+                    img#c.img-responsive.boloPictures
+            else
+                .col-xs-12.col-md-10.col-md-offset-1
+                    img.img-responsive.boloPictures( src="/img/nopic.png" alt='Featured Image')
+
+            script.
+                var featured = document.getElementById('a')
+                var other1 = document.getElementById('b')
+                var other2 = document.getElementById('c')
+                if(featured)
+                    featured.src = 'data:' + '#{buffer.featured.contentType}' + ' ;base64,' + '#{buffer.featured.data}';
+                if(other1)
+                    other1.src = 'data:' + '#{buffer.other1.contentType}' + ' ;base64,' + '#{buffer.other1.data}';
+                if(other2)
+                    other2.src = 'data:' + '#{buffer.other2.contentType}' + ' ;base64,' + '#{buffer.other2.data}';
+    br
+    br
+    .row
+        .col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+            dl.dl-horizontal
+                dt.strong BOLO ID:
+                dd #{bolo.id}
+
+                - for (var i = 0; i < bolo.fields.length; i++)
+                    if (bolo.fields[i] != "N/A")
+                        dt.strong #{category.fields[i]}:
+                        dd #{bolo.fields[i]}
+
+                dt.strong Created:
+                dd #{bolo.createdOn}
+            
+            if(bolo.info != "")
+                dt.strong Additional Info:
+                if bolo.info.length
+                    dd #{bolo.info}
+
+            if(bolo.videoURL != "")
+                dt.strong Video Link:
+                if bolo.videoURL.length
+                    a(href=bolo.videoURL target="_blank")
+                        dd #{bolo.videoURL}
+                        
+            if(bolo.summary != "")
+                dt.strong Summary:
+                if bolo.summary.length
+                    dd #{bolo.summary}
+
+    .row
+        .col-xs-8.col-xs-offset-2.text-center
+            if (bolo.author)
+                p.strong This BOLO was created by #{userName}.
+                p.strong Please contact the agency should clarification be required.
+            else
+                p.strong The author of this bolo has been removed.
+                p.strong Please contact the agency should clarification be required.

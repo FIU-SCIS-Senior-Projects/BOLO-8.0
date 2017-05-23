@@ -1,0 +1,32 @@
+extends admin-layout
+
+block jumbo-desc
+    p Admin Portal: Data Analysis
+
+block admin-content
+    p.lead Retrieve Data For Analysis
+    form(name='createBoloForm' action= "/admin/dataAnalysis" method='post')
+        div#labels
+            for agency in agencies
+                .checkbox.col-xl-12.col-lg-12.hidden-md.hidden-sm.hidden-xs
+                    label
+                        input(name="agencies" value=agency.id type="checkbox" )
+                    | #{agency.name}
+        .col-xl-12.col-lg-12.hidden-md.hidden-sm.hidden-xs
+
+            .form-group
+        button.btn.btn-default.pull-left( id="download-button" type = "submit") Download
+    button#selectAll.btn.btn-default.pull-left() Select All
+    button#deselectAll.btn.btn-default.pull-left() Deselect All
+    .hidden-lg.hidden-xl
+        br
+        h3.strong(style='color:red;') I apologize for the inconvenience, you are temporary restricted
+            | from this action because you might be on a mobile device
+
+    script.
+        $('#selectAll').click(function(){
+            $('input').prop('checked', true);
+        });
+        $('#deselectAll').click(function () {
+            $('input').prop('checked', false);
+        });

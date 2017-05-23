@@ -1,0 +1,30 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Active BOLOs
+            input#input.hidden(value='default')
+            label.label(for='filter')
+                | Filter BOLOs By:
+            div(style='display:inline-block')
+                select#filter.selectpicker(title="Filter By" data-width="fit" style='display:inline-block')
+                    option(value="allBolos" selected="selected") All Bolos
+                    option(value="myAgency") My Agency
+                    option(value="internal") Internal
+                    option(value="myBolos") My Bolos
+                    option(value="selectedAgency") Choose Agency
+            div#agencyFilterDiv(style='display:inline-block')
+                select#agencyFilter.selectpicker(title="Select Agency" data-width="fit")
+                    each agency in agencies
+                        option(value=agency.id) #{agency.name}
+
+block content
+    .container
+        #bolo-list.row.text-center
+        .row.text-center
+            nav(aria-label="Page navigation")
+                ul#bolo-paging.pagination
+        script(src="/js/renderPage.js" )
+
+

@@ -1,0 +1,33 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            block jumbo-desc
+
+block content
+    .container
+        .col-xs-12.col-sm-3
+            ul.nav.nav-pills.nav-stacked(role="nav")
+                li
+                    a(href="/admin") Dashboard
+                li
+                    a(href="/admin/agency") Agency Management
+                li
+                    a(href="/admin/user") User Management
+                li
+                    a(href="/admin/category") Bolo Category Management
+                if(userTier === 'ROOT')
+                    hr
+                    li
+                        a(href="/admin/dataAnalysis") Data Analysis
+                    hr
+                    li
+                        a(href="/admin/edit/login") Edit Login Page
+                    li
+                        a(href="/admin/edit/userGuide") Edit User Guide Page
+                    li
+                        a(href="/admin/edit/aboutUs") Edit About Us Page
+
+        .col-xs-12.col-sm-9
+            block admin-content

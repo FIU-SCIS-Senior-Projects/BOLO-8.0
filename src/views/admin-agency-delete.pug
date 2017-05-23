@@ -1,0 +1,41 @@
+extends admin-layout
+
+block jumbo-desc
+    h3 Agency Delete: #{agency.name}
+
+block admin-content
+    .col-md-12
+        .page-header
+            h2 WARNING. THIS CAN NOT BE UNDONE
+            p.text-danger
+                | This will delete all the users
+                | associated with agency #{agency.name}
+    if users.length
+        table.table.table-striped
+            thead
+                tr
+                    th Username
+                    th Agency
+                    th.hidden-xs  Name
+                    th.hidden-sm.hidden-xs Email
+                    th.hidden-xs  Role
+                    th Active
+            tbody
+                each user in users
+                    tr
+                        td: a( href='/admin/user/' + user.id )  #{user.username}
+                        td #{user.agency.name}
+                        td.hidden-xs  #{user.firstname} #{user.lastname}
+                        td.hidden-sm.hidden-xs #{user.email}
+                        td.hidden-xs  #{user.tier}
+                        if(user.isActive === true)
+                            td.text-info Active
+                        else
+                            td.text-warning Not Active
+                        td: a.text-large(href="/admin/user/edit/" + user.id)
+                            span.glyphicon.glyphicon-cog
+    else
+        p No users found under agency #{agency.name}
+    form(action= '/admin/agency/delete/' + agency.id  method="post" )
+        +input_text('password', 'Enter Your Password and Click DELETE to remove the agency', 'Enter Password', false, '', 'password')
+        button.btn.btn-danger( type="submit" value="save" ) DELETE

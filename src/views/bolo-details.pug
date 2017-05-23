@@ -1,0 +1,117 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            h3 BOLO Details
+            .pull-left
+                button.btn.btn-primary(onclick='history.go(-1);') Go Back
+                a.btn.btn-default( href="/bolo/pdf/" + bolo.id target="_blank" ) Generate PDF
+            .pull-right
+                if (!isSubscribed.length)
+                    form( action= "/bolo/subscribe/" + bolo.id method="post")
+                        button.btn.btn-primary Subscribe To BOLO
+                else
+                    form( action= "/bolo/unsubscribe/" + bolo.id method="post")
+                        button.btn.btn-warning UnSubscribe From BOLO
+
+block content
+    .row
+        .col-xs-2
+            img.img-responsive( src='/img/agency/logo/' + bolo.agency.id alt="Agency Logo")
+        .col-xs-8.text-center
+            p.text-danger #{"UNCLASSIFIED// FOR OFFICIAL USE ONLY// LAW ENFORCEMENT SENSITIVE"}
+                p.strong #{bolo.agency.name} Police Department
+                p
+                    em #{bolo.agency.address}
+                p
+                    em #{bolo.agency.city}, #{bolo.agency.state}. #{bolo.agency.zip}
+                p
+                    em #{bolo.agency.phone}
+        .col-xs-2
+            img.img-responsive( src='/img/agency/shield/' + bolo.agency.id alt="Agency Shield" )
+    .row
+        if(bolo.status !== 'ACTIVE')
+            div.col-xs-12
+                h2#updatedstatus.text-center.text-danger.strong #{bolo.status}
+        else
+            div.col-xs-12
+                h2.text-center.text-danger.strong #{bolo.category.name} -- #{bolo.status}
+
+    //Render Images
+    .row
+        .col-xs-12.col-md-12
+            if (bolo.featured.data && !bolo.other1.data && !bolo.other2.data)
+                .col-xs-12.col-md-10.col-md-offset-1
+                    a(href="/img/bolo/featured/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/featured/" + bolo.id)
+            else if (bolo.featured.data && bolo.other1 && !bolo.other2.data)
+                .col-xs-12.col-md-6
+                    a(href="/img/bolo/other1/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/other1/" + bolo.id)
+                .col-xs-12.col-md-6
+                    a(href="/img/bolo/featured/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/featured/" + bolo.id)
+            else if (bolo.featured.data && !bolo.other1 && bolo.other2.data)
+                .col-xs-12.col-md-6
+                    a(href="/img/bolo/other2/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/other2/" + bolo.id)
+                .col-xs-12.col-md-6.col-xs-12
+                    a(href="/img/bolo/featured/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/featured/" + bolo.id)
+
+            else if (bolo.featured.data && bolo.other1.data && bolo.other2.data)
+                .col-xs-12.col-md-4
+                    a(href="/img/bolo/other1/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/other1/" + bolo.id)
+                .col-xs-12.col-md-4
+                    a(href="/img/bolo/featured/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/featured/" + bolo.id)
+                .col-xs-12.col-md-4
+                    a(href="/img/bolo/other2/" + bolo.id)
+                        img.img-responsive.boloPictures(src="/img/bolo/other2/" + bolo.id)
+            else
+                .col-xs-12.col-md-10.col-md-offset-1
+                    img.img-responsive.boloPictures( src="/img/nopic.png" alt='Featured Image')
+
+    br
+    br
+    .row
+        .col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+            dl.dl-horizontal
+                dt.strong BOLO ID:
+                dd #{bolo.id}
+
+                - for (var i = 0; i < bolo.fields.length; i++)
+                    if (bolo.fields[i] != "N/A")
+                        dt.strong #{bolo.category.fields[i]}:
+                        dd #{bolo.fields[i]}
+
+                dt.strong Created:
+                dd #{bolo.createdOn}
+
+                if(bolo.info != "")
+                    dt.strong Additional Info:
+                    if bolo.info.length
+                        dd #{bolo.info}
+
+                if(bolo.videoURL != "")
+                    dt.strong Video Link:
+                    if bolo.videoURL.length
+                        a(href=bolo.videoURL target="_blank")
+                            dd #{bolo.videoURL}
+                
+                if(bolo.summary != "")
+                    dt.strong Summary:
+                    if bolo.summary.length
+                        dd #{bolo.summary}
+
+    .row
+        .col-xs-8.col-xs-offset-2.text-center
+            if (bolo.author)
+                if bolo.author.firstname != null || bolo.author.lastname != null
+                    p.strong This BOLO was created by #{bolo.author.unit}  #{bolo.author.rank} #{bolo.author.firstname} #{bolo.author.lastname}.
+                    p.strong Please contact the agency should clarification be required.
+            else
+                p.strong The author of this bolo has been removed.
+                p.strong Please contact the agency should clarification be required.

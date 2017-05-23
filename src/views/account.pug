@@ -1,0 +1,36 @@
+extends account-layout
+
+block jumbo-desc
+    h3 Account Management
+
+block account-content
+    h3 #{user.username}
+    table.table
+        tr
+            td Name
+            td #{user.firstname} #{user.lastname}
+        tr
+            td Email
+            td #{user.email}
+        tr
+            td Badge Number
+            td #{user.badge}
+        tr
+            td Section / Unit
+            td #{user.unit}
+        tr
+            td Rank / Title
+            td #{user.rank}
+        tr
+            td Role
+            td #{user.tier}
+        tr
+            td Agency
+            td #{user.agency.name}
+
+    if !(userTier === 'ROOT')
+        p.strong.text-danger
+            | Please contact your Agency administrator to
+            | make changes to your account details.
+    else
+        a.btn.btn-primary( href='/admin/user/edit/' + user.id ) Update Details

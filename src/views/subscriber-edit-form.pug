@@ -1,0 +1,65 @@
+extends ./admin-layout.jade
+include ./includes/mixins.jade
+
+
+block jumbo-desc
+    p Admin Portal: Data Subscriber Update
+
+
+block admin-content
+    -
+
+
+    - var route = '/admin/dataSubscriber';
+    - var form_action = '/edit/' + dataSubscriber.id;
+
+    h3 #{dataSubscriber.name}
+    p Fill out the form and submit to update the subscriber.
+
+    if (tier === 'ROOT')
+        if(dataSubscriber.isActive === false)
+            div.col-xs-12
+                button#activation.btn.btn-success.pull-right(
+                type='submit'
+                style='margin-bottom:25px;'
+                ) Activate Subscriber
+        else
+            div.col-xs-12
+                button#activation.btn.btn-danger.pull-right(
+                type='submit'
+                style='margin-bottom:25px;'
+                ) Deactivate Subscriber
+        script.
+            $('#activation').click(function (data) {
+                var res = data.toElement.getAttribute('class').indexOf('btn-danger');
+                if (res !== -1)
+                    var result = confirm('Deactivate Subscriber?');
+                else
+                    var result = confirm('Activate Subscriber?');
+                if(result === true){
+                    $.ajax({
+                        url: '/admin/dataSubscriber/Activation',
+                        type: 'POST',
+                        data: {dataSubscriber: !{JSON.stringify(dataSubscriber)}},
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log('redirect');
+                            if (typeof data.redirect == 'string')
+                                window.location = data.redirect;
+                        }
+                    })
+                }
+            });
+    form( action=( route + form_action ) enctype="multipart/form-data" method="post" )
+        input( name="id" type="hidden" value=dataSubscriber.id )
+        input( name="dataSubscriber_id" type="hidden" value=dataSubscriber.dataSubscriber_id)
+        +input_text( "name", "Subscriber Name", "", false, dataSubscriber.name)
+        +input_text( "email", "Email", "", false, dataSubscriber.email )
+
+
+
+        .form-group
+            button.btn.btn-primary( type="submit" value="save" ) Submit
+
+
+    .row

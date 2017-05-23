@@ -1,0 +1,26 @@
+extends ./admin-layout.jade
+include ./includes/mixins.jade
+
+
+block jumbo-desc
+    p Admin Portal: New Data Subscriber Registration
+
+
+block admin-content
+    -
+
+
+    - var route = '/admin/dataSubscriber';
+    - var form_action = '/create';
+
+    p  Fill out the form and submit to create a new Subscriber.
+
+    form( action=( route + form_action ) enctype="multipart/form-data" method="post" )
+
+        +input_text( "dataSubscriber_id", "Data Subscriber ID", "", false, "" )
+        +input_text( "name", "Data Subscriber Name", "", false, "" )
+        +input_text( "email", "Email", "", false, "" )
+
+
+        .form-group
+            button.btn.btn-primary( type="submit" value="save" ) Submit

@@ -1,0 +1,11 @@
+extends layout
+
+block jumbo
+	.jumbotron
+		.container
+			p PDF Suite
+
+block content
+	p.Your PDF has been created. Click on the button to view or download:
+	a.btn.btn-default( href='/pdf/' + bolo.id  + '.pdf') View
+	//iframe(width='560', height='315',src=blob, frameborder='0')

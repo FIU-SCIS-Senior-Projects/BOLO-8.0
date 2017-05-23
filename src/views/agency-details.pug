@@ -1,0 +1,43 @@
+extends admin
+
+block jumbo-desc
+    h3 Agency Details: #{agency.name}
+
+block admin-content
+    .row
+        .col-md-12
+            .page-header
+                h2 #{agency.name}
+
+    .row
+        .col-md-4
+            h3 Address
+            p.
+                #{agency.address} <br>
+                #{agency.city}, #{agency.state} #{agency.zip}
+
+        .col-md-4
+            h3 Contact Information
+            p Phone: #{agency.phone}
+
+    .row
+        .details-image.col-md-4
+            h3 Agency Logo
+            if ( agency.logo.data)
+                img(src='/img/agency/logo/' + agency._id)
+            else
+                p: i Error! No Logo Image Found
+
+        .details-image.col-md-4
+            h3 Agency Shield
+            if ( agency.shield.data )
+                img(src='/img/agency/shield/' + agency._id)
+            else
+                p: i No Shield Image
+
+        .details-image.col-md-4
+            h3 Agency Watermark
+            if ( agency.watermark.data )
+                img(src='/img/agency/watermark/' + agency._id)
+            else
+                p: i No Watermark Image

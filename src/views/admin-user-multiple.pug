@@ -1,0 +1,28 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Multiple User Creation Form
+
+block admin-content
+    div
+    button.btn.btn-primary(onclick='history.go(-1);') Return To The Previous Page
+    hr
+    h1 Multiple User Upload Form
+    br
+    h2 Below you can download a sample CSV, or if you feel you have a correctly formatted CSV you can upload it now.
+    br
+    br
+
+    col-md-4
+        label.control-label( for="featured_image" ) Sample CSV Format
+        br
+
+        a.btn.btn-primary( href="/csv/Sample.csv" , target="_blank" ) Download Sample CSV
+
+        br
+        br
+        form#create-bolo-form(action= "/admin/user/multiple" enctype="multipart/form-data" method="post")
+            label.control-label Upload CSV
+            input( type="file" name ="csvfile" accept=".csv")
+            button.btn.btn-primary( type="submit") Upload CSV

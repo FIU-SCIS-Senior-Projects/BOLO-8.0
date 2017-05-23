@@ -1,0 +1,25 @@
+include ../includes/mixins
+
++nav( "Home", "bolo-nav" )
+    if userLoggedIn
+        ul.nav.navbar-nav
+            li: a( href="/bolo/create" ) Create
+            li: a( href="/bolo/archive" ) Archive
+            li: a( href="/agency" ) Agency Directory
+            li: a( href="/bolo/search" ) Search
+            if (userTier === 'ROOT' || userTier === 'ADMINISTRATOR')
+                li: a( href="/admin" ) Admin
+        ul.nav.navbar-nav.navbar-right
+            +dropdown_menu(userName)
+                li: a( href="/account" ) Account
+                li: a( href="/userGuide" ) User Guide
+                li: a( href="/aboutUs" ) About Us
+                li: a( href="/logout" ) Logout
+    else
+        ul.nav.navbar-nav
+            li: a( href="/login" ) Login
+        ul.nav.navbar-nav.navbar-right
+            +dropdown_menu( 'About Us')
+                li: a( href="/aboutUs/#MDCACP" ) M.D.C.A.C.P.
+                li: a( href="/aboutUs/#FIU" ) FIU's Contribution
+                li: a( href="/aboutUs" ) About Us

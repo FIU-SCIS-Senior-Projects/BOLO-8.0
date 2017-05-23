@@ -1,0 +1,30 @@
+extends layout
+
+block jumbo
+    .jumbotron
+        .container
+            h3 Agency Directory
+
+block content
+    .container
+        p.lead Total Agencies: #{agencies.length}
+
+        if agencies.length
+            table.table.table-striped
+                thead
+                    tr
+                        th Name
+                        th.hidden-xs Address
+                        th City
+                        th.hidden-sm.hidden-xs Zip
+                        th State
+                        th.hidden-sm.hidden-xs Phone
+                tbody
+                    for agency in agencies
+                        tr
+                            td: a( href='/agency/' + agency.id ) #{agency.name}
+                            td.hidden-xs #{agency.address}
+                            td  #{agency.city}
+                            td.hidden-sm.hidden-xs  #{agency.zipcode}
+                            td  #{agency.state}
+                            td.hidden-sm.hidden-xs #{agency.phone}

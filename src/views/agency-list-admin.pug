@@ -1,0 +1,41 @@
+extends ./admin-layout.jade
+
+
+block jumbo-desc
+    p Admin Portal: Agency Management Directory
+
+
+block admin-content
+    - var route = '/admin/agency'
+
+    if(tier==='ROOT')
+      p.lead Total Agencies: #{agencies.length}
+    if(tier==='ADMINISTRATOR')
+      p.lead Agency Management
+
+    table.table.table-striped
+        thead
+            tr
+                th ID
+                th Name
+                th City
+                th State
+                th Zip
+                th.hidden-xs Phone
+                th
+        tbody
+            for agency in agencies
+              if(userTier==='ROOT'||(userTier==='ADMINISTRATOR'&& agency.id === userAgency))
+                tr
+                    td  #{agency.agencyID}
+                    td  #{agency.name}
+                    td  #{agency.city}
+                    td  #{agency.state}
+                    td  #{agency.zip}
+                    td.hidden-xs #{agency.phone}
+                    if(agency.isActive === false)
+                        td.text-warning disabled
+                    td: a( href=route + "/edit/" + agency.id role="button" )
+                        span.glyphicon.glyphicon-cog( aria-hidden="true" )
+      if(tier==='ROOT')
+        a.btn.btn-default( href=route + "/create") Add New Agency

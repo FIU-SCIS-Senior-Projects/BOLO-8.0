@@ -1,0 +1,38 @@
+extends admin-layout
+
+block jumbo-desc
+    h3 Agency Directory
+
+block admin-content
+    p.lead Total Agencies: #{agencies.length}
+
+    a.btn.btn-default(href="/admin/agency/create") Add New Agency
+
+    if agencies.length
+        table.table.table-striped
+            thead
+                tr
+                    th Name
+                    th.hidden-xs Address
+                    th City
+                    th.hidden-sm.hidden-xs Zip
+                    th State
+                    th.hidden-sm.hidden-xs Phone
+                    th.hidden-xs Active
+                    th Edit
+            tbody
+                for agency in agencies
+                    tr
+                        td: a( href='/admin/agency/' + agency.id ) #{agency.name}
+                        td.hidden-xs #{agency.address}
+                        td  #{agency.city}
+                        td.hidden-sm.hidden-xs  #{agency.zipcode}
+                        td  #{agency.state}
+                        td.hidden-sm.hidden-xs #{agency.phone}
+                        if(agency.isActive)
+                            td.hidden-xs.text-info Active
+                        else
+                            td.hidden-xs.text-warning Not Active
+                        if(userTier === 'ROOT' || (userTier === 'ADMINISTRATOR' && userAgency.id === agency.id))
+                            td: a.text-large(href='/admin/agency/edit/' + agency.id)
+                                span.glyphicon.glyphicon-cog

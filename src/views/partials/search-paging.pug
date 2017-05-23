@@ -1,0 +1,20 @@
+if (paging === true)
+
+    ul.pagination.pagination-lg
+        if ((Object.keys(previous_bookmark).length === 0) || (more === true && previous_bookmark === bookmark ))
+            li.disabled: a( href="#" aria-label="Previous" )
+                span.glyphicon.glyphhicon-menu-left( aria-hidden="true" )
+        else
+            li: a( href=route + "?valid=" + (query) + "&bookmark=" + previous_bookmark  aria-label="Previous" )
+                span.glyphicon.glyphicon-menu-left( aria-hidden="true" )
+
+
+        if (more === false)
+            li.disabled: a( href="#" aria-label="Next" )
+                span.glyphicon.glyphhicon-menu-right( aria-hidden="true" )
+        else
+            li: a( href=route + "?valid=" + (query) + "&bookmark=" + bookmark aria-label="Next" )
+                span.glyphicon.glyphicon-menu-right( aria-hidden="true" )
+
+else
+    p.text-small No Paging Available

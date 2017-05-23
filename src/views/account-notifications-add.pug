@@ -1,0 +1,37 @@
+extends account-layout
+include includes/mixins
+
+
+mixin add_agency_row ( agency, selected )
+    tr
+        td.text-center: input( type="checkbox" name="agencies[]" value=agency._id )
+        td #{agency.name}
+        td #{agency.city}
+        td #{agency.state.toUpperCase()}
+        td #{agency.zipcode}
+
+
+block jumbo-desc
+    p Account Management: BOLO Email Notifications
+
+
+block account-content
+    - var ROUTE = '/account/notifications'
+
+    p.lead Subscribe to be notified about BOLOs from a specific agency.
+    p: a( href=ROUTE ) < Go back to your notifications
+
+    form( action=ROUTE + '/subscribe' enctype="application/json" method="post" )
+        table.table.table-striped
+            thead: tr
+                th <!-- Checkbox -->
+                th Agency
+                th City
+                th State
+                th Zip
+            tbody
+                each agency in agencies
+                    +add_agency_row( agency )
+
+        .form-group
+            button.btn.btn-primary( type="submit" value="save" ) Submit

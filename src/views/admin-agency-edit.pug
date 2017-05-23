@@ -1,0 +1,101 @@
+extends admin-layout
+include includes/mixins
+
+block jumbo-desc
+    h3 Edit Agency Details
+
+block admin-content
+    -
+        var states = [
+        "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL",
+        "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+        "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM",
+        "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "RI", "SC",
+        "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"
+        ]
+
+    h3 #{agency.name}
+    p Fill out the form and submit to update the agency.
+
+    form( action=( '/admin/agency/activation/' + agency.id ) enctype="multipart/form-data" method="post" )
+        if (userTier === 'ROOT')
+            .form-group
+                if(agency.isActive === false)
+                    button#activation.btn.btn-success.pull-right(type='submit')
+                        | Activate Agency
+                else
+                    button#activation.btn.btn-warning.pull-right(type='submit')
+                        | Deactivate Agency
+            br
+
+    form(action= '/admin/agency/edit/' + agency.id  enctype="multipart/form-data" method="post" )
+        +input_text( "name", "Agency Name", agency.name, false )
+        +input_text( "domain", "Agency Domain", agency.emailDomain, false )
+        +input_text( "address", "Address", agency.address, false )
+        +input_text( "city", "City", agency.city, false )
+        +select_options( "state", "State", states, false, agency.state )
+        +input_text( "zip", "Zip Code", agency.zipcode, false )
+        +input_text( "phone", "Phone Number", agency.phone, false )
+        hr
+        .form-group
+            .row
+                .col-xs-12.col-sm-7
+                    label.control-label( for="logo1" ) Upload New Logo Image
+                    input#logo1( name="logo" type="file" accept="image/*" )
+                    if (agency.logo.data)
+                        a#RemoveLogo.btn.btn-warning() Remove Current Logo
+                .col-xs-12.col-sm-5
+                    if (agency.logo.data)
+                        p.strong.text-center Current Logo
+                        img.img-responsive(src='/img/agency/logo/' + agency.id)
+                    else
+                        p.alert Error! No Image Found
+        .form-group
+            .row
+                .col-xs-12.col-sm-7
+                    label.control-label( for="shield" ) Upload New Shield Image
+                    input#shield( name="shield" type="file" accept="image/*" )
+                    if (agency.logo.data)
+                        a#RemoveShield.btn.btn-warning() Remove Current Shield
+                .col-xs-12.col-sm-5
+                    if (agency.shield.data)
+                        p.strong.text-center Current Shield
+                        img.img-responsive(src='/img/agency/shield/' + agency.id)
+                    else
+                        i No Image Found
+        .form-group
+            .row
+                .col-xs-12.col-sm-7
+                    label.control-label( for="watermark" ) Upload New Watermark Image
+                    input#watermark( name="watermark" type="file" accept="image/*" )
+                    if (agency.watermark.data)
+                        a#RemoveWatermark.btn.btn-warning() Remove Current Watermark
+                .col-xs-12.col-sm-5
+                    if (agency.watermark.data)
+                        p.strong.text-center Current Watermark
+                        img.img-responsive(src='/img/agency/watermark/' + agency.id)
+                    else
+                        i No Image Found
+        script.
+            var removeImage = function (image) {
+                var form = document.createElement("form");
+                form.setAttribute("method", "post");
+                form.setAttribute("action", "/img/agency/remove/" + image + "/" + '#{agency._id}');
+                document.body.appendChild(form);
+                form.submit();
+            }
+            $(document).ready(function() {
+                $('#RemoveLogo').click(function () {
+                    removeImage('logo')
+                });
+                $('#RemoveShield').click(function () {
+                    removeImage('shield')
+                });
+                $('#RemoveWatermark').click(function () {
+                    removeImage('watermark');
+                });
+            });
+        .form-group
+            button.btn.btn-primary( type="submit" value="save" ) Submit
+            if (userTier === 'ROOT')
+                a.btn.btn-danger.pull-right( href='/admin/agency/delete/' + agency.id type="submit" value="save" ) Delete Agency
