@@ -1,7 +1,6 @@
 /* jshint node: true */
 'use strict';
 
-
 /**
  * @todo Implement authorization using this class for all 4 tiers
  *
@@ -12,54 +11,64 @@
  * Refer to Mingle #576 and #603 for authorization policy.
  **/
 function BoloAuthorize(bolo, author, user) {
-    this.bolo = bolo;
-    this.author = author;
-    this.user = user;
+  this.bolo = bolo;
+  this.author = author;
+  this.user = user;
 }
 
-BoloAuthorize.prototype.isRoot = function () {
-    return 4 === this.user.tier;
+BoloAuthorize.prototype.isRoot = function() {
+  return 4 === this.user.tier;
 };
 
-BoloAuthorize.prototype.isAdmin = function () {
-    return 3 === this.user.tier;
+BoloAuthorize.prototype.isAdmin = function() {
+  return 3 === this.user.tier;
 };
 
-BoloAuthorize.prototype.sameUser = function () {
-    return this.user.id == this.bolo.author;
+BoloAuthorize.prototype.sameUser = function() {
+  return this.user.id == this.bolo.author;
 };
 
-BoloAuthorize.prototype.sameAgency = function () {
-    return this.user.agency == this.bolo.agency;
+BoloAuthorize.prototype.sameAgency = function() {
+  return this.user.agency == this.bolo.agency;
 };
 
-BoloAuthorize.prototype.canSupervise = function () {
-    return this.user.tier > this.author.tier;
+BoloAuthorize.prototype.canSupervise = function() {
+  return this.user.tier > this.author.tier;
 };
 
-BoloAuthorize.prototype.authorizedToEdit = function () {
-    if (this.isRoot()) return true;
-    if (this.isAdmin() && this.sameAgency()) return true;
-    if (this.canSupervise() && this.sameAgency()) return true;
-    if (this.sameUser() && this.sameAgency()) return true;
+BoloAuthorize.prototype.authorizedToEdit = function() {
+  if (this.isRoot())
+    return true;
+  if (this.isAdmin() && this.sameAgency())
+    return true;
+  if (this.canSupervise() && this.sameAgency())
+    return true;
+  if (this.sameUser() && this.sameAgency())
+    return true;
 
-    throw new Error('Unauthorized request to edit bolo: ' + this.bolo.id);
+  throw new Error('Unauthorized request to edit bolo: ' + this.bolo.id);
 };
 
-BoloAuthorize.prototype.authorizedToDelete = function () {
-    if (this.isRoot()) return true;
-    if (this.isAdmin() && this.sameAgency()) return true;
-    if (this.canSupervise() && this.sameAgency()) return true;
+BoloAuthorize.prototype.authorizedToDelete = function() {
+  if (this.isRoot())
+    return true;
+  if (this.isAdmin() && this.sameAgency())
+    return true;
+  if (this.canSupervise() && this.sameAgency())
+    return true;
 
-    throw new Error('Unauthorized request to delete bolo: ' + this.bolo.id);
+  throw new Error('Unauthorized request to delete bolo: ' + this.bolo.id);
 };
 
-BoloAuthorize.prototype.authorizedToArchive = function () {
-    if (this.isRoot()) return true;
-    if (this.isAdmin() && this.sameAgency()) return true;
-    if (this.canSupervise() && this.sameAgency()) return true;
+BoloAuthorize.prototype.authorizedToArchive = function() {
+  if (this.isRoot())
+    return true;
+  if (this.isAdmin() && this.sameAgency()) 
+    return true;
+  if (this.canSupervise() && this.sameAgency())
+    return true;
 
-    throw new Error('Unauthorized request to archive bolo: ' + this.bolo.id);
+  throw new Error('Unauthorized request to archive bolo: ' + this.bolo.id);
 };
 
 module.exports.BoloAuthorize = BoloAuthorize;

@@ -7,8 +7,18 @@ var control = require('../../controllers/admin/agency');
 
 var multer = require('multer');
 var upload = multer();
-var agencyImages = upload.fields([{name: 'logo', maxCount: 1},
-    {name: 'shield', maxCount: 1}, {name: 'watermark', maxCount: 1}]);
+var agencyImages = upload.fields([
+  {
+    name: 'logo',
+    maxCount: 1
+  }, {
+    name: 'shield',
+    maxCount: 1
+  }, {
+    name: 'watermark',
+    maxCount: 1
+  }
+]);
 
 router.get('/', control.listAgencies);
 router.get('/create', control.getCreateForm);
