@@ -14,7 +14,7 @@ router.post('/userGuide', control.saveUserGuideTitle);
 router.get('/userGuide/add', control.getUserGuideSectionForm);
 router.post('/userGuide/add', control.saveUserGuide);
 router.get('/userGuide/delete/:id', control.deleteUserGuideSection);
-router.get('/userGuide/preview/:user', control.previewUserGuide); 
+router.get('/userGuide/preview/:user', control.previewUserGuide);
 router.get('/userGuide/:id', control.getUserGuideSectionForm);
 router.post('/userGuide/:id', control.saveUserGuide);
 

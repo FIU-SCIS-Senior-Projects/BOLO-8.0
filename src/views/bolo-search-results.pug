@@ -2,16 +2,16 @@ extends layout
 
 
 block jumbo
-    .jumbotron
-        .container
-            h3 BOLO Search Results
-            input#input.hidden(value='default')
+  .jumbotron
+    .container
+      h3 BOLO Search Results
+      input#input.hidden(value='default')
 
 
 block content
-    .container
-        if (bolos && (0 === bolos.length))
-            p.lead No bolos were found matching the specified criteria.
-        else
-             #bolo-list.row.text-center
-                    include partials/bolo-thumbnails
+  .container
+    if (bolos && (0 === bolos.length))
+      p.lead No bolos were found matching the specified criteria.
+    else
+      #bolo-list.row.text-center
+        include partials/bolo-thumbnails

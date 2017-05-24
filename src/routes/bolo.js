@@ -7,8 +7,18 @@ var control = require('../controllers/bolo');
 
 var multer = require('multer');
 var upload = multer();
-var boloImages = upload.fields([{name: 'featured', maxCount: 1},
-    {name: 'other1', maxCount: 1}, {name: 'other2', maxCount: 1}]);
+var boloImages = upload.fields([
+  {
+    name: 'featured',
+    maxCount: 1
+  }, {
+    name: 'other1',
+    maxCount: 1
+  }, {
+    name: 'other2',
+    maxCount: 1
+  }
+]);
 
 router.get('/', control.renderBoloPage);
 router.get('/create', control.getCreateBolo);

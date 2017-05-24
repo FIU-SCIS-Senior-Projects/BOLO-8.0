@@ -7,7 +7,12 @@ var control = require('../../controllers/admin/user.js');
 
 var multer = require('multer');
 var upload = multer({dest: './uploads/'});
-var csv = upload.fields([{name: 'csvfile', maxCount: 1}]);
+var csv = upload.fields([
+  {
+    name: 'csvfile',
+    maxCount: 1
+  }
+]);
 
 router.get('/', control.getList);
 router.get('/sorted/:id', control.getSortedList);
