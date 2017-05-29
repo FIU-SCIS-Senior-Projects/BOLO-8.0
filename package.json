@@ -78,7 +78,7 @@
     "node": "7.10.0"
   },
   "bin": {
-    "bolo": "./src/web/app.js"
+    "bolo": "./src/app.js"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
