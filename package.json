@@ -7,7 +7,7 @@
     "port": "3000"
   },
   "scripts": {
-    "start": "node ./src/web/app.js",
+    "start": "node ./src/app.js",
     "pretest": "jshint ./test/** ./src/**",
     "test": "istanbul cover _mocha --check-leaks -- ./test/unit/** ./test/integration/**",
     "unit-test": "mocha --check-leaks ./test/unit/**",
