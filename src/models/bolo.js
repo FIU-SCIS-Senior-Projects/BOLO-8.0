@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+
 var Schema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -93,28 +94,54 @@ module.exports.findBoloByID = function(id, callback) {
   Bolo.findOne({_id: id}).populate('agency').populate('author').populate('category').exec(callback);
 };
 
-module.exports.findAllBolos = function(req, isConfirmed, isArchived, limit, sortBy, callback) {
-  Bolo.find({
-    isConfirmed: isConfirmed,
-    isArchived: isArchived,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').limit(limit).sort([
-    [sortBy, -1]
-  ]).exec(callback);
+module.exports.findAllBolos = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
+
+  if(tier !== 'ROOT'){
+    Bolo.find({
+
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+
+
+                 agency: req.user.agency.id
+
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
+  else
+  {
+    Bolo.find({
+
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
 };
 
 module.exports.findOldestArchivedBolos = function(req, limit, sortBy, callback) {

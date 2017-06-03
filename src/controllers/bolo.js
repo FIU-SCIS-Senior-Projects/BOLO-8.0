@@ -382,9 +382,10 @@ exports.listBolos = function(req, res, next) {
   const filter = req.query.filter || 'allBolos';
   const isArchived = req.query.archived || false;
   const agency = req.query.agency || '';
+  const tier = req.user.tier;
   switch (filter) {
     case 'allBolos':
-      Bolo.findAllBolos(req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findAllBolos(tier, req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
