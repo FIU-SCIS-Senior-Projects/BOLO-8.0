@@ -394,7 +394,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'myAgency':
-      Bolo.findBolosByAgencyID(req, req.user.agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByAgencyID(tier, req, req.user.agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -403,7 +403,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'internal':
-      Bolo.findBolosByInternal(req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByInternal(tier, req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -421,7 +421,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'selectedAgency':
-      Bolo.findBolosByAgencyID(req, agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByAgencyID(tier, req, agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -1306,7 +1306,8 @@ function dateDiffInYears(a, b) {
  * List archived bolos
  */
 exports.renderArchivedBolos = function(req, res, next) {
-  Bolo.findOldestArchivedBolos(req, 1, 'reportedOn', function(err, bolo) {
+  const tier = req.user.tier;
+  Bolo.findOldestArchivedBolos(tier, req, 1, 'reportedOn', function(err, bolo) {
     if (err)
       console.log(err);
     else if (bolo.length) {
@@ -1419,9 +1420,9 @@ exports.deleteBolo = function(req, res, next) {
  * Gets the bolo purge archive view
  */
 exports.renderPurgeArchivedBolosPage = function(req, res) {
-
+  const tier = req.user.tier;
   if (req.body.range == 'default' || req.params.id == 'default') {
-    Bolo.findArchivedBolos(req, 'reportedOn', function(err, listOfBolos) {
+    Bolo.findArchivedBolos(tier, req, 'reportedOn', function(err, listOfBolos) {
       if (err)
         console.log(err);
       else {
@@ -1441,7 +1442,7 @@ exports.renderPurgeArchivedBolosPage = function(req, res) {
     var newDate = new Date((today.getFullYear() - parseInt(minusYear)), today.getMonth(), today.getDate());
     console.log(newDate);
 
-    Bolo.findBolosLessThan(req, newDate, 'reportedOn', function(err, listOfBolos) {
+    Bolo.findBolosLessThan(tier, req, newDate, 'reportedOn', function(err, listOfBolos) {
       if (err)
         console.log(err);
       else {
