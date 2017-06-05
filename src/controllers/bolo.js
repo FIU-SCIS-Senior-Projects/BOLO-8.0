@@ -861,7 +861,8 @@ exports.postCreateBolo = function(req, res, next) {
             fields: req.body.field
           });
           console.log('req.body.field: ' + req.body.field);
-          newBolo.fields = req.body.field;
+          newBolo.fields = req.body.field.map(field => field.toLowerCase());
+          console.log(newBolo.fields);
           for (var i in newBolo.fields) {
             if (newBolo.fields[i] === '') {
               newBolo.fields[i] = 'N/A';
@@ -1521,7 +1522,7 @@ exports.getBoloSearch = function(req, res, next) {
       console.log(err);
     else {
       var listOfAgencyNames = [];
-      listOfAgencyNames.push('N/A');
+      listOfAgencyNames.push('All Agencies');
       for (const i in listOfAgencies) {
         listOfAgencyNames.push(listOfAgencies[i].name);
         console.log(listOfAgencies[i].name + "  ");
@@ -1544,37 +1545,55 @@ exports.getBoloSearch = function(req, res, next) {
  * Searches though all bolos based on the req.body input
  */
 exports.postBoloSearch = function(req, res, next) {
-  Agency.findAgencyByName(req.body.agencyName, function(err, agency) {
-    if (err)
-      console.log(err);
-    else {
-      Category.findCategoryByName(req.body.categoryName, function(err, category) {
-        if (err)
-          console.log(err);
-        else {
-          if (!agency) {
-            Bolo.searchAllBolosByCategory(req, category !== null
-              ? category._id
-              : null, req.body.field, function(err, listOfBolos) {
-              if (err)
-                console.log(err);
-              else {
-                res.render('bolo-search-results', {bolos: listOfBolos});
-              }
-            });
-          } else {
-            Bolo.searchAllBolosByAgencyAndCategory(req, agency._id, category !== null
-              ? category._id
-              : null, req.body.field, function(err, listOfBolos) {
-              if (err)
-                console.log(err);
-              else
-                res.render('bolo-search-results', {bolos: listOfBolos});
-              }
-            );
+  console.log('in postBoloSearch function inside bolo controller');
+  const wildcard = req.body.wildcard;
+  const wildcardIsEmpty = wildcard === '';
+  console.log('is wildcard empty?', wildcardIsEmpty);
+  console.log(wildcard);
+
+  if (wildcardIsEmpty) {
+    Agency.findAgencyByName(req.body.agencyName, function(err, agency) {
+      if (err)
+        console.log(err);
+      else {
+        Category.findCategoryByName(req.body.categoryName, function(err, category) {
+          if (err)
+            console.log(err);
+          else {
+            if (!agency) {
+              Bolo.searchAllBolosByCategory(req, category !== null
+                ? category._id
+                : null, req.body.field, function(err, listOfBolos) {
+                if (err)
+                  console.log(err);
+                else {
+                  res.render('bolo-search-results', {bolos: listOfBolos});
+                }
+              });
+            } else {
+              Bolo.searchAllBolosByAgencyAndCategory(req, agency._id, category !== null
+                ? category._id
+                : null, req.body.field, function(err, listOfBolos) {
+                if (err)
+                  console.log(err);
+                else
+                  res.render('bolo-search-results', {bolos: listOfBolos});
+                }
+              );
+            }
           }
-        }
-      });
-    }
-  });
+        });
+      }
+    });
+  } else {
+    console.log('Wildcard search triggered');
+    const wildcardSearchTerm = wildcard.toLowerCase();
+    Bolo.wildcardSearch(req, wildcardSearchTerm, (err, listOfBolos) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render('bolo-search-results', { bolos: listOfBolos });
+      }
+    })
+  }
 };
