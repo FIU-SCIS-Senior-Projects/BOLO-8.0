@@ -1464,6 +1464,7 @@ exports.renderPurgeArchivedBolosPage = function(req, res) {
  * Deletes all archived bolos
  */
 exports.purgeArchivedBolos = function(req, res, next) {
+  const tier = req.user.tier;
   //Check if the current user is authorized to delete all archived bolos
   if (req.user.tier === 'ROOT') {
     User.comparePassword(req.body.password, req.user.password, function(err, result) {
@@ -1473,7 +1474,7 @@ exports.purgeArchivedBolos = function(req, res, next) {
         console.log("Result: " + result);
         if (result) {
           if (req.params.id == 'default') {
-            Bolo.deleteAllArchivedBolos(req, function(err, result) {
+            Bolo.deleteAllArchivedBolos(tier, req, function(err, result) {
               if (err)
                 console.log(err);
               else {
@@ -1489,7 +1490,7 @@ exports.purgeArchivedBolos = function(req, res, next) {
             var newDate = new Date((today.getFullYear() - parseInt(minusYear)), today.getMonth(), today.getDate());
             console.log(newDate);
 
-            Bolo.deleteBolosLessThan(req, newDate, function(err, result) {
+            Bolo.deleteBolosLessThan(tier, req, newDate, function(err, result) {
               if (err)
                 console.log(err);
               else {
@@ -1546,6 +1547,7 @@ exports.getBoloSearch = function(req, res, next) {
  * Searches though all bolos based on the req.body input
  */
 exports.postBoloSearch = function(req, res, next) {
+  const tier = req.user.tier;
   Agency.findAgencyByName(req.body.agencyName, function(err, agency) {
     if (err)
       console.log(err);
@@ -1555,7 +1557,7 @@ exports.postBoloSearch = function(req, res, next) {
           console.log(err);
         else {
           if (!agency) {
-            Bolo.searchAllBolosByCategory(req, category !== null
+            Bolo.searchAllBolosByCategory(tier, req, category !== null
               ? category._id
               : null, req.body.field, function(err, listOfBolos) {
               if (err)
@@ -1565,7 +1567,7 @@ exports.postBoloSearch = function(req, res, next) {
               }
             });
           } else {
-            Bolo.searchAllBolosByAgencyAndCategory(req, agency._id, category !== null
+            Bolo.searchAllBolosByAgencyAndCategory(tier, req, agency._id, category !== null
               ? category._id
               : null, req.body.field, function(err, listOfBolos) {
               if (err)
