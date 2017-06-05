@@ -867,29 +867,52 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
 // the wild card input search box in the search bolos form.
 // The function executes a mongodb query that searches all bolos and matches
 // the search term to any bolo field.
-module.exports.wildcardSearch = (req, searchTerm, callback) => {
-  Bolo.find({
-    fields: {
-      $in: [searchTerm]
-    },
-    isConfirmed: true,
-    isArchived: false,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').sort([
-    ['createdOn', -1]
-  ]).exec(callback);
+module.exports.wildcardSearch = (tier, req, searchTerm, callback) => {
+  if(tier !== 'ROOT')
+  {
+    Bolo.find({
+      fields: {
+        $in: [searchTerm]
+      },
+      isConfirmed: true,
+      isArchived: false,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').sort([
+      ['createdOn', -1]
+    ]).exec(callback);
+  }
+  else{
+    Bolo.find({
+      fields: {
+        $in: [searchTerm]
+      },
+      isConfirmed: true,
+      isArchived: false,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').sort([
+      ['createdOn', -1]
+    ]).exec(callback);
+  }
 }

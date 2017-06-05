@@ -1551,6 +1551,7 @@ exports.postBoloSearch = function(req, res, next) {
   console.log('in postBoloSearch function inside bolo controller');
   const wildcard = req.body.wildcard;
   const wildcardIsEmpty = wildcard === '';
+  const tier = req.user.tier;
   console.log('is wildcard empty?', wildcardIsEmpty);
   console.log(wildcard);
 
@@ -1592,7 +1593,7 @@ exports.postBoloSearch = function(req, res, next) {
   } else {
     console.log('Wildcard search triggered');
     const wildcardSearchTerm = wildcard.toLowerCase();
-    Bolo.wildcardSearch(req, wildcardSearchTerm, (err, listOfBolos) => {
+    Bolo.wildcardSearch(tier, req, wildcardSearchTerm, (err, listOfBolos) => {
       if (err) {
         console.log(err);
       } else {
