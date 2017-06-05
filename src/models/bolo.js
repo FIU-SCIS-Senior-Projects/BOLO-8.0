@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+
 var Schema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -93,103 +94,194 @@ module.exports.findBoloByID = function(id, callback) {
   Bolo.findOne({_id: id}).populate('agency').populate('author').populate('category').exec(callback);
 };
 
-module.exports.findAllBolos = function(req, isConfirmed, isArchived, limit, sortBy, callback) {
-  Bolo.find({
-    isConfirmed: isConfirmed,
-    isArchived: isArchived,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').limit(limit).sort([
-    [sortBy, -1]
-  ]).exec(callback);
+module.exports.findAllBolos = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
+
+  if(tier !== 'ROOT'){
+    Bolo.find({
+
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+
+
+                 agency: req.user.agency.id
+
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
+  else
+  {
+    Bolo.find({
+
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
 };
 
-module.exports.findOldestArchivedBolos = function(req, limit, sortBy, callback) {
-  Bolo.find({
-    isConfirmed: true,
-    isArchived: true,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').limit(limit).sort([
-    [sortBy, 1]
-  ]).exec(callback);
+module.exports.findOldestArchivedBolos = function(tier, req, limit, sortBy, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.find({
+      isConfirmed: true,
+      isArchived: true,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, 1]
+    ]).exec(callback);
+  }
+  else
+  {
+    Bolo.find({
+      isConfirmed: true,
+      isArchived: true,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, 1]
+    ]).exec(callback);
+
+  }
 };
 
-module.exports.findBolosLessThan = function(req, lessThanDate, sortBy, callback) {
-  Bolo.find({
-    isConfirmed: true,
-    isArchived: true,
-    'reportedOn': {
-      $lte: lessThanDate
-    },
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').sort([
-    [sortBy, -1]
-  ]).exec(callback);
+module.exports.findBolosLessThan = function(tier, req, lessThanDate, sortBy, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.find({
+      isConfirmed: true,
+      isArchived: true,
+      'reportedOn': {
+        $lte: lessThanDate
+      },
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
+  else {
+    Bolo.find({
+      isConfirmed: true,
+      isArchived: true,
+      'reportedOn': {
+        $lte: lessThanDate
+      },
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
 };
 
-module.exports.findArchivedBolos = function(req, sortBy, callback) {
-  Bolo.find({
-    isConfirmed: true,
-    isArchived: true,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').sort([
-    [sortBy, -1]
-  ]).exec(callback);
+module.exports.findArchivedBolos = function(tier, req, sortBy, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.find({
+      isConfirmed: true,
+      isArchived: true,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
+  else {
+    Bolo.find({
+      isConfirmed: true,
+      isArchived: true,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
 };
 
 module.exports.findBolosByAuthor = function(authorID, isConfirmed, isArchived, limit, sortBy, callback) {
@@ -197,47 +289,82 @@ module.exports.findBolosByAuthor = function(authorID, isConfirmed, isArchived, l
     [sortBy, -1]
   ]).exec(callback);
 };
-module.exports.findBolosByAgencyID = function(req, agencyID, isConfirmed, isArchived, limit, sortBy, callback) {
-  Bolo.find({
-    agency: agencyID,
-    isConfirmed: isConfirmed,
-    isArchived: isArchived,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').limit(limit).sort([
-    [sortBy, -1]
-  ]).exec(callback);
+module.exports.findBolosByAgencyID = function(tier, req, agencyID, isConfirmed, isArchived, limit, sortBy, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.find({
+      agency: agencyID,
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
+  else {
+    Bolo.find({
+      agency: agencyID,
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
 };
 
-module.exports.findBolosByInternal = function(req, isConfirmed, isArchived, limit, sortBy, callback) {
-  Bolo.find({
-    isConfirmed: isConfirmed,
-    isArchived: isArchived,
-    $and: [
-      {
-        internal: true
-      }, {
-        agency: req.user.agency.id
-      }
-    ]
-  }).populate('agency').populate('author').populate('category').limit(limit).sort([
-    [sortBy, -1]
-  ]).exec(callback);
+module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.find({
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      $and: [
+        {
+          internal: true
+        }, {
+          agency: req.user.agency.id
+        }
+      ]
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
+  else
+  {
+    Bolo.find({
+      isConfirmed: isConfirmed,
+      isArchived: isArchived,
+      internal: true
+    }).populate('agency').populate('author').populate('category').limit(limit).sort([
+      [sortBy, -1]
+    ]).exec(callback);
+  }
 };
 
+//unused function?
 module.exports.findAllBolosByAgencyID = function(req, agencyID, callback) {
   Bolo.find({
     agency: agencyID,
@@ -260,6 +387,7 @@ module.exports.findAllBolosByAgencyID = function(req, agencyID, callback) {
   }).exec(callback);
 };
 
+//left off here
 module.exports.findBoloByCategoryID = function(id, callback) {
   Bolo.findOne({category: id}).exec(callback);
 };
@@ -287,6 +415,7 @@ module.exports.unsubscribeFromBOLO = function(boloId, email, callback) {
   }, callback);
 };
 
+//another unused?
 module.exports.findBolosByAgencyIDs = function(req, agencyIDs, isConfirmed, isArchived, limit, sortBy, callback) {
   Bolo.find({
     agency: {
@@ -329,7 +458,7 @@ module.exports.addDataSubscriberEmailToBolo = function(boloID, emailToAdd, callb
   }, callback);
 };
 
-module.exports.searchAllBolosByAgencyAndCategory = function(req, agencyID, categoryID, fieldsArray, callback) {
+module.exports.searchAllBolosByAgencyAndCategory = function(tier, req, agencyID, categoryID, fieldsArray, callback) {
   console.log('Searching for AgencyID: ' + agencyID + ', categoryID: ' + categoryID + ', fieldsArray: ' + fieldsArray);
   if (!Array.isArray(fieldsArray))
     fieldsArray = [fieldsArray];
@@ -340,84 +469,153 @@ module.exports.searchAllBolosByAgencyAndCategory = function(req, agencyID, categ
       isFieldsArrayEmpty++;
     }
 
-  if (!categoryID)
-    Bolo.find({
-      agency: agencyID,
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
-            {
-              internal: true
-            }, {
-              agency: req.user.agency.id
-            }
-          ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
-  else if (!isFieldsArrayEmpty)
-    Bolo.find({
-      agency: agencyID,
-      category: categoryID,
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
-            {
-              internal: true
-            }, {
-              agency: req.user.agency.id
-            }
-          ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
-  else
-    Bolo.find({
-      agency: agencyID,
-      category: categoryID,
-      fields: {
-        $in: fieldsArray
-      },
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
-            {
-              internal: true
-            }, {
-              agency: req.user.agency.id
-            }
-          ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
+  if (!categoryID){
+    if(tier !== 'ROOT')
+    {
+      Bolo.find({
+        agency: agencyID,
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            $and: [
+              {
+                internal: true
+              }, {
+                agency: req.user.agency.id
+              }
+            ]
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+    else {
+      Bolo.find({
+        agency: agencyID,
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            internal: true
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+  }
+  else if (!isFieldsArrayEmpty){
+    if(tier !== 'ROOT'){
+      Bolo.find({
+        agency: agencyID,
+        category: categoryID,
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            $and: [
+              {
+                internal: true
+              }, {
+                agency: req.user.agency.id
+              }
+            ]
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+    else{
+      Bolo.find({
+        agency: agencyID,
+        category: categoryID,
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            internal: true
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+  }
+  else{
+    if(tier !== 'ROOT'){
+      Bolo.find({
+        agency: agencyID,
+        category: categoryID,
+        fields: {
+          $in: fieldsArray
+        },
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            $and: [
+              {
+                internal: true
+              }, {
+                agency: req.user.agency.id
+              }
+            ]
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+    else{
+      Bolo.find({
+        agency: agencyID,
+        category: categoryID,
+        fields: {
+          $in: fieldsArray
+        },
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            internal: true
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+  }
   }
 ;
 
-module.exports.searchAllBolosByCategory = function(req, categoryID, fieldsArray, callback) {
+module.exports.searchAllBolosByCategory = function(tier, req, categoryID, fieldsArray, callback) {
   console.log('Searching for categoryID: ' + categoryID + ', fieldsArray: ' + fieldsArray);
   if (!Array.isArray(fieldsArray))
     fieldsArray = [fieldsArray];
@@ -428,77 +626,144 @@ module.exports.searchAllBolosByCategory = function(req, categoryID, fieldsArray,
       isFieldsArrayEmpty++;
     }
 
-  if (!categoryID)
-    Bolo.find({
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
+  if (!categoryID){
+      if(tier !== 'ROOT')
+      {
+        Bolo.find({
+          isConfirmed: true,
+          isArchived: false,
+          $or: [
             {
-              internal: true
+              internal: false
             }, {
-              agency: req.user.agency.id
+              internal: null
+            }, {
+              $and: [
+                {
+                  internal: true
+                }, {
+                  agency: req.user.agency.id
+                }
+              ]
             }
           ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
-  else if (!isFieldsArrayEmpty)
-    Bolo.find({
-      category: categoryID,
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
+        }).populate('agency').populate('author').populate('category').sort([
+          ['createdOn', -1]
+        ]).exec(callback);
+      }
+      else {
+        Bolo.find({
+          isConfirmed: true,
+          isArchived: false,
+          $or: [
             {
-              internal: true
+              internal: false
             }, {
-              agency: req.user.agency.id
+              internal: null
+            }, {
+              internal: true
             }
           ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
-  else
-    Bolo.find({
-      category: categoryID,
-      fields: {
-        $in: fieldsArray
-      },
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
+        }).populate('agency').populate('author').populate('category').sort([
+          ['createdOn', -1]
+        ]).exec(callback);
+      }
+  }
+  else if (!isFieldsArrayEmpty){
+      if(tier !== 'ROOT'){
+        Bolo.find({
+          category: categoryID,
+          isConfirmed: true,
+          isArchived: false,
+          $or: [
             {
-              internal: true
+              internal: false
             }, {
-              agency: req.user.agency.id
+              internal: null
+            }, {
+              $and: [
+                {
+                  internal: true
+                }, {
+                  agency: req.user.agency.id
+                }
+              ]
             }
           ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
+        }).populate('agency').populate('author').populate('category').sort([
+          ['createdOn', -1]
+        ]).exec(callback);
+      }
+      else{
+        Bolo.find({
+          category: categoryID,
+          isConfirmed: true,
+          isArchived: false,
+          $or: [
+            {
+              internal: false
+            }, {
+              internal: null
+            }, {
+              internal: true
+            }
+          ]
+        }).populate('agency').populate('author').populate('category').sort([
+          ['createdOn', -1]
+        ]).exec(callback);
+      }
+  }
+  else{
+    if(tier !== 'ROOT'){
+      Bolo.find({
+        category: categoryID,
+        fields: {
+          $in: fieldsArray
+        },
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            $and: [
+              {
+                internal: true
+              }, {
+                agency: req.user.agency.id
+              }
+            ]
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+    else{
+      Bolo.find({
+        category: categoryID,
+        fields: {
+          $in: fieldsArray
+        },
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            internal: true
+          }
+        ]
+      }).populate('agency').populate('author').populate('category').sort([
+        ['createdOn', -1]
+      ]).exec(callback);
+    }
+  }
+
   }
 ;
 
@@ -516,49 +781,86 @@ module.exports.removeAuthorFromBolos = function(authorID, nullID, callback) {
   }, callback);
 };
 
-module.exports.deleteAllArchivedBolos = function(req, callback) {
-  Bolo.remove({
-    isArchived: true,
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).exec(callback);
+module.exports.deleteAllArchivedBolos = function(tier, req, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.remove({
+      isArchived: true,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).exec(callback);
+  }
+  else{
+    Bolo.remove({
+      isArchived: true,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).exec(callback);
+  }
 };
 
-module.exports.deleteBolosLessThan = function(req, lessThanDate, callback) {
-  Bolo.remove({
-    isArchived: true,
-    'reportedOn': {
-      $lte: lessThanDate
-    },
-    $or: [
-      {
-        internal: false
-      }, {
-        internal: null
-      }, {
-        $and: [
-          {
-            internal: true
-          }, {
-            agency: req.user.agency.id
-          }
-        ]
-      }
-    ]
-  }).exec(callback);
+module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback) {
+  if(tier !== 'ROOT')
+  {
+    Bolo.remove({
+      isArchived: true,
+      'reportedOn': {
+        $lte: lessThanDate
+      },
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: req.user.agency.id
+            }
+          ]
+        }
+      ]
+    }).exec(callback);
+  }
+  else{
+    Bolo.remove({
+      isArchived: true,
+      'reportedOn': {
+        $lte: lessThanDate
+      },
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }).exec(callback);
+  }
 };
 
 // This function takes a string, which is the search term typed into

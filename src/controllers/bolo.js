@@ -382,9 +382,10 @@ exports.listBolos = function(req, res, next) {
   const filter = req.query.filter || 'allBolos';
   const isArchived = req.query.archived || false;
   const agency = req.query.agency || '';
+  const tier = req.user.tier;
   switch (filter) {
     case 'allBolos':
-      Bolo.findAllBolos(req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findAllBolos(tier, req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -393,7 +394,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'myAgency':
-      Bolo.findBolosByAgencyID(req, req.user.agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByAgencyID(tier, req, req.user.agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -402,7 +403,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'internal':
-      Bolo.findBolosByInternal(req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByInternal(tier, req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -420,7 +421,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'selectedAgency':
-      Bolo.findBolosByAgencyID(req, agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByAgencyID(tier, req, agency, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -1306,7 +1307,8 @@ function dateDiffInYears(a, b) {
  * List archived bolos
  */
 exports.renderArchivedBolos = function(req, res, next) {
-  Bolo.findOldestArchivedBolos(req, 1, 'reportedOn', function(err, bolo) {
+  const tier = req.user.tier;
+  Bolo.findOldestArchivedBolos(tier, req, 1, 'reportedOn', function(err, bolo) {
     if (err)
       console.log(err);
     else if (bolo.length) {
@@ -1419,9 +1421,9 @@ exports.deleteBolo = function(req, res, next) {
  * Gets the bolo purge archive view
  */
 exports.renderPurgeArchivedBolosPage = function(req, res) {
-
+  const tier = req.user.tier;
   if (req.body.range == 'default' || req.params.id == 'default') {
-    Bolo.findArchivedBolos(req, 'reportedOn', function(err, listOfBolos) {
+    Bolo.findArchivedBolos(tier, req, 'reportedOn', function(err, listOfBolos) {
       if (err)
         console.log(err);
       else {
@@ -1441,7 +1443,7 @@ exports.renderPurgeArchivedBolosPage = function(req, res) {
     var newDate = new Date((today.getFullYear() - parseInt(minusYear)), today.getMonth(), today.getDate());
     console.log(newDate);
 
-    Bolo.findBolosLessThan(req, newDate, 'reportedOn', function(err, listOfBolos) {
+    Bolo.findBolosLessThan(tier, req, newDate, 'reportedOn', function(err, listOfBolos) {
       if (err)
         console.log(err);
       else {
@@ -1463,6 +1465,7 @@ exports.renderPurgeArchivedBolosPage = function(req, res) {
  * Deletes all archived bolos
  */
 exports.purgeArchivedBolos = function(req, res, next) {
+  const tier = req.user.tier;
   //Check if the current user is authorized to delete all archived bolos
   if (req.user.tier === 'ROOT') {
     User.comparePassword(req.body.password, req.user.password, function(err, result) {
@@ -1472,7 +1475,7 @@ exports.purgeArchivedBolos = function(req, res, next) {
         console.log("Result: " + result);
         if (result) {
           if (req.params.id == 'default') {
-            Bolo.deleteAllArchivedBolos(req, function(err, result) {
+            Bolo.deleteAllArchivedBolos(tier, req, function(err, result) {
               if (err)
                 console.log(err);
               else {
@@ -1488,7 +1491,7 @@ exports.purgeArchivedBolos = function(req, res, next) {
             var newDate = new Date((today.getFullYear() - parseInt(minusYear)), today.getMonth(), today.getDate());
             console.log(newDate);
 
-            Bolo.deleteBolosLessThan(req, newDate, function(err, result) {
+            Bolo.deleteBolosLessThan(tier, req, newDate, function(err, result) {
               if (err)
                 console.log(err);
               else {
@@ -1552,6 +1555,7 @@ exports.postBoloSearch = function(req, res, next) {
   console.log(wildcard);
 
   if (wildcardIsEmpty) {
+    const tier = req.user.tier;
     Agency.findAgencyByName(req.body.agencyName, function(err, agency) {
       if (err)
         console.log(err);
@@ -1561,7 +1565,7 @@ exports.postBoloSearch = function(req, res, next) {
             console.log(err);
           else {
             if (!agency) {
-              Bolo.searchAllBolosByCategory(req, category !== null
+              Bolo.searchAllBolosByCategory(tier, req, category !== null
                 ? category._id
                 : null, req.body.field, function(err, listOfBolos) {
                 if (err)
@@ -1571,7 +1575,7 @@ exports.postBoloSearch = function(req, res, next) {
                 }
               });
             } else {
-              Bolo.searchAllBolosByAgencyAndCategory(req, agency._id, category !== null
+              Bolo.searchAllBolosByAgencyAndCategory(tier, req, agency._id, category !== null
                 ? category._id
                 : null, req.body.field, function(err, listOfBolos) {
                 if (err)
