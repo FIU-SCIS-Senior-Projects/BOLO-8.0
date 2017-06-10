@@ -444,17 +444,24 @@ $.validator.addMethod( "dateITA", function( value, element ) {
 	var check = false,
 		re = /^\d{1,2}\/\d{1,2}\/\d{4}$/,
 		adata, gg, mm, aaaa, xdata;
+	var today = new Date();
 	if ( re.test( value ) ) {
 		adata = value.split( "/" );
 		mm = parseInt( adata[ 0 ], 10 );
 		gg = parseInt( adata[ 1 ], 10 );
 		aaaa = parseInt( adata[ 2 ], 10 );
 		xdata = new Date( Date.UTC( aaaa, mm - 1, gg, 12, 0, 0, 0 ) );
+		year = today.getUTCFullYear();
 		if ( ( xdata.getUTCFullYear() === aaaa ) && ( xdata.getUTCMonth() === mm - 1 ) && ( xdata.getUTCDate() === gg ) ) {
 			check = true;
 		} else {
 			check = false;
 		}
+		if ((aaaa > today.getUTCFullYear() ) || (mm-1 > today.getUTCMonth() && aaaa >= today.getUTCFullYear())
+		 || (gg > today.getUTCDate() && aaaa >= today.getUTCFullYear() && mm-1 === today.getUTCMonth() )  ) {
+			check = false;
+		}
+
 	} else {
 		check = false;
 	}
