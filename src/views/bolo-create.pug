@@ -20,7 +20,7 @@ block content
 
     form#create-bolo-form(name='createBoloForm' action= "/bolo/create" enctype="multipart/form-data" method="post")
       .form-group
-        input(name="internal" type="checkbox" checked=internal1) 
+        input(name="internal" type="checkbox" checked=internal1)
         label.checkbox-inline(for="internal") Internal
       .row
         .col-sm-6
@@ -34,6 +34,17 @@ block content
           categoryNames.push(categories[num].name);
         +select_options( "category", "Category", categoryNames)
       div#categoryForms
+      -
+      mixin select_options( name, label, options, required, selectedValue, functionCall )
+        .form-group
+          label.control-label( for=name ) #{label}
+          select.form-control( name=name onchange = functionCall id=name)
+            each val in options
+              if selectedValue == val
+                +option( val,true )
+              else
+                +option( val,false )
+
       script.
         var categorySelectorDiv = $('#category');
         categorySelectorDiv.change(function () {
@@ -48,7 +59,7 @@ block content
             for (num in selectedCategory.fields) {
               var newDiv = document.createElement('div'),
                 newLabel = document.createElement('label'),
-                newField = document.createElement('input');
+                newField = document.createElement('select');
                 //newField = newField.toLowerCase();//to lowercase input
               newDiv.className = 'form-group';
               newLabel.className = 'control-label';
@@ -56,6 +67,51 @@ block content
               newLabel.innerHTML = selectedCategory.fields[num];
               newField.className = 'form-control';
               newField.name = 'field';
+
+              if(newLabel.htmlFor ==='Sex')
+              {
+                    var newDiv = document.createElement('div'),
+                      newLabel = document.createElement('label'),
+                      newField = document.createElement('select');
+                      //newField = newField.toLowerCase();//to lowercase input
+                    newDiv.className = 'form-group';
+                    newLabel.className = 'control-label';
+                    newLabel.htmlFor = selectedCategory.fields[num];
+                    newLabel.innerHTML = selectedCategory.fields[num];
+                    newField.className = 'form-control';
+                    newField.name = 'field';
+                    newField.id='category'
+                    newField.name='category';
+                    var genderName1 = document.createTextNode("Select Gender");
+                    var genderName2 = document.createTextNode("Male");
+                    var genderName3 = document.createTextNode("Female");
+                    var genderName4 = document.createTextNode("N/A");
+
+                    var option1 = document.createElement('option');
+                    var option2 = document.createElement('option');
+                    var option3 = document.createElement('option');
+                    var option4 = document.createElement('option');
+
+                    option1.value='Select a Gender';
+                    option2.value='Male';
+                    option3.value='Female';
+                    option4.value='N/A';
+                    option1.name='Select a Gender';
+                    option2.name='Male';
+                    option3.name='Female';
+                    option4.name='N/A';
+                    option1.appendChild(genderName1);
+                    option2.appendChild(genderName2);
+                    option3.appendChild(genderName3);
+                    option4.appendChild(genderName4);
+                    newField.appendChild(option1);
+                    newField.appendChild(option2);
+                    newField.appendChild(option3);
+                    newField.appendChild(option4);
+
+              }
+              console.log(newLabel);
+              console.log(newField);
               newDiv.appendChild(newLabel);
               newDiv.appendChild(newField);
               newForms.appendChild(newDiv);
