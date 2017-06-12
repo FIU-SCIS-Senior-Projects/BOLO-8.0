@@ -59,7 +59,7 @@ block content
             for (num in selectedCategory.fields) {
               var newDiv = document.createElement('div'),
                 newLabel = document.createElement('label'),
-                newField = document.createElement('select');
+                newField = document.createElement('input');
                 //newField = newField.toLowerCase();//to lowercase input
               newDiv.className = 'form-group';
               newLabel.className = 'control-label';
@@ -70,16 +70,16 @@ block content
 
               if(newLabel.htmlFor ==='Sex')
               {
-                    var newDiv = document.createElement('div'),
-                      newLabel = document.createElement('label'),
-                      newField = document.createElement('select');
-                      //newField = newField.toLowerCase();//to lowercase input
-                    newDiv.className = 'form-group';
-                    newLabel.className = 'control-label';
-                    newLabel.htmlFor = selectedCategory.fields[num];
-                    newLabel.innerHTML = selectedCategory.fields[num];
-                    newField.className = 'form-control';
-                    newField.name = 'field';
+                newDiv = document.createElement('div'),
+                newLabel = document.createElement('label'),
+                newField = document.createElement('select');
+                //newField = newField.toLowerCase();//to lowercase input
+              newDiv.className = 'form-group';
+              newLabel.className = 'control-label';
+              newLabel.htmlFor = selectedCategory.fields[num];
+              newLabel.innerHTML = selectedCategory.fields[num];
+              newField.className = 'form-control';
+              newField.name = 'field';
                     newField.id='category'
                     newField.name='category';
                     var genderName1 = document.createTextNode("Select Gender");
@@ -108,6 +108,9 @@ block content
                     newField.appendChild(option2);
                     newField.appendChild(option3);
                     newField.appendChild(option4);
+
+              }
+              {
 
               }
               console.log(newLabel);
