@@ -210,8 +210,8 @@ function sendBoloNotificationEmail(bolo, template) {
           moveDown();
         }
 
-        doc.text("A BOLO has been issued! Details have been purposely hidden for security.", {align: 'center'}).moveDown(0.25);
-        doc.text("Please login to the BOLO database to view the full details of this BOLO.", {align: 'center'}).moveDown(0.25);
+        doc.text("A BOLO has been issued! Details have been purposely hidden for security.", {align: 'center'}).moveDown(0.50);
+        doc.text("Please login to the BOLO database to view the full details of this BOLO.", {align: 'center'}).moveDown(0.50);
         doc.end();
       }
     });
