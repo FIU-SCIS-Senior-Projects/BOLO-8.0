@@ -1591,12 +1591,37 @@ exports.postBoloSearch = function(req, res, next) {
     });
   } else {
     console.log('Wildcard search triggered');
-    const wildcardSearchTerm = wildcard.toLowerCase();
-    Bolo.wildcardSearch(req, wildcardSearchTerm, (err, listOfBolos) => {
+    const filteredWildcard = wildcard.toLowerCase();
+    const wildcardTags = filteredWildcard.split(' ');
+
+    Bolo.wildcardSearch(req, wildcardTags, (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        res.render('bolo-search-results', { bolos: listOfBolos });
+        let mutableResults = results.map(bolo => {
+          // mongoose objects are immutable
+          // must copy object to add tagsMatched property
+          // tagsMatched is added to sort bolos by relevance
+          // bolos with highest tagsMatched count show up first.
+          const mutableBolo = bolo.toObject();
+          mutableBolo.featured = bolo.featured;
+          mutableBolo.id = bolo.id;
+          mutableBolo.tagsMatched = 0;
+
+          wildcardTags.forEach(tag => {
+            if (mutableBolo.fields.includes(tag)) {
+              mutableBolo.tagsMatched = mutableBolo.tagsMatched + 1;
+              console.log('mutated bolo with tag count', mutableBolo);
+            }
+          });
+
+          return mutableBolo
+        }).sort((a, b) => b.tagsMatched - a.tagsMatched);
+
+        res.render('bolo-search-results', {
+          bolos: mutableResults,
+          searchTerm: filteredWildcard
+        });
       }
     })
   }

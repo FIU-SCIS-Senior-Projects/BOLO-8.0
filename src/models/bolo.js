@@ -863,14 +863,14 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
   }
 };
 
-// This function takes a string, which is the search term typed into
+// This function an array of strings, which are the tags that the user typed into
 // the wild card input search box in the search bolos form.
 // The function executes a mongodb query that searches all bolos and matches
 // the search term to any bolo field.
-module.exports.wildcardSearch = (req, searchTerm, callback) => {
+module.exports.wildcardSearch = (req, tags, callback) => {
   Bolo.find({
     fields: {
-      $in: [searchTerm]
+      $in: [...tags]
     },
     isConfirmed: true,
     isArchived: false,
