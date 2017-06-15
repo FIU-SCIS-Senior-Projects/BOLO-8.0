@@ -867,12 +867,12 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
 // the wild card input search box in the search bolos form.
 // The function executes a mongodb query that searches all bolos and matches
 // the search term to any bolo field.
-module.exports.wildcardSearch = (tier, req, searchTerm, callback) => {
+module.exports.wildcardSearch = (tier, req, wildcardTags, callback) => {
   if(tier !== 'ROOT')
   {
     Bolo.find({
       fields: {
-        $in: [searchTerm]
+        $in: [...wildcardTags]
       },
       isConfirmed: true,
       isArchived: false,
@@ -898,7 +898,7 @@ module.exports.wildcardSearch = (tier, req, searchTerm, callback) => {
   else{
     Bolo.find({
       fields: {
-        $in: [searchTerm]
+        $in: [...wildcardTags]
       },
       isConfirmed: true,
       isArchived: false,
