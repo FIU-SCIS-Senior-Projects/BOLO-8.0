@@ -40,6 +40,9 @@ config.max_age = 1000 * 15 * 60;
 config.maxNumberOfLogInAttempts = 10;
 
 //Database configuration
+console.log('NODE ENV', process.env.NODE_ENV);
+console.log('MONGO URI', process.env.MONGO_URI);
+
 config.db = process.env.NODE_ENV === 'develop' ?
   'mongodb://localhost:27017/BOLO' :
   process.env.MONGO_URI;
