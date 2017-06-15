@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var Schema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -87,6 +86,27 @@ var Schema = new mongoose.Schema({
     type: [String]
   }
 });
+
+// Create text index to enable full-text search functionality
+Schema.index(
+  {
+    fields: 'text',
+    videoURL: 'text',
+    info: 'text',
+    summary: 'text',
+    status: 'text'
+  },
+  {
+    name: 'full-text search',
+    weights: {
+      fields: 8,
+      summary: 4,
+      info: 2,
+      videoURL: 1,
+      status: 1
+    }
+  }
+);
 
 var Bolo = module.exports = mongoose.model('bolo', Schema);
 
@@ -867,52 +887,54 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
 // the wild card input search box in the search bolos form.
 // The function executes a mongodb query that searches all bolos and matches
 // the search term to any bolo field.
-module.exports.wildcardSearch = (tier, req, wildcardTags, callback) => {
+module.exports.wildcardSearch = (tier, req, wildcard, callback) => {
   if(tier !== 'ROOT')
   {
-    Bolo.find({
-      fields: {
-        $in: [...wildcardTags]
-      },
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
-            {
-              internal: true
-            }, {
-              agency: req.user.agency.id
-            }
-          ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
+    Bolo.find(
+      { $text: { $search: wildcard } },
+      { score: { $meta: 'textScore' } },
+      {
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            $and: [
+              {
+                internal: true
+              }, {
+                agency: req.user.agency.id
+              }
+            ]
+          }
+        ]
+      }
+    ).populate('agency').populate('author').populate('category').sort({
+      score: { $meta: 'textScore' }
+    }).exec(callback);
   }
-  else{
-    Bolo.find({
-      fields: {
-        $in: [...wildcardTags]
-      },
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          internal: true
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
+  else {
+    Bolo.find(
+      { $text: { $search: wildcard } },
+      { score: { $meta: 'textScore' } },
+      {
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            internal: true
+          }
+        ]
+      }
+    ).populate('agency').populate('author').populate('category').sort({
+      score: { $meta: 'textScore' }
+    }).exec(callback);
   }
 }

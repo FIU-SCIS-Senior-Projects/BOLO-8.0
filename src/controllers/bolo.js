@@ -861,9 +861,9 @@ exports.postCreateBolo = function(req, res, next) {
             status: 'ACTIVE',
             fields: req.body.field
           });
-          console.log('req.body.field: ' + req.body.field);
-          newBolo.fields = req.body.field.map(field => field.toLowerCase());
-          console.log(newBolo.fields);
+          // console.log('req.body.field: ' + req.body.field);
+          // newBolo.fields = req.body.field.map(field => field.toLowerCase());
+          // console.log(newBolo.fields);
           for (var i in newBolo.fields) {
             if (newBolo.fields[i] === '') {
               newBolo.fields[i] = 'N/A';
@@ -1592,36 +1592,13 @@ exports.postBoloSearch = function(req, res, next) {
     });
   } else {
     console.log('Wildcard search triggered');
-    const filteredWildcard = wildcard.toLowerCase();
-    const wildcardTags = filteredWildcard.split(' ');
-
-    Bolo.wildcardSearch(tier, req, wildcardTags, (err, results) => {
+    Bolo.wildcardSearch(tier, req, wildcard, (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        let mutableResults = results.map(bolo => {
-          // mongoose objects are immutable
-          // must copy object to add tagsMatched property
-          // tagsMatched is added to sort bolos by relevance
-          // bolos with highest tagsMatched count show up first.
-          const mutableBolo = bolo.toObject();
-          mutableBolo.featured = bolo.featured;
-          mutableBolo.id = bolo.id;
-          mutableBolo.tagsMatched = 0;
-
-          wildcardTags.forEach(tag => {
-            if (mutableBolo.fields.includes(tag)) {
-              mutableBolo.tagsMatched = mutableBolo.tagsMatched + 1;
-              console.log('mutated bolo with tag count', mutableBolo);
-            }
-          });
-
-          return mutableBolo
-        }).sort((a, b) => b.tagsMatched - a.tagsMatched);
-
         res.render('bolo-search-results', {
-          bolos: mutableResults,
-          searchTerm: filteredWildcard
+          bolos: results,
+          searchTerm: wildcard
         });
       }
     })
