@@ -332,24 +332,16 @@ exports.deleteUserGuideSection = function(req, res) {
 };
 
 exports.previewUserGuide = function(req, res) {
-
   var file = '';
-  const inProduction = process.env.NODE_ENV === 'production';
-  console.log('dirname', __dirname);
 
   if (req.params.user == "root")
-    if (inProduction) {
-      console.log('im in production');
-      file = '../../public/UserGuide/Root.md';
-    } else {
-      file = './public/UserGuide/Root.md';
-    }
+    file = appRoot + '/public/UserGuide/Root.md';
   if (req.params.user == "supervisor")
-    file = './public/UserGuide/Supervisor.md';
+    file = appRoot + '/public/UserGuide/Supervisor.md';
   if (req.params.user == "administrator")
-    file = './public/UserGuide/Administrator.md';
+    file = appRoot + '/public/UserGuide/Administrator.md';
   if (req.params.user == "officer")
-    file = './public/UserGuide/Officer.md';
+    file = appRoot + '/public/UserGuide/Officer.md';
 
   fs.readFile(file, function(err, data) {
     if (err) {
