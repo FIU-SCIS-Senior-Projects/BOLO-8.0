@@ -1,4 +1,4 @@
-  extends admin-layout
+extends admin-layout.pug
 include includes/mixins
 
 block jumbo
@@ -7,7 +7,7 @@ block jumbo
       h3 Edit Section of User Guide
       button.btn.btn-primary(onclick='location = "/admin/edit/userGuide";') Go Back
 
-block admin-content   
+block admin-content
   .container-fluid
     if (id)
       div.pull-right
@@ -17,7 +17,7 @@ block admin-content
     form( action= (id) ? ("/admin/edit/userGuide/" + id) : ("/admin/edit/userGuide/add") method="post")
       .form-group
         label.control-label( for=level ) Select the Level(s) of Access.
-        br 
+        br
         select.form-control.selectpicker( name='level[]' title="" multiple)
           +option( "ROOT", ROOT )
           +option( "ADMINISTRATOR", ADMINISTRATOR )
