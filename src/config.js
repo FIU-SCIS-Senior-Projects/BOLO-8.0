@@ -18,7 +18,7 @@ var config = {};
 
 /* Application Config */
 if (process.env.NODE_ENV === 'production') {
-  config.appURL = 'https://lit-refuge-87716.herokuapp.com/';
+  config.appURL = 'https://lit-refuge-87716.herokuapp.com';
 } else {
   config.appURL = 'http://localhost:3000';
 }
