@@ -17,7 +17,11 @@ var core = path.resolve(__dirname, '../core');
 var config = {};
 
 /* Application Config */
-config.appURL = process.env.APP_URL || 'http://localhost:3000';
+if (process.env.NODE_ENV === 'production') {
+  config.appURL = 'https://lit-refuge-87716.herokuapp.com';
+} else {
+  config.appURL = 'http://localhost:3000';
+}
 
 var bootswatch_theme = 'yeti-custom';
 config.bootstrap = '/css/vendor/bootswatch/' + bootswatch_theme + '/bootstrap.min.css';
@@ -40,7 +44,9 @@ config.max_age = 1000 * 15 * 60;
 config.maxNumberOfLogInAttempts = 10;
 
 //Database configuration
-config.db = 'mongodb://localhost:27017/BOLO';
+config.db = process.env.NODE_ENV !== 'production' ?
+  'mongodb://localhost:27017/BOLO' :
+  process.env.MONGO_URI;
 config.host = 'localhost';
 config.dbport = 27017;
 config.collection = 'BOLO';

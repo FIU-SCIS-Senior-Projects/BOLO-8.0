@@ -1,13 +1,17 @@
 {
   "name": "BOLOFlyerCreatorApp",
   "version": "5.3.1",
+  "engines": {
+    "node": "7.8.0",
+    "npm": "4.2.0"
+  },
   "description": "BOLO Flyer Creator by Pinecrest Police Department",
   "private": true,
   "config": {
     "port": "3000"
   },
   "scripts": {
-    "start": "node ./src/web/app.js",
+    "start": "node ./src/app.js",
     "pretest": "jshint ./test/** ./src/**",
     "test": "istanbul cover _mocha --check-leaks -- ./test/unit/** ./test/integration/**",
     "unit-test": "mocha --check-leaks ./test/unit/**",
@@ -74,9 +78,6 @@
     "wkhtmltopdf": "^0.1.5"
   },
   "repository": {},
-  "engines": {
-    "node": "0.12.x"
-  },
   "bin": {
     "bolo": "./src/web/app.js"
   },

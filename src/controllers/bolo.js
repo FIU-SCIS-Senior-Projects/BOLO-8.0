@@ -861,9 +861,9 @@ exports.postCreateBolo = function(req, res, next) {
             status: 'ACTIVE',
             fields: req.body.field
           });
-          console.log('req.body.field: ' + req.body.field);
-          newBolo.fields = req.body.field.map(field => field.toLowerCase());
-          console.log(newBolo.fields);
+          // console.log('req.body.field: ' + req.body.field);
+          // newBolo.fields = req.body.field.map(field => field.toLowerCase());
+          // console.log(newBolo.fields);
           for (var i in newBolo.fields) {
             if (newBolo.fields[i] === '') {
               newBolo.fields[i] = 'N/A';
@@ -1592,12 +1592,14 @@ exports.postBoloSearch = function(req, res, next) {
     });
   } else {
     console.log('Wildcard search triggered');
-    const wildcardSearchTerm = wildcard.toLowerCase();
-    Bolo.wildcardSearch(tier, req, wildcardSearchTerm, (err, listOfBolos) => {
+    Bolo.wildcardSearch(tier, req, wildcard, (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        res.render('bolo-search-results', { bolos: listOfBolos });
+        res.render('bolo-search-results', {
+          bolos: results,
+          searchTerm: wildcard
+        });
       }
     })
   }
