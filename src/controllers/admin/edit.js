@@ -12,7 +12,7 @@ var updateFn = require('./updateUserGuide');
  * Gets the about us editor
  */
 exports.getAboutUsForm = function(req, res) {
-  fs.readFile('./public/AboutUs.md', function(err, data) {
+  fs.readFile(appRoot + '/public/AboutUs.md', function(err, data) {
     if (err) {
       console.log(err);
       res.render('admin-edit-aboutUs', {
@@ -32,7 +32,7 @@ exports.getAboutUsForm = function(req, res) {
 exports.saveAboutUs = function(req, res) {
   var newMarkdown = req.body. in;
   console.log('Writing to system: ' + newMarkdown);
-  fs.writeFile('./public/AboutUs.md', newMarkdown, function(err) {
+  fs.writeFile(appRoot + '/public/AboutUs.md', newMarkdown, function(err) {
     if (err) {
       console.log(err);
       req.flash('The file did not save...', err);
@@ -46,7 +46,7 @@ exports.saveAboutUs = function(req, res) {
 };
 
 exports.getLoginPageForm = function(req, res) {
-  fs.readFile('./public/Login.md', function(err, data) {
+  fs.readFile(appRoot + '/public/Login.md', function(err, data) {
     if (err) {
       console.log(err);
       res.render('admin-edit-login', {
@@ -66,7 +66,7 @@ exports.getLoginPageForm = function(req, res) {
 exports.saveLoginPage = function(req, res) {
   var newMarkdown = req.body. in;
   console.log('Writing to system: ' + newMarkdown);
-  fs.writeFile('./public/Login.md', newMarkdown, function(err) {
+  fs.writeFile(appRoot + '/public/Login.md', newMarkdown, function(err) {
     if (err) {
       console.log(err);
       req.flash('The file did not save...', err);
@@ -87,7 +87,7 @@ exports.listUserGuideSectionsAndTitle = function(req, res, next) {
       next(err);
     else {
       //Get title
-      fs.readFile('./public/UserGuide/UserGuideTitle.md', function(err, data) {
+      fs.readFile(appRoot + '/public/UserGuide/UserGuideTitle.md', function(err, data) {
         if (err) {
           console.log("Reading default User Guide title");
           res.render('admin-edit-userGuide', {
@@ -110,7 +110,7 @@ exports.listUserGuideSectionsAndTitle = function(req, res, next) {
 exports.saveUserGuideTitle = function(req, res, next) {
   if (req.body.title) {
     var title = req.body.title;
-    fs.writeFile('./public/UserGuide/UserGuideTitle.md', title, function(err) {
+    fs.writeFile(appRoot + '/public/UserGuide/UserGuideTitle.md', title, function(err) {
       if (err) {
         req.flash('error_msg', 'User Guide title could not be updated');
         res.redirect('/admin/edit/userGuide/');
@@ -135,7 +135,7 @@ exports.getUserGuideSectionForm = function(req, res) {
       } else {
         //Get form for specific section
         if (section) {
-          fs.readFile('./public/UserGuide/' + section.id + '.md', function(err, data) {
+          fs.readFile(appRoot + '/public/UserGuide/' + section.id + '.md', function(err, data) {
             if (err) {
               console.log(err);
             } else {
@@ -249,7 +249,7 @@ exports.saveUserGuide = function(req, res) {
             req.flash('error_msg', section.title + ' section could not be saved');
             res.redirect('/admin/edit/userGuide/');
           } else {
-            fs.writeFile('./public/UserGuide/' + section.id + '.md', data, function(err) {
+            fs.writeFile(appRoot + '/public/UserGuide/' + section.id + '.md', data, function(err) {
               if (err) {
                 req.flash('error_msg', section.title + ' section could not be saved');
                 res.redirect('/admin/edit/userGuide/');
@@ -290,7 +290,7 @@ exports.saveUserGuide = function(req, res) {
         console.log(newSection.title + ' section could not be saved: \n' + err);
       } else {
 
-        fs.writeFile('./public/UserGuide/' + section.id + '.md', data, function(err) {
+        fs.writeFile(appRoot + '/public/UserGuide/' + section.id + '.md', data, function(err) {
           if (err) {
             req.flash('error_msg', section.title + ' section could not be saved');
             res.redirect('/admin/edit/userGuide/');
@@ -318,7 +318,7 @@ exports.deleteUserGuideSection = function(req, res) {
           res.redirect('/admin/edit/userGuide');
         } else {
           //Remove file
-          fs.unlink('./public/UserGuide/' + req.params.id + '.md', function(err) {
+          fs.unlink(appRoot + '/public/UserGuide/' + req.params.id + '.md', function(err) {
             if (err)
               console.log('Could not delete ' + req.params.id + '.md');
             updateFn.updateUserGuide(true, true, true, true);
