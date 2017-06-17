@@ -18,7 +18,11 @@ block jumbo
         select#agencyFilter.selectpicker(title="Select Agency" data-width="fit")
           each agency in agencies
             option(value=agency.id) #{agency.name}
-
+      if isRoot
+        div#myAgencyInternalsFilterDiv(style='display:inline-block')
+          select#myAgencyInternalsFilter.selectpicker(data-width="fit")
+            option(value="allAgencies" selected) All Agencies
+            option(value="onlyMyAgency") Only My Agency 
 block content
   .container
     #bolo-list.row.text-center

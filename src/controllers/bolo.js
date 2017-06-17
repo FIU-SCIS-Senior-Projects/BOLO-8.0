@@ -382,6 +382,7 @@ exports.listBolos = function(req, res, next) {
   const filter = req.query.filter || 'allBolos';
   const isArchived = req.query.archived || false;
   const agency = req.query.agency || '';
+  const onlyMyAgencyInternals = req.query.onlyMyAgencyInternals;
   const tier = req.user.tier;
   switch (filter) {
     case 'allBolos':
@@ -403,7 +404,7 @@ exports.listBolos = function(req, res, next) {
       });
       break;
     case 'internal':
-      Bolo.findBolosByInternal(tier, req, true, isArchived, limit, 'createdOn', function(err, listOfBolos) {
+      Bolo.findBolosByInternal(tier, req, true, isArchived, limit, 'createdOn', onlyMyAgencyInternals, function(err, listOfBolos) {
         if (err)
           console.log(err);
         else {
@@ -450,7 +451,7 @@ exports.renderBoloPage = function(req, res, next) {
     if (err)
       console.log(err);
     else {
-      res.render('bolo', {agencies: listOfAgencies});
+      res.render('bolo', {agencies: listOfAgencies, isRoot: res.locals.userTier === 'ROOT'});
     }
   });
 };
