@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var Schema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -87,6 +86,27 @@ var Schema = new mongoose.Schema({
     type: [String]
   }
 });
+
+// Create text index to enable full-text search functionality
+Schema.index(
+  {
+    fields: 'text',
+    videoURL: 'text',
+    info: 'text',
+    summary: 'text',
+    status: 'text'
+  },
+  {
+    name: 'full-text search',
+    weights: {
+      fields: 8,
+      summary: 4,
+      info: 2,
+      videoURL: 1,
+      status: 1
+    }
+  }
+);
 
 var Bolo = module.exports = mongoose.model('bolo', Schema);
 
@@ -335,7 +355,7 @@ module.exports.findBolosByAgencyID = function(tier, req, agencyID, isConfirmed, 
   }
 };
 
-module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
+module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived, limit, sortBy, onlyMyAgencyInternals, callback) {
   if(tier !== 'ROOT')
   {
     Bolo.find({
@@ -354,13 +374,28 @@ module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived
   }
   else
   {
-    Bolo.find({
-      isConfirmed: isConfirmed,
-      isArchived: isArchived,
-      internal: true
-    }).populate('agency').populate('author').populate('category').limit(limit).sort([
-      [sortBy, -1]
-    ]).exec(callback);
+    console.log('last value of onlyMyAgencyInternals:', onlyMyAgencyInternals);
+    console.log(typeof(onlyMyAgencyInternals));
+    if (onlyMyAgencyInternals) {
+      console.log('showing my agency internals only');
+      Bolo.find({
+        isConfirmed: isConfirmed,
+        isArchived: isArchived,
+        internal: true,
+        agency: req.user.agency.id
+      }).populate('agency').populate('author').populate('category').limit(limit).sort([
+        [sortBy, -1]
+      ]).exec(callback);
+    } else {
+      console.log('showing all internals');
+      Bolo.find({
+        isConfirmed: isConfirmed,
+        isArchived: isArchived,
+        internal: true
+      }).populate('agency').populate('author').populate('category').limit(limit).sort([
+        [sortBy, -1]
+      ]).exec(callback);
+    }
   }
 };
 
@@ -863,56 +898,58 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
   }
 };
 
-// This function takes a string, which is the search term typed into
+// This function an array of strings, which are the tags that the user typed into
 // the wild card input search box in the search bolos form.
 // The function executes a mongodb query that searches all bolos and matches
 // the search term to any bolo field.
-module.exports.wildcardSearch = (tier, req, searchTerm, callback) => {
+module.exports.wildcardSearch = (tier, req, wildcard, callback) => {
   if(tier !== 'ROOT')
   {
-    Bolo.find({
-      fields: {
-        $in: [searchTerm]
-      },
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          $and: [
-            {
-              internal: true
-            }, {
-              agency: req.user.agency.id
-            }
-          ]
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
+    Bolo.find(
+      { $text: { $search: wildcard } },
+      { score: { $meta: 'textScore' } },
+      {
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            $and: [
+              {
+                internal: true
+              }, {
+                agency: req.user.agency.id
+              }
+            ]
+          }
+        ]
+      }
+    ).populate('agency').populate('author').populate('category').sort({
+      score: { $meta: 'textScore' }
+    }).exec(callback);
   }
-  else{
-    Bolo.find({
-      fields: {
-        $in: [searchTerm]
-      },
-      isConfirmed: true,
-      isArchived: false,
-      $or: [
-        {
-          internal: false
-        }, {
-          internal: null
-        }, {
-          internal: true
-        }
-      ]
-    }).populate('agency').populate('author').populate('category').sort([
-      ['createdOn', -1]
-    ]).exec(callback);
+  else {
+    Bolo.find(
+      { $text: { $search: wildcard } },
+      { score: { $meta: 'textScore' } },
+      {
+        isConfirmed: true,
+        isArchived: false,
+        $or: [
+          {
+            internal: false
+          }, {
+            internal: null
+          }, {
+            internal: true
+          }
+        ]
+      }
+    ).populate('agency').populate('author').populate('category').sort({
+      score: { $meta: 'textScore' }
+    }).exec(callback);
   }
 }

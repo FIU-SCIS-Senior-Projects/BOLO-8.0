@@ -8,6 +8,7 @@
 
 var http = require('http');
 var path = require('path');
+global.appRoot = path.resolve(__dirname);
 
 var express = require('express');
 

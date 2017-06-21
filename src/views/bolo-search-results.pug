@@ -1,6 +1,5 @@
 extends layout
 
-
 block jumbo
   .jumbotron
     .container
@@ -13,5 +12,7 @@ block content
     if (bolos && (0 === bolos.length))
       p.lead No bolos were found matching the specified criteria.
     else
+      p.lead Showing results for: #{searchTerm}
+      h5 Most relevant first...
       #bolo-list.row.text-center
         include partials/bolo-thumbnails
