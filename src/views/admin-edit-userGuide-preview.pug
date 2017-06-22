@@ -8,6 +8,8 @@ block jumbo
       button.btn.btn-primary(onclick='location = "/admin/edit/userGuide";') Go Back
 
 block admin-content
+  script(type="text/javascript" language="javascript" rel='javascript' src='/js/nicEdit.js').
+  script (bkLib.onDomLoaded(function() { nicEditors.allTextAreas()   }))
   div.pull-right
     label.label(for='filter')
     | View User Guide for:

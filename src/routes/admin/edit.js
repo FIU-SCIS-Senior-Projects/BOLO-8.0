@@ -17,5 +17,7 @@ router.get('/userGuide/delete/:id', control.deleteUserGuideSection);
 router.get('/userGuide/preview/:user', control.previewUserGuide);
 router.get('/userGuide/:id', control.getUserGuideSectionForm);
 router.post('/userGuide/:id', control.saveUserGuide);
+router.get('/nicEditorIcons', control.getNicEditForm);
+router.post('/nicEditorIcons', control.saveNicEditForm);
 
 module.exports = router;

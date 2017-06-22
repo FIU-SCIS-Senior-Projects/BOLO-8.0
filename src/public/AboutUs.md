@@ -1,10 +1,7 @@
 The Miami-Dade County Association of Chiefs of Police is a premier
 member organization; the purpose of which is to promote efficient law
 enforcement services through the cooperation and coordination of all law
-enforcement agencies within Miami-Dade County.
-
-
-The Miami-Dade County Association of Chiefs of Police is the second
+enforcement agencies within Miami-Dade County.<div><br></div><div>The Miami-Dade County Association of Chiefs of Police is the second
 largest Police Chiefs Association in the State of Florida. It is
 comprised of more than 250 of the County’s top law enforcement
 executives and another 300 associate members. The Association was
@@ -14,9 +11,66 @@ by providing superior police protection for the residents of Miami-Dade
 County and its many visitors. ​Today, with the same ultimate goal, its
 role has expanded to provide better communication, education, and
 training for the county’s various police agencies. MDCACP facilitates
-the dissemination of information, provides continuing police training,
+the&nbsp;dissemination of information, provides continuing police training,
 and promotes a better understanding of the police profession in general.
 Membership in the Miami Dade County Association Chiefs of Police
 supports and maintains the highest standards of public safety and police
 protection for the millions of people who live, work and play in
-Miami-Dade County.
+Miami-Dade County.&nbsp;</div><div><br></div><div style="text-align: center;"><img src="http://localhost:3000/img/cec.jpg" alt="" align="none"><br></div><div><br></div><div>For the seniors in FIU’s Department of Electrical and Computer
+Engineering, everything they’ve learned in four years
+culminates with a single project. Working together in teams,
+they take on projects that test their&nbsp;knowledge, ingenuity,
+patience and imagination. Finally, on Senior Design Day,
+the students put on their best suits and showcase their
+projects to a host of industry advisers who pick their brains
+and give them feedback on their work. The Senior Project
+course was created to test a potential graduates ability to
+work in a real software development environment. Potential
+graduates' success in this course will enable them to provide
+a significant software project that may help them land a job
+in the real-world.&nbsp;</div><div><br></div><div style="text-align: center;"><b><font size="5">Masoud Sadjadi, PhD</font>&nbsp;</b></div><div><br></div><div style="text-align: center;"><img src="http://localhost:3000/img/sadjadi.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div style="text-align: center;"><br></div><div><span style="text-align: justify;">&nbsp;Dr. Sadjadi holds a B.S. degree in Hardware Engineering, an M.S. &nbsp;degree in Software Engineering, and a Ph.D. degree in Computer &nbsp;Science. He is currently an Associate Professor in the School
+of &nbsp;Computing and Information Sciences at Florida International &nbsp;University, where he has been on the faculty since 2004. He &nbsp;serves as the Director of the VIP project at FIU, the Director
+of &nbsp;the Professional Master in Science for Information Technology
+at &nbsp;FIU, and is in charge of Computer Science Senior Projects.
+He &nbsp;has extensive experience in software development and leading &nbsp;large-scale software engineering projects both in industry
+and in &nbsp;academia. During the past three years, Dr. Sadjadi
+has &nbsp;successfully transformed senior projects at FIU from a &nbsp;traditional waterfall approach to an agile/scrum approach.
+Dr. &nbsp; &nbsp;Sadjadis research is focused on Agile Software Development
+in Distributed Systems, Autonomic Computing, High-Performance
+Computing, Grid Computing, Cloud Computing, Pervasive Systems,
+and Mobile Computing. He is the Director of the Autonomic
+Cloud Research Laboratory (ACRL) at FIU and leads several
+projects under the Latin American Grid initiative. Currently,
+he is collaborating with top researchers in 8 countries and
+is leading several international collaborative research projects.
+He has served as the General Chair of, Program Chair, Co-Chair,
+and Committee Member of several top-tier international conferences
+and workshops of his field. He has served as a referee for
+several IEEE and SP&amp;E journals and as a referee and panelist
+for several funding agencies including National Science Foundation
+(NSF), Luxembourg National Research Fund (FNR), and Florida Sea Grant.
+He has more than 80-refereed publications and is PI or Co-PI
+of 17 grants from NSF, IBM, Kaseya, TeraGrid, and FIU for a
+total of about $6 million. Dr. Sadjadi was previously the
+Director of the Center of Partnership for International
+Research &amp; Education (PIRE) funded by the National Science
+Foundation for $2.3 million. He is a member of the IEEE and
+can be reached at sadjadi@cs.fiu.edu&nbsp;</span></div><div><br></div><div style="text-align: center;"><font size="5"><b>Mohsen Taheri&nbsp;</b></font></div><div style="text-align: center;"><img src="http://localhost:3000/img/mohsen.jpg" width="300" height="300" alt="" align="none" style="float: right" hspace="20"><font size="5"><b><br></b></font></div><div><br></div><div>&nbsp;Mohsen Taheri has been a PhD student of Computer Science at
+Florida International University (FIU) since Fall 2014. He
+received the B.S. degree in computer engineering/software
+engineering in 2010, the M.S. degree in computer
+engineering/software engineering in 2014. Currently, he is
+working under the supervision of Prof. Masoud Sadjadi. The
+main focus of his research is on Software Engineering and
+Agile Software Development.&nbsp;</div><div><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;">&nbsp;<b><font size="5">The Developers
+
+Spring 2015&nbsp;</font></b></div><div style="text-align: center;"><b><font size="5"><br></font></b></div><div><img src="http://localhost:3000/img/perez_danae.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div><b>Perez, Danae I</b></div><div><b><br></b></div><div>dpere241@fiu.edu&nbsp;</div><div><br></div><div>Graduation May 2015&nbsp;</div><div style="text-align: right;"><br></div><div style="text-align: right;"><img src="http://localhost:3000/img/vidal_icxe.jpg" width="300" height="300" alt="" align="none" style="float: right" hspace="20"></div><div style="text-align: right;"><b>Vidal, Icxe</b><br></div><div style="text-align: right;"><br></div><div style="text-align: right;">ivida002@fiu.edu&nbsp;</div><div style="text-align: right;"><br></div><div style="text-align: right;">Graduation&nbsp;</div><div style="text-align: right;">May 2015</div><div><br></div><div><b>&nbsp;</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div style="text-align: center;"><font size="5"><b>Summer 2015&nbsp;</b></font></div><div style="text-align: center;"><font size="5"><b><br></b></font></div><div><img src="http://localhost:3000/img/fleitas,_yamila.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div><b>Fleitas, Yamila&nbsp;</b><br></div><div><br></div><div>yflei001@fiu.edu</div><div><br></div><div>&nbsp;Graduation Aug 2015</div><div><br></div><div style="text-align: right;"><img src="http://localhost:3000/img/vizcaino_david.jpg" width="300" height="300" alt="" align="none" style="float: right" hspace="20"></div><div style="text-align: right;"><b>Vizcaino, David</b><br></div><div style="text-align: right;"><b><br></b></div><div style="text-align: right;">&nbsp;Back End</div><div style="text-align: right;">&nbsp;dvizc002@fiu.edu</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation Aug 2015
+
+
+
+Fall 2015</div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: center;"><h3 class="strong" style="text-align: center; color: rgb(34, 34, 34);"><font size="5">Fall 2015</font></h3></div><div>&nbsp;</div><div><br></div><div><img src="http://localhost:3000/img/rodney_sanchez.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div><b>&nbsp;Rodney, Sanchez&nbsp;</b></div><div><br></div><div>&nbsp;rsantamarina@outlook.com&nbsp;</div><div><br></div><div>&nbsp;Graduation Dec 2015&nbsp;</div><div><br></div><div style="text-align: right;">&nbsp;<img src="http://localhost:3000/img/del_rosario.jpg" alt="" align="none"><br></div><div style="text-align: right;"><b>&nbsp;del Rosario, Ryan</b></div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;delrosario.ryan@gmail.com</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation Dec 2015</div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: center;"><b><font size="5">Spring 2016</font></b></div><div style="text-align: left;"><b><font size="5"><br></font></b></div><div style="text-align: left;"><b><font size="5"><br></font></b></div><div>&nbsp;<img src="http://localhost:3000/img/nopic.png" width="300" height="300" alt="" align="none" style="float: left" hspace="20"><b>Alvarez, Edwin</b></div><div>&nbsp;</div><div>ealva153@fiu.edu</div><div><br></div><div>&nbsp;Graduation May 2015</div><div><br></div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;<img src="http://localhost:3000/img/henao.png" width="300" height="300" alt="" align="none" style="float: right" hspace="20"><b>&nbsp;Henao, Alejandro</b></div><div style="text-align: right;"><b><br></b></div><div style="text-align: right;">&nbsp;Microservice architecture</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;ahena001@fiu.edu</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation May 2015</div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div>&nbsp;<img src="http://localhost:3000/img/martin_leo.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div><b>&nbsp;Martin, Leonardo</b></div><div><b><br></b></div><div>&nbsp;lmart296@fiu.edu</div><div><br></div><div>&nbsp;Graduation May 2015</div><div><br></div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;<img src="http://localhost:3000/img/nopic.png" width="300" height="300" alt="" align="none" style="float: right" hspace="20"></div><div style="text-align: right;"><b>&nbsp;Messarina, Piero</b></div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;piero.messarina@gmail.com</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation May 2015</div><div style="text-align: right;">&nbsp;Summer 2016</div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><h3 class="strong" style="text-align: center; color: rgb(34, 34, 34);"><font size="5">Summer 2016</font></h3></div><div><br></div><div>&nbsp;<img src="http://localhost:3000/img/burke.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"><b>&nbsp;Burke, John</b></div><div><br></div><div>&nbsp;jburk045@fiu.edu</div><div><br></div><div>&nbsp;Front end&nbsp;</div><div><br></div><div>&nbsp;Graduation 5 Aug. 2016&nbsp;</div><div style="text-align: right;">&nbsp;</div><div style="text-align: right;"><br><img src="http://localhost:3000/img/gonzalez_e.jpg" width="300" height="300" alt="" align="none" style="float: right" hspace="20"></div><div style="text-align: right;"><b>&nbsp;Gonzalez, Emmanuel</b></div><div style="text-align: right;"><b><br></b></div><div style="text-align: right;">&nbsp;egonz077@fiu.edu&nbsp;</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Application Security</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation 5 Aug. 2016</div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;</div><div><br></div><div>&nbsp;<img src="http://localhost:3000/img/medina_j.png" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div>&nbsp;<b>Medina, Jorge</b></div><div><b><br></b></div><div>&nbsp;jmedi116@fiu.edu</div><div><br></div><div>&nbsp;Back end&nbsp;</div><div><br></div><div>&nbsp;Graduation 5 Aug. 2016</div><div><br></div><div style="text-align: right;">&nbsp;<img src="http://localhost:3000/img/munez_nilton.jpg" width="300" height="300" alt="" align="none" style="float: right" hspace="20">&nbsp;</div><div style="text-align: right;"><b>&nbsp;Muñoz, Nilton</b></div><div style="text-align: right;"><b>&nbsp;</b></div><div style="text-align: right;">&nbsp;nmuno013@fiu.edu</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Bolo Templates</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation 5 Aug. 2016
+
+
+
+Fall 2016</div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><h3 class="strong" style="text-align: center; color: rgb(34, 34, 34);"><font size="5">Fall 2016</font></h3></div><div><br></div><div>&nbsp;<img src="http://localhost:3000/img/dmartelly.jpg" alt="Martelly, Dominick" width="320)</div"><div><b>&nbsp;Martelly, Dominick</b></div><div><b><br></b></div><div>&nbsp;dmart120@fiu.edu&nbsp;</div><div><br></div><div>&nbsp;Graduation 13 Dec. 2016</div><div><br></div><div><div style="text-align: right;">&nbsp;<img src="http://localhost:3000/img/bzamora.jpg" alt="Zamora, Brian" width="320)</div"></div><div style="text-align: right;"><b>&nbsp;Zamora, Brian</b></div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;bzamo007@fiu.edu</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Graduation 13 Dec. 2016</div><div style="text-align: right;"><br></div><div style="text-align: right;">&nbsp;Spring 2017</div><div style="text-align: right;"><br></div><div style="text-align: right;"><h3 class="strong" style="text-align: center; color: rgb(34, 34, 34);"><font size="5">Spring 2017</font></h3><div><font size="5"><br></font></div></div><div><img src="http://localhost:3000/img/rachel_hill.jpg" width="300" height="300" alt="" align="none" style="float: left" hspace="20"></div><div><br></div><div><b>&nbsp;Hill, Rachel</b>&nbsp;<br></div><div><br></div><div>&nbsp;rhill016@fiu.edu</div><div><br></div><div>&nbsp;Graduation 1 May 2017&nbsp;</div><div>&nbsp;</div><div><div style="text-align: right;"><img src="http://localhost:3000/img/nopic.png" alt="Rodriguez, Victor" width="320)&nbsp;</div"></div><div style="text-align: right;"><b>&nbsp;Rodriguez, Victor</b></div><div style="text-align: right;">&nbsp;</div><div style="text-align: right;">vesto001@fiu.edu</div><div style="text-align: right;">&nbsp;</div><div style="text-align: right;">Graduation 1 May 2017</div><div><br></div><div>&nbsp;<img src="http://localhost:3000/img/nopic.png" alt="Siu, Mario" width="320)</div"><div>&nbsp;<b>Siu, Mario</b></div><div><b><br></b></div><div>&nbsp;msiu001@fiu.edu<br></div><div><br></div><div>&nbsp;Graduation 1 May 2017</div>
+</div></div></div></div>

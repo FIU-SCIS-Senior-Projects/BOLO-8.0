@@ -22,10 +22,11 @@ mixin input_text_static( name, label, placeholder, required, value, type )
     input.form-control( name=name type=type?type:'text' placeholder=placeholder value=value readonly)
 
 
-mixin input_textarea( name, label, placeholder, required, value )
+mixin input_textarea( name, label, placeholder, required, value, height, width )
   .form-group
     label.control-label( for=name ) #{label}
-    textarea.form-control( name=name type="text" placeholder=placeholder ) #{value}
+    textarea.form-control( name=name type="text" placeholder=placeholder style = "height:" + height +"px"  maxHeight = height +"px") #{value}
+    p(maxHeight : 100)
 
 
 mixin select_options( name, label, options, required, selectedValue, functionCall )

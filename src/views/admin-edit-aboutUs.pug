@@ -1,13 +1,21 @@
 extends admin-layout
 include includes/mixins
 
+
+
 block jumbo-desc
   h3 Edit About Us
 
 block admin-content
+  script(type="text/javascript" language="javascript" rel='javascript' src='/js/nicEdit.js').
+  script (bkLib.onDomLoaded(function() { nicEditors.allTextAreas()   }))
   .container-fluid
     form(action= "/admin/edit/aboutUs" method="post")
-      +input_textarea('in', 'AboutUs Markdown Editor', 'Write text here...', true, markdown)
+      +input_textarea('in', 'AboutUs Markdown Editor', 'Write text here...', true, markdown, 500, 500)
+      p(maxHeight : 100)
+      .row
+        .col-sm-4
+          label.control-label( for="main" ) Insert Image
       .row
         h3 Preview
         #markdown.col-lg-12

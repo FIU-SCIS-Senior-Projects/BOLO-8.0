@@ -357,3 +357,37 @@ exports.previewUserGuide = function(req, res) {
     }
   });
 };
+
+exports.getNicEditForm = function(req, res) {
+  fs.readFile('./public/nicEdit/nicEditorIcons.gif', function(err, data) {
+    if (err) {
+      console.log(err);
+      res.render('nicEditorIcons', {
+        errors: [
+          {
+            msg: 'Error! nicEditorIcons could not be read'
+          }
+        ]
+      });
+    } else {
+      console.log('nicEditorIcons is being read');
+      res.render('admin-edit-aboutUs', {markdown: data.toString()});
+    }
+  })
+};
+
+exports.saveNicEditForm = function(req, res) {
+  var newMarkdown = req.body. in;
+  console.log('Writing to system: ' + newMarkdown);
+  fs.writeFile('./public/nicEdit/nicEditorIcons.gif', newMarkdown, function(err) {
+    if (err) {
+      console.log(err);
+      req.flash('The file did not save...', err);
+      res.render('nicEditorIcons', {markdown: newMarkdown});
+    } else {
+      console.log('nicEditorIcons.gif has been over-written');
+      req.flash('success_msg', 'Changes are saved');
+      res.redirect('/admin/edit/nicEditorIcons');
+    }
+  })
+};
