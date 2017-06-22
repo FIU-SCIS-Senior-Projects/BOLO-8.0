@@ -355,7 +355,7 @@ module.exports.findBolosByAgencyID = function(tier, req, agencyID, isConfirmed, 
   }
 };
 
-module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
+module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived, limit, sortBy, onlyMyAgencyInternals, callback) {
   if(tier !== 'ROOT')
   {
     Bolo.find({
@@ -374,13 +374,28 @@ module.exports.findBolosByInternal = function(tier, req, isConfirmed, isArchived
   }
   else
   {
-    Bolo.find({
-      isConfirmed: isConfirmed,
-      isArchived: isArchived,
-      internal: true
-    }).populate('agency').populate('author').populate('category').limit(limit).sort([
-      [sortBy, -1]
-    ]).exec(callback);
+    console.log('last value of onlyMyAgencyInternals:', onlyMyAgencyInternals);
+    console.log(typeof(onlyMyAgencyInternals));
+    if (onlyMyAgencyInternals) {
+      console.log('showing my agency internals only');
+      Bolo.find({
+        isConfirmed: isConfirmed,
+        isArchived: isArchived,
+        internal: true,
+        agency: req.user.agency.id
+      }).populate('agency').populate('author').populate('category').limit(limit).sort([
+        [sortBy, -1]
+      ]).exec(callback);
+    } else {
+      console.log('showing all internals');
+      Bolo.find({
+        isConfirmed: isConfirmed,
+        isArchived: isArchived,
+        internal: true
+      }).populate('agency').populate('author').populate('category').limit(limit).sort([
+        [sortBy, -1]
+      ]).exec(callback);
+    }
   }
 };
 

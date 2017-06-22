@@ -1,20 +1,28 @@
 var filterSelector = $('#filter');
 var agencyFilterSelector = $('#agencyFilter');
 var agencyFilterSelectorDiv = $('#agencyFilterDiv');
+const myAgencyInternalsFilterSelectorDiv = $('#myAgencyInternalsFilterDiv');
+const myAgencyInternalsFilterSelector = $('#myAgencyInternalsFilter');
 var renderPage = function (bolosPerPage, visibleNumbers) {
     const filterValue = filterSelector.val();
-    console.log(filterValue); 
+    console.log(filterValue);
     const agencyFilterValue = agencyFilterSelector.val();
+    const onlyMyAgencyInternals = myAgencyInternalsFilterSelector.val() !== 'allAgencies' ?  'true' : '';
     console.log(agencyFilterValue);
     const listOfBoloThumbnails = $('.thumbnail');
-    console.log($('#input').val()); 
+    console.log($('#input').val());
     const archivedBolos = $('#input').val() == 'archived';
     var boloDiv = $('#bolo-list');
     var pagingDiv = $('#bolo-paging');
-   
+
     $.ajax({
         url: '/bolo/list', type: 'GET',
-        data: {filter: filterValue, agency: agencyFilterValue, archived: archivedBolos},
+        data: {
+          onlyMyAgencyInternals,
+          filter: filterValue,
+          agency: agencyFilterValue,
+          archived: archivedBolos
+        },
         success: function (response) {
             if (!response) {
                 $('#purge').hide();
@@ -22,9 +30,10 @@ var renderPage = function (bolosPerPage, visibleNumbers) {
                 pagingDiv.hide();
                 boloDiv.empty();
                 boloDiv.append('<p class="text-success" style="font-size:xx-large">No Bolos To Show</p>');
-            } else {                
-                var Title = agencyFilterValue === '' ? filterSelector.find("option:selected").text():
-                        agencyFilterSelector.find("option:selected").text();
+            } else {
+                var Title = agencyFilterValue === '' ?
+                  filterSelector.find("option:selected").text() :
+                  agencyFilterSelector.find("option:selected").text();
                 console.log(Title);
                 $('#purge').show();
                 $('#purgeRange').show();
@@ -55,6 +64,7 @@ var renderPage = function (bolosPerPage, visibleNumbers) {
 };
 $(document).ready(function () {
     agencyFilterSelectorDiv.hide();
+    myAgencyInternalsFilterSelectorDiv.hide();
     renderPage(12, 8);
 });
 //When you change the filter, render the selected bolos, and the paging
@@ -62,14 +72,26 @@ filterSelector.change(function () {
     if (filterSelector.val() === 'selectedAgency') {
         agencyFilterSelectorDiv.show();
     } else {
-        agencyFilterSelectorDiv.hide()
+        agencyFilterSelectorDiv.hide();
     }
 
-    if (filterSelector.val() != 'selectedAgency' || agencyFilterSelector.val() != "") renderPage(12, 8);
-  
+    if (filterSelector.val() === 'internal') {
+      myAgencyInternalsFilterSelectorDiv.show();
+    } else {
+      myAgencyInternalsFilterSelectorDiv.hide();
+    }
+
+    if (filterSelector.val() != 'selectedAgency' ||
+    agencyFilterSelector.val() != "") {
+      renderPage(12, 8);
+    }
 });
 
 //When you change the agency filter, render all the agencies bolos, and the paging
 agencyFilterSelector.change(function () {
-    renderPage(12, 8);
+  renderPage(12, 8);
 });
+
+myAgencyInternalsFilterSelector.change(function() {
+  renderPage(12, 8);
+})
