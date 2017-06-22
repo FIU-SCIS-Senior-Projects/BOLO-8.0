@@ -11,7 +11,6 @@ if (!process.env.SENDGRID_API_KEY) {
 }
 // reaches here if API Key is found
 var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY);
-console.log(process.env.SENDGRID_API_KEY);
 exports.send = function(payload) {
   var email = new sendgrid.Email(payload);
   return new Promise(function(resolve, reject) {
