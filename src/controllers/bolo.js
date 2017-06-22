@@ -85,7 +85,7 @@ function sendBoloNotificationEmail(bolo, template) {
 
     //NO PICTURES
     if ((bolo.featured.data == undefined) && (bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
-      var noPic = "public/img/nopic.png";
+      var noPic = appRoot + "/public/img/nopic.png";
       doc.image(noPic, 170, 135, {
         width: 290,
         height: 230,
@@ -528,8 +528,8 @@ exports.renderBoloAsPDF = function(req, res, next) {
         //Variable and Object Declaration
         var doc = new PDFDocument();
 		var oneTwo, three = false;
-		
-		
+
+
         /*
                  ===================================================
                  *            GET AGENCY DEPENDENT ITEMS           *
@@ -568,7 +568,7 @@ exports.renderBoloAsPDF = function(req, res, next) {
 
             //NO PICTURES
             if ((bolo.featured.data == undefined) && (bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
-              var noPic = "public/img/nopic.png";
+              var noPic = appRoot + "/public/img/nopic.png";
               doc.image(noPic, 170, 135, {
                 width: 290,
                 height: 230,
@@ -710,14 +710,14 @@ exports.renderBoloAsPDF = function(req, res, next) {
 				doc.fillColor('black');
 				doc.fontSize(9);
 			}
-			
+
             if(oneTwo){
 				doc.font('Times-Roman').text("Bolo ID: ", 50, 380).moveUp().text(bolo.id, 100, 380).moveDown();
 			}
 			else{
 				doc.font('Times-Roman').text("Bolo ID: ", 50,250).moveUp().text(bolo.id, 100,250).moveDown();
 			}
-			
+
 			var field_info = "";
 
             //Write all of the fields and details to the PDF Document
@@ -759,8 +759,8 @@ exports.renderBoloAsPDF = function(req, res, next) {
 			{
 				doc.font('Times-Roman').text(field_info, 50, 270).moveDown();
 			}
-			
-			
+
+
 
             //Write Additional Details
             doc.font('Times-Roman').text(" ", 50).moveDown();
