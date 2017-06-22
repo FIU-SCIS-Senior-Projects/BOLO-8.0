@@ -514,30 +514,32 @@ nicEditor = nicEditor.extend(bkEvent);
 var nicEditorInstance = bkClass.extend({
     isSelected: false,
     construct: function(G, D, C) {
-        this.maxHeight = 100;
+        this.maxHeight = 100 + "px";
         this.ne = C;
         this.elm = this.e = G;
         this.options = D || {};
+        this.options.maxHeight=100 + "px";
         newX = parseInt(G.getStyle("width")) || G.clientWidth;
         newY = parseInt(G.getStyle("height")) || G.clientHeight;
-        this.initialHeight = 100;
+        this.initialHeight = 100 + "px";
         var H = (G.nodeName.toLowerCase() == "textarea");
         if (H || this.options.hasPanel) {
             var B = (bkLib.isMSIE && !((typeof document.body.style.maxHeight != "undefined") && document.compatMode == "CSS1Compat"));
             var E = {
-                width: newX + "px",
+                width: 100 + "%" ,
                 border: "1px solid #ccc",
                 borderTop: 0,
-                overflowY: "auto",
-                overflowX: "hidden"
-                //height: newY + "px"
+                overflowY: "scroll",
+                overflowX: "scroll",
+                maxHeight : 500 + "px",
+                height: newY + "px"
             };
             E[(B) ? "height" : "maxHeight"] = (this.ne.options.maxHeight) ? this.ne.options.maxHeight + "px" : null;
             this.editorContain = new bkElement("DIV").setStyle(E).appendBefore(G);
             var A = new bkElement("DIV").setStyle({
-                width: (newX) + "px",
+                width: 100 + "%",
                 margin: "4px",
-                maxHeight: newY + "px"
+                minHeight: newY + "px"
             }).addClass("main").appendTo(this.editorContain);
             G.setStyle({
                 display: "none"
@@ -1682,7 +1684,6 @@ var nicUploadOptions = {
 
 };
 
-//var nicUploadButton=nicEditorAdvancedButton.extend({nicURI:'../php/image.php',errorText:"Failed to upload image",addPane:function(){if(typeof window.FormData==="undefined"){return this.onError("Image uploads are not supported in this browser, use Chrome, Firefox, or Safari instead.")}this.im=this.ne.selectedInstance.selElm().parentTag("IMG");var A=new bkElement("div").setStyle({padding:"10px"}).appendTo(this.pane.pane);new bkElement("div").setStyle({fontSize:"14px",fontWeight:"bold",paddingBottom:"5px"}).setContent("Insert an Image").appendTo(A);this.fileInput=new bkElement("input").setAttributes({type:"file"}).appendTo(A);this.progress=new bkElement("progress").setStyle({width:"100%",display:"none"}).setAttributes("max",100).appendTo(A);this.fileInput.onchange=this.uploadFile.closure(this)},onError:function(A){this.removePane();alert(A||"Failed to upload image")},uploadFile:function(){var B=this.fileInput.files[0];if(!B||!B.type.match(/image.*/)){this.onError("Only image files can be uploaded");return }this.fileInput.setStyle({display:"none"});this.setProgress(0);var A=new FormData();A.append("image",B);var C=new XMLHttpRequest();C.open("POST", "http://localhost:3000/php/image.php");C.onload=function(){try{var D=JSON.parse(C.responseText).data}catch(E){return this.onError()}if(D.error){return this.onError(D.error)}this.onUploaded(D)}.closure(this);C.onerror=this.onError.closure(this);C.upload.onprogress=function(D){this.setProgress(D.loaded/D.total)}.closure(this);C.setRequestHeader("Authorization","Client-ID c37fc05199a05b7");C.send(A)},setProgress:function(A){this.progress.setStyle({display:"block"});if(A<0.98){this.progress.value=A}else{this.progress.removeAttribute("value")}},onUploaded:function(B){this.removePane();var D=B.link;if(!this.im){this.ne.selectedInstance.restoreRng();var C="javascript:nicImTemp();";this.ne.nicCommand("insertImage",D);this.im=this.findElm("IMG","src",D)}var A=parseInt(this.ne.selectedInstance.elm.getStyle("width"));if(this.im){this.im.setAttributes({src:D,width:(A&&B.width)?Math.min(A,B.width):""})}}});nicEditors.registerPlugin(nicPlugin,nicUploadOptions);
 
 
 var nicUploadButton = nicEditorAdvancedButton.extend({
