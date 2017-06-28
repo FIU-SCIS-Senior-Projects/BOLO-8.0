@@ -3,6 +3,7 @@ var agencyFilterSelector = $('#agencyFilter');
 var agencyFilterSelectorDiv = $('#agencyFilterDiv');
 const myAgencyInternalsFilterSelectorDiv = $('#myAgencyInternalsFilterDiv');
 const myAgencyInternalsFilterSelector = $('#myAgencyInternalsFilter');
+
 var renderPage = function (bolosPerPage, visibleNumbers) {
     const filterValue = filterSelector.val();
     console.log(filterValue);
@@ -62,11 +63,13 @@ var renderPage = function (bolosPerPage, visibleNumbers) {
         }
     })
 };
+
 $(document).ready(function () {
     agencyFilterSelectorDiv.hide();
     myAgencyInternalsFilterSelectorDiv.hide();
     renderPage(12, 8);
 });
+
 //When you change the filter, render the selected bolos, and the paging
 filterSelector.change(function () {
     if (filterSelector.val() === 'selectedAgency') {

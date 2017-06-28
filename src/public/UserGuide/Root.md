@@ -77,11 +77,7 @@ Send the BOLO to the archive files</pre></code>
 
 ###<b>Edit a BOLO</b>
 
-<pre><code>* * You can only edit your BOLOs * *
-1) Click 'Edit'
-2) Select any field you want to edit
-3) Enter any information required
-4) Click 'Submit'</pre></code>
+<pre><code>** You can Only edit a Bolo if... ***</pre></code>
 
 ###<b>Filter by (Me)</b>
 

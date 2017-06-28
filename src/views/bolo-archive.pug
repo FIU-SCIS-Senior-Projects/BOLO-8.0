@@ -24,6 +24,11 @@ block jumbo
           option(value="myAgency") My Agency
           option(value="internal") Internal
           option(value="myBolos") My Bolos
+      if isRoot
+        div#myAgencyInternalsFilterDiv(style='display:inline-block')
+          select#myAgencyInternalsFilter.selectpicker(data-width="fit")
+            option(value="allAgencies" selected) All Agencies
+            option(value="onlyMyAgency") Only My Agency 
 
 block content
   .container

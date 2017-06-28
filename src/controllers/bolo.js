@@ -1375,6 +1375,7 @@ function dateDiffInYears(a, b) {
  */
 exports.renderArchivedBolos = function(req, res, next) {
   const tier = req.user.tier;
+  const isRoot = tier === 'ROOT';
   Bolo.findOldestArchivedBolos(tier, req, 1, 'reportedOn', function(err, bolo) {
     if (err)
       console.log(err);
@@ -1394,9 +1395,9 @@ exports.renderArchivedBolos = function(req, res, next) {
         });
       }
 
-      res.render('bolo-archive', {labels: labels});
+      res.render('bolo-archive', { labels, isRoot });
     } else
-      res.render('bolo-archive');
+      res.render('bolo-archive', { isRoot });
     }
   );
 };
