@@ -14,7 +14,7 @@ block admin-content
   .container-fluid
     if (id)
       div.pull-right
-        a.btn.btn-danger(href="/admin/edit/userGuide/delete/" + id) DELETE
+        a.btn.btn-danger(href="/admin/edit/userGuide/delete/" + id onclick="return confirm('Are you sure you want to delete this user guide?')") DELETE
       br
       br
     form( action= (id) ? ("/admin/edit/userGuide/" + id) : ("/admin/edit/userGuide/add") method="post")
