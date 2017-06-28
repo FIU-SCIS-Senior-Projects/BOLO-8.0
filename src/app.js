@@ -85,7 +85,7 @@ app.use(validator({
       return reg.test(value);
     },
     isCorrectPasswordFormat: function(value) {
-      var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&().^\\[\\]\\-_])[A-Za-z\\d$@$!%*?&().^\\[\\]\\-_]{10,128}");
+      var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!:=,;~+#%*?&<>|()./\"^\\[\\]\\-_])[A-Za-z\\d$@$!:=,;~+#%*?&<>|()./\"^\\[\\]\\-_]{10,128}");
 
       return reg.test(value);
     }
