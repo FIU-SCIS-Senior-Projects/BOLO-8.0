@@ -115,7 +115,6 @@ module.exports.findBoloByID = function(id, callback) {
 };
 
 module.exports.findAllBolos = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
-
   if(tier !== 'ROOT'){
     Bolo.find({
 
@@ -838,7 +837,7 @@ module.exports.deleteAllArchivedBolos = function(tier, req, callback) {
       ]
     }).exec(callback);
   }
-  else{
+  else {
     Bolo.remove({
       isArchived: true,
       $or: [
@@ -879,7 +878,7 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
       ]
     }).exec(callback);
   }
-  else{
+  else {
     Bolo.remove({
       isArchived: true,
       'reportedOn': {
@@ -898,58 +897,73 @@ module.exports.deleteBolosLessThan = function(tier, req, lessThanDate, callback)
   }
 };
 
-// This function an array of strings, which are the tags that the user typed into
-// the wild card input search box in the search bolos form.
-// The function executes a mongodb query that searches all bolos and matches
-// the search term to any bolo field.
-module.exports.wildcardSearch = (tier, req, wildcard, callback) => {
-  if(tier !== 'ROOT')
-  {
-    Bolo.find(
-      { $text: { $search: wildcard } },
-      { score: { $meta: 'textScore' } },
-      {
-        isConfirmed: true,
-        isArchived: false,
-        $or: [
-          {
-            internal: false
-          }, {
-            internal: null
-          }, {
-            $and: [
-              {
-                internal: true
-              }, {
-                agency: req.user.agency.id
-              }
-            ]
-          }
-        ]
-      }
-    ).populate('agency').populate('author').populate('category').sort({
-      score: { $meta: 'textScore' }
-    }).exec(callback);
-  }
-  else {
-    Bolo.find(
-      { $text: { $search: wildcard } },
-      { score: { $meta: 'textScore' } },
-      {
-        isConfirmed: true,
-        isArchived: false,
-        $or: [
-          {
-            internal: false
-          }, {
-            internal: null
-          }, {
-            internal: true
-          }
-        ]
-      }
-    ).populate('agency').populate('author').populate('category').sort({
-      score: { $meta: 'textScore' }
-    }).exec(callback);
+// search logic for root users
+const rootSearch = (searchTerm, currentUserAgency, callback) => {
+  Bolo.find(
+    { $text: { $search: searchTerm } },
+    { score: { $meta: 'textScore' } },
+    {
+      isConfirmed: true,
+      isArchived: false,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          $and: [
+            {
+              internal: true
+            }, {
+              agency: currentUserAgency
+            }
+          ]
+        }
+      ]
+    }
+  ).populate('agency').populate('author').populate('category').sort({
+    score: { $meta: 'textScore' }
+  }).exec(callback);
+};
+
+// search logic for regular users
+const userSearch = (searchTerm, callback) => {
+  Bolo.find(
+    { $text: { $search: searchTerm } },
+    { score: { $meta: 'textScore' } },
+    {
+      isConfirmed: true,
+      isArchived: false,
+      $or: [
+        {
+          internal: false
+        }, {
+          internal: null
+        }, {
+          internal: true
+        }
+      ]
+    }
+  ).populate('agency').populate('author').populate('category').sort({
+    score: { $meta: 'textScore' }
+  }).exec(callback);
+};
+
+// Arguments:
+// 1. Options object with properties searchTerm, currentUserAgency, and tier
+// 2. Callback that is called after the mongodb search is done.
+module.exports.wildcardSearch = ({ searchTerm, req, currentUserAgency, tier }, callback) => {
+  if (!searchTerm) {
+    console.log('term empty');
+    // add logic for when no term is entered.
+    // results should just match the agency and category
+    module.exports.findAllBolos(tier, req, true, false, 1000, 'createdOn', callback);
+  } else {
+    if (tier !== 'ROOT') {
+      rootSearch(searchTerm, currentUserAgency, callback);
+    }
+    else {
+      userSearch(searchTerm, callback);
+    }
   }
 }

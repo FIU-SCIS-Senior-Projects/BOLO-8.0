@@ -1617,58 +1617,46 @@ exports.getBoloSearch = function(req, res, next) {
  */
 exports.postBoloSearch = function(req, res, next) {
   console.log('in postBoloSearch function inside bolo controller');
-  const wildcard = req.body.wildcard;
-  const wildcardIsEmpty = wildcard === '';
-  const tier = req.user.tier;
-  console.log('is wildcard empty?', wildcardIsEmpty);
-  console.log(wildcard);
+  const selectedAgency = req.body.agencyName;
+  const selectedCategory = req.body.categoryName;
+  const agencyWasSelected = selectedAgency !== 'All Agencies';
+  const categoryWasSelected = selectedCategory !== 'Select a Category';
+  const searchTerm = req.body.searchTerm;
 
-  if (wildcardIsEmpty) {
-    const tier = req.user.tier;
-    Agency.findAgencyByName(req.body.agencyName, function(err, agency) {
-      if (err)
-        console.log(err);
-      else {
-        Category.findCategoryByName(req.body.categoryName, function(err, category) {
-          if (err)
-            console.log(err);
-          else {
-            if (!agency) {
-              Bolo.searchAllBolosByCategory(tier, req, category !== null
-                ? category._id
-                : null, req.body.field, function(err, listOfBolos) {
-                if (err)
-                  console.log(err);
-                else {
-                  res.render('bolo-search-results', {bolos: listOfBolos});
-                }
-              });
-            } else {
-              Bolo.searchAllBolosByAgencyAndCategory(tier, req, agency._id, category !== null
-                ? category._id
-                : null, req.body.field, function(err, listOfBolos) {
-                if (err)
-                  console.log(err);
-                else
-                  res.render('bolo-search-results', {bolos: listOfBolos});
-                }
-              );
-            }
-          }
+  const options = {
+    searchTerm,
+    req,
+    currentUserAgency: req.user.agency.id,
+    tier: req.user.tier,
+  };
+
+  Bolo.wildcardSearch(options, (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let filteredResults = [];
+      if (agencyWasSelected && categoryWasSelected) {
+        filteredResults = results.filter((retrievedBolo) => {
+          return (retrievedBolo.agency.name === selectedAgency) &&
+            (retrievedBolo.category.name === selectedCategory);
         });
-      }
-    });
-  } else {
-    console.log('Wildcard search triggered');
-    Bolo.wildcardSearch(tier, req, wildcard, (err, results) => {
-      if (err) {
-        console.log(err);
+      } else if (agencyWasSelected && !categoryWasSelected) {
+        filteredResults = results.filter((retrievedBolo) => {
+          return (retrievedBolo.agency.name === selectedAgency);
+        });
+      } else if (!agencyWasSelected && categoryWasSelected) {
+        filteredResults = results.filter((retrievedBolo) => {
+          return (retrievedBolo.category.name === selectedCategory);
+        });
       } else {
-        res.render('bolo-search-results', {
-          bolos: results,
-          searchTerm: wildcard
-        });
+        filteredResults = results;
       }
-    })
-  }
+
+      res.render('bolo-search-results', {
+        searchTerm: req.body.searchTerm,
+        bolos: filteredResults,
+      });
+    }
+  });
+
 };
