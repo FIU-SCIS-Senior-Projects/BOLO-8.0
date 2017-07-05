@@ -5,10 +5,25 @@
 var router = require('express').Router();
 var control = require('../../controllers/admin/edit');
 
+// Multer is used to upload login image to the server
+// It is provided in this routes file because the router.post('/login')
+// route needs to handle the uploaded file. Please look at the npm multer
+// documentation for how to use multer.
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, appRoot + '/public/img');
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'login-image');
+  }
+})
+const upload = multer({ storage });
+
 router.get('/aboutUs', control.getAboutUsForm);
 router.post('/aboutUs', control.saveAboutUs);
 router.get('/login', control.getLoginPageForm);
-router.post('/login', control.saveLoginPage);
+router.post('/login', upload.single('login-image'), control.saveLoginPage);
 router.get('/userGuide', control.listUserGuideSectionsAndTitle);
 router.post('/userGuide', control.saveUserGuideTitle);
 router.get('/userGuide/add', control.getUserGuideSectionForm);
