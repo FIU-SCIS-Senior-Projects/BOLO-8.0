@@ -16,7 +16,15 @@ var PDFDocument = require('pdfkit');
 var pug = require('pug');
 
 var converter = require('number-to-words');
+var sizeOf = require('image-size');
 
+
+function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+
+    var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+
+    return { width: srcWidth*ratio, height: srcHeight*ratio };
+ }
 /**
  * Error handling for MongoDB
  */
@@ -570,64 +578,64 @@ exports.renderBoloAsPDF = function(req, res, next) {
             if ((bolo.featured.data == undefined) && (bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
               var noPic = appRoot + "/public/img/nopic.png";
               doc.image(noPic, 170, 135, {
-                width: 290,
-                height: 230,
+                width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).width,
+                height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).height,
                 align: 'center'
               }).moveDown(5);
               onePhoto, oneTwo =//Only Featured is present
               true;
             } else if ((bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
-              doc.image(bolo.featured.data, 170, 135, {
-                width: 290,
-                height: 230,
+              doc.image(bolo.featured.data, 210, 135, {
+                width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).width,
+                height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).height,
                 align: 'center'
               }).moveDown(5);
               onePhoto, oneTwo =// Only Featured and Other1 are present
               true;
             } else if ((bolo.other1.data != undefined) && (bolo.other2.data == undefined)) {
               doc.image(bolo.featured.data, 320, 135, {
-                width: 270,
-                height: 210,
+                width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).width,
+                height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).height,
                 align: 'center'
               }).moveDown(5);
 
               doc.image(bolo.other1.data, 30, 135, {
-                width: 270,
-                height: 210,
+                width: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 270, 210).width,
+                height: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 270, 210).height,
                 align: 'left'
               }).moveDown(5);
               twoPhotos, oneTwo =// Only Featured and Other2 are present
               true;
             } else if ((bolo.other2.data != undefined) && (bolo.other1.data == undefined)) {
               doc.image(bolo.featured.data, 30, 135, {
-                width: 270,
-                height: 210,
+                width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).width,
+                height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).height,
                 align: 'center'
               }).moveDown(5);
 
               doc.image(bolo.other2.data, 320, 135, {
-                width: 270,
-                height: 210,
+                width: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 270, 210).width,
+                height: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 270, 210).height,
                 align: 'left'
               }).moveDown(5);
               twoPhotos, oneTwo =// All Images are present
               true;
             } else if ((bolo.other1.data != undefined) && (bolo.other2.data != undefined)) {
               doc.image(bolo.featured.data, 228, 135, {
-                width: 170,
-                height: 110,
+                width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 170, 110).width,
+                height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 170, 110).height,
                 align: 'center'
               }).moveDown(5);
 
               doc.image(bolo.other1.data, 40, 135, {
-                width: 170,
-                height: 110,
+                width: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 170, 110).width,
+                height: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 170, 110).height,
                 align: 'left'
               }).moveDown(5);
 
               doc.image(bolo.other2.data, 415, 135, {
-                width: 170,
-                height: 110,
+                width: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 170, 110).width,
+                height: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 170, 110).height,
                 align: 'right'
               }).moveDown(5);
               threePhotos = true;
@@ -765,7 +773,7 @@ exports.renderBoloAsPDF = function(req, res, next) {
             //Write Additional Details
             doc.font('Times-Roman').text(" ", 50).moveDown();
 
-            doc.font('Times-Bold').text("Created: " + bolo.createdOn, 50).moveDown();
+            doc.font('Times-Bold').text("Created: " + bolo.createdOn, 50, null, {width: 200}).moveDown();
 
             /*
                          //For Data Analysis Recovered
@@ -797,7 +805,7 @@ exports.renderBoloAsPDF = function(req, res, next) {
                          */
 
             // Display Additional Information only if there is a value in it
-            if (bolo.info !== "") {
+            if (bolo.info !== "" && bolo.summary == "") {
               if(oneTwo)
 			  {
 				  doc.font('Times-Bold').text("Additional: ", 350, 380, {align: 'left'}).moveDown(0.25);
@@ -809,7 +817,38 @@ exports.renderBoloAsPDF = function(req, res, next) {
 				  doc.font('Times-Roman').text(bolo.info, {width: 200}).moveDown();
 			  }
             }
-
+			else if(bolo.info == "" && bolo.summary !== "")
+			{
+			  if(oneTwo)
+			  {
+				doc.font('Times-Bold').text("Summary: ", 350, 480).moveDown(0.25);
+				doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
+			  }
+			  else
+			  {
+				  doc.font('Times-Bold').text("Summary: ", 350, 350).moveDown(0.25);
+				  doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
+			  }
+			}
+			else if(bolo.info !== "" && bolo.summary !== "")
+			{
+			  if(oneTwo)
+			  {
+				  doc.font('Times-Bold').text("Additional: ", 350, 380, {align: 'left'}).moveDown(0.25);
+				  doc.font('Times-Roman').text(bolo.info, {width: 200}).moveDown(1);
+				  doc.font('Times-Bold').text("Summary: ", 350).moveDown(0.25);
+				  doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
+			  }
+			  else
+			  {
+				  doc.font('Times-Bold').text("Additional: ", 350, 250, {align: 'left'}).moveDown(0.25);
+				  doc.font('Times-Roman').text(bolo.info, {width: 200}).moveDown(1);
+				  doc.font('Times-Bold').text("Summary: ", 350).moveDown(0.25);
+				  doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
+			  }
+			}
+			
+			/*
             // Display a Summary only if there is a value in it
             if (bolo.summary !== "") {
               if(oneTwo)
@@ -823,7 +862,7 @@ exports.renderBoloAsPDF = function(req, res, next) {
 				  doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
 			  }
             }
-
+			*/
             doc.font('Times-Bold').text("This BOLO was created by: " + bolo.author.unit + " " + bolo.author.rank + " " + bolo.author.firstname + " " + bolo.author.lastname).moveDown(0.25);
             doc.font('Times-Bold').text("Please contact the agency should clarification be required.", {width: 200});
 
@@ -945,15 +984,23 @@ exports.postCreateBolo = function(req, res, next) {
           if (req.files['featured']) {
             if (req.body.compressedFeatured) {
               console.log('Using compressed featured image');
+			  var dimensions = sizeOf(req.files['featured'][0].buffer);
+			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height); 
               newBolo.featured = {
                 data: req.body.compressedFeatured,
-                contentType: 'image/jpg'
+                contentType: 'image/jpg',
+				width: dimensions.width,
+				height: dimensions.height
               };
             } else {
               console.log('Using original featured image');
+			  var dimensions = sizeOf(req.files['featured'][0].buffer);
+			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height); 
               newBolo.featured = {
                 data: req.files['featured'][0].buffer,
-                contentType: req.files['featured'][0].mimeType
+                contentType: req.files['featured'][0].mimeType,
+				width: dimensions.width,
+				height: dimensions.height
               };
             }
             buffer.featured.data = req.files['featured'][0].buffer.toString('base64');
@@ -962,15 +1009,23 @@ exports.postCreateBolo = function(req, res, next) {
           if (req.files['other1']) {
             if (req.body.compressedOther1) {
               console.log('Using compressed other1 image');
+			  var dimensions = sizeOf(req.files['other1'][0].buffer);
+			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height); 
               newBolo.other1 = {
                 data: req.body.compressedOther1,
-                contentType: 'image/jpg'
+                contentType: 'image/jpg',
+				width: dimensions.width,
+				height: dimensions.height
               };
             } else {
               console.log('Using original other1 image');
+			  var dimensions = sizeOf(req.files['other1'][0].buffer);
+			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height); 
               newBolo.other1 = {
                 data: req.files['other1'][0].buffer,
-                contentType: req.files['other1'][0].mimeType
+                contentType: req.files['other1'][0].mimeType,
+				width: dimensions.width,
+				height: dimensions.height
               };
             }
             buffer.other1.data = req.files['other1'][0].buffer.toString('base64');
@@ -979,15 +1034,23 @@ exports.postCreateBolo = function(req, res, next) {
           if (req.files['other2']) {
             if (req.body.compressedOther2) {
               console.log('Using compressed other2 image');
+			  var dimensions = sizeOf(req.files['other2'][0].buffer);
+			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height); 
               newBolo.other2 = {
                 data: req.body.compressedOther2,
-                contentType: 'image/jpg'
+                contentType: 'image/jpg',
+				width: dimensions.width,
+				height: dimensions.height
               };
             } else {
               console.log('Using original other2 image');
+			  var dimensions = sizeOf(req.files['other2'][0].buffer);
+			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height); 
               newBolo.other2 = {
                 data: req.files['other2'][0].buffer,
-                contentType: req.files['other2'][0].mimeType
+                contentType: req.files['other2'][0].mimeType,
+				width: dimensions.width,
+				height: dimensions.height
               };
             }
             buffer.other2.data = req.files['other2'][0].buffer.toString('base64');

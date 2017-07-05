@@ -56,15 +56,21 @@ var Schema = new mongoose.Schema({
   },
   featured: {
     data: Buffer,
-    contentType: String
+    contentType: String,
+	width: Number,
+	height: Number
   },
   other1: {
     data: Buffer,
-    contentType: String
+    contentType: String,
+	width: Number,
+	height: Number
   },
   other2: {
     data: Buffer,
-    contentType: String
+    contentType: String,
+	width: Number,
+	height: Number
   },
   isConfirmed: {
     type: Boolean,
