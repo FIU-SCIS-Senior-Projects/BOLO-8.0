@@ -18,10 +18,21 @@ const storage = multer.diskStorage({
     cb(null, 'login-image');
   }
 })
+
+const aboutUsStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, appRoot + '/public/img');
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'file');
+  }
+})
 const upload = multer({ storage });
+const aboutUsUpload = multer({ aboutUsStorage });
 
 router.get('/aboutUs', control.getAboutUsForm);
-router.post('/aboutUs', control.saveAboutUs);
+//router.post('/aboutUs', control.saveAboutUs);
+router.post('/aboutUs', aboutUsUpload.single('file'), control.saveAboutUs);
 router.get('/login', control.getLoginPageForm);
 router.post('/login', upload.single('login-image'), control.saveLoginPage);
 router.get('/userGuide', control.listUserGuideSectionsAndTitle);
@@ -34,5 +45,6 @@ router.get('/userGuide/:id', control.getUserGuideSectionForm);
 router.post('/userGuide/:id', control.saveUserGuide);
 router.get('/nicEditorIcons', control.getNicEditForm);
 router.post('/nicEditorIcons', control.saveNicEditForm);
+
 
 module.exports = router;

@@ -41,6 +41,8 @@ exports.saveAboutUs = function(req, res) {
       console.log('AboutUs has been over-written');
       req.flash('success_msg', 'Changes are saved');
       res.redirect('/admin/edit/aboutUs');
+      res.contentType('json');
+      res.send({ some: JSON.stringify({response:'json'}) });
     }
   })
 };

@@ -5,6 +5,15 @@
  * For more information visit http://nicedit.com/
  * Do not remove this copyright message
  */
+
+
+var filterSelector = $('#appRoot');
+var myimage;
+var imageSrc;
+var markdownLogo;
+var ready = false;
+
+
 var bkExtend = function() {
     var A = arguments;
     if (A.length == 1) {
@@ -1705,7 +1714,9 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
             paddingBottom: "5px"
         }).setContent("Insert an Image").appendTo(A);
         this.fileInput = new bkElement("input").setAttributes({
-            type: "file"
+            type: "file",
+			id: "login-image",
+			name: "login-image",
         }).appendTo(A);
         this.progress = new bkElement("progress").setStyle({
             width: "100%",
@@ -1718,7 +1729,13 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
         alert(A || "Failed to upload image")
     },
     uploadFile: function() {
+		this.fileInput.files[0].src = "../../img/" + this.fileInput.files[0].name;
+		this.fileInput.files[0].id = "login-image-preview";
+		this.fileInput.files[0].class = "img-responsive";
+		console.log(this.fileInput.files[0].src);
         var B = this.fileInput.files[0];
+		
+		var imagepath = this.fileInput.files[0];
         if (!B || !B.type.match(/image.*/)) {
             this.onError("Only image files can be uploaded");
             return
@@ -1726,45 +1743,101 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
         this.fileInput.setStyle({
             display: "none"
         });
-        this.setProgress(0);
+        //this.setProgress(0);
         var A = new FormData();
         A.append("image", B);
-        var C = new XMLHttpRequest();
-        C.open("POST", "http://localhost:3000/php/image.php");
-        C.onload = function() {
+		myimage =imagepath;
+		
+		var upload = new Upload(imagepath);
+		//upload.doUpload();
+		fii();
+		console.log("\n\nI FOUND IMAGn\n\n");
 
-            try {
-                var D = JSON.parse(C.responseText).data
-            } catch (E) {
-                return this.onError()
-            }
-            if (D.error) {
-                return this.onError(D.error)
-            }
-            this.onUploaded(D)
-        }.closure(this);
-        C.onerror = this.onError.closure(this);
-        C.upload.onprogress = function(D) {
-            this.setProgress(D.loaded / D.total)
-        }.closure(this);
-        C.setRequestHeader("Authorization", "Client-ID c37fc05199a05b7");
-        C.send(A)
-
-    },
-    setProgress: function(A) {
-        this.progress.setStyle({
-            display: "block"
-        });
-        if (A < 0.98) {
-            this.progress.value = A
-        } else {
-            this.progress.removeAttribute("value")
-        }
-    },
-    onUploaded: function(B) {
         this.removePane();
         var D = B.link;
         if (!this.im) {
+
+            this.ne.selectedInstance.restoreRng();
+            var C = "javascript:nicImTemp();";
+            this.ne.nicCommand("insertImage", D);
+            this.im = this.findElm("IMG", "src", D)
+        }
+        var A = parseInt(this.ne.selectedInstance.elm.getStyle("width"));
+        if (this.im) {
+            this.im.setAttributes({
+				type:"image/jpeg",
+                src: imageSrc,
+                width: 300,
+            })
+        }
+
+		//var fs = require(imagepath);
+		//fs.writeFile("../../img/" + B, A, function(err) {
+		//	if(err) {
+		//		return console.log(err);
+		//	}
+		//
+		//	console.log("The file was saved!");
+		//}); 
+        //var C = new XMLHttpRequest();
+        //C.open("POST", "http://localhost:3000/php/image.php");
+        //C.onload = function() {
+        //
+        //    try {
+        //        var D = JSON.parse(C.responseText).data
+        //    } catch (E) {
+        //        return this.onError()
+        //    }
+        //    if (D.error) {
+        //        return this.onError(D.error)
+        //    }
+        //    this.onUploaded(D)
+        //}.closure(this);
+        //C.onerror = this.onError.closure(this);
+        //C.upload.onprogress = function(D) {
+        //    this.setProgress(D.loaded / D.total)
+        //}.closure(this);
+        //C.setRequestHeader("Authorization", "Client-ID c37fc05199a05b7");
+        //C.send(A)
+		
+	    // var buffer = this.serializer;
+	    // var buffer = new Buffer("image/png");
+	    
+	    // fs.open(this.fileInput.files[0].src, 'w', function(err, fd) {
+	    	// if (err) {
+	    		// throw 'error opening file: ' + err;
+	    	// }
+	    
+	    	// fs.write(fd, buffer, 0, buffer.length, null, function(err) {
+	    		// if (err) throw 'error writing file: ' + err;
+	    		// fs.close(fd, function() {
+	    			// console.log('file written');
+	    		// })
+	    	// });
+	    // });
+
+    },
+       // setProgress: function(A) {
+        // this.progress.setStyle({
+            // display: "block"
+        // });
+        // if (A < 0.98) {
+            // this.progress.value = 1;
+			// A = 1;
+        // } else {
+            // this.progress.removeAttribute("value")
+        // }
+       // },
+       onUploaded: function(B) {
+		
+		Console.log("\n\nI FOUND IMAGn\n\n");
+
+		
+        this.removePane();
+        var D = B.link;
+        if (!this.im) {
+			Console.log("\n\nI FOUND IMAGn\n\n");
+
             this.ne.selectedInstance.restoreRng();
             var C = "javascript:nicImTemp();";
             this.ne.nicCommand("insertImage", D);
@@ -1774,9 +1847,225 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
         if (this.im) {
             this.im.setAttributes({
                 src: D,
-                width: (A && B.width) ? Math.min(A, B.width) : "",
+                width: "100px",
             })
         }
+      }
     }
-});
+);
 nicEditors.registerPlugin(nicPlugin, nicUploadOptions);
+
+var Upload = function (file) {
+    this.file = file;
+};
+
+Upload.prototype.getType = function() {
+		
+    return this.file.type;
+};
+Upload.prototype.getSize = function() {
+    return this.file.size;
+};
+Upload.prototype.getName = function() {
+    return this.file.name;
+};
+Upload.prototype.doUpload = function () {
+    var that = this;
+    var formData = new FormData();
+	
+	console.log("\n1");
+    // add assoc key values, this will be posts values
+    formData.append("file", this.file, this.getName());
+    formData.append("upload_file", true);
+	console.log("\n2");
+	console.log(formData);
+	console.log(this.file);
+	console.log(this.getName());
+	//console.log(this.src);
+	//console.log(this.fileInput.src)
+
+
+	console.log();
+	var oImg = document.createElement("img");
+	oImg.setAttribute('src', '../../img/imagesa.jpg');
+	oImg.setAttribute('alt', 'na');
+	oImg.setAttribute('height', '1px');
+	oImg.setAttribute('width', '1px');
+	document.body.appendChild(oImg);
+
+	var msg = this.getName();
+	//$.ajax({
+	//	type: "POST",
+	//	url: "/img/aboutUS",
+	//	data: this.file,
+	//	});
+    //$.ajax({
+    //    type: "POST",
+    //    url: '/aboutUS',
+    //    //xhr: function () {
+    //    //    var myXhr = $.ajaxSettings.xhr();
+    //    //    if (myXhr.upload) {
+    //    //        myXhr.upload.addEventListener('progress', that.progressHandling, false);
+    //    //    }
+    //    //    return myXhr;
+    //    //},
+    //    success: function (data) {
+	//		
+    //        // your callback here
+    //    },
+    //    error: function (error) {
+    //        console.log(error);
+    //    },
+    //    async: true,
+    //    //data: formData,
+    //    data: JSON.stringify(formData),
+	//	cache: false,
+    //    contentType: 'application/json; charset=utf-8',
+    //    processData: false,
+    //    timeout: 60000
+    //});
+};
+
+Upload.prototype.progressHandling = function (event) {
+    var percent = 0;
+    var position = event.loaded || event.position;
+    var total = event.total;
+    var progress_bar_id = "#progress-wrp";
+    if (event.lengthComputable) {
+        percent = Math.ceil(position / total * 100);
+    }
+    // update progressbars classes so it fits your code
+    $(progress_bar_id + " .progress-bar").css("width", +percent + "%");
+    $(progress_bar_id + " .status").text(percent + "%");
+};
+
+function getImageDataURL(url, success, error) {
+    var data, canvas, ctx;
+    var img = new Image();
+    img.onload = function(){
+        // Create the canvas element.
+        canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        // Get '2d' context and draw the image.
+        ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        // Get canvas data URL
+        try{
+            data = canvas.toDataURL();
+            success({image:img, data:data});
+        }catch(e){
+            error(e);
+        }
+    }
+    // Load image URL.
+    try{
+        img.src = url;
+    }catch(e){
+        error(e);
+    }
+}
+var title;
+var subtitle;
+var file_name;
+var markdown1;
+var markdown2;
+var markdown3;
+var markdownTitle;
+var markdownSubtitle;
+var markdown;
+
+var result = '';
+
+var check = function() {
+	if (ready === true) {
+		console.log("\nReady is set" + result);
+		imageSrc = result;
+		return;
+	}
+	setTimeout(check, 50);
+}
+
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
+
+var readURL = (input) => {
+  console.log("\nRead");
+  if (input ) {
+	console.log("\nIf");
+	var aux;
+    const reader = new FileReader();
+
+  
+    reader.onload = (e) => {
+	 
+      $('#login-image-preview').attr('src', e.target.result);
+	$.ajax({
+	async: true,
+	url: "/aboutUs",
+	type:  'POST',
+	data: $('#login-image-preview'),
+	contentType: "application/json",
+	dataType:"json",
+	success: function(result){
+		console.log("\nImage sent");
+		//alert(result);
+	},
+	error: function(){
+		console.log("\nFailed to send");
+
+		//alert('Failed to send');
+	}
+});
+	//console.log("\nE Target Result " + e.target.result);
+	result = e.target.result;
+	console.log("\nE Target Var " + markdown);			
+	ready = true;
+	check();
+  
+
+    }
+
+    reader.readAsDataURL(input);
+  console.log("\nE Target Var" + aux);
+  }
+else
+{
+	console.log("\nElse");
+}
+}
+
+var fii= function() {
+
+var mytextarea = document.getElementsByName('in')[0].value;
+var temp = document.getElementById("login-image-preview");
+
+  var textInputBox = document.getElementsByName('in')[0];
+    file_name = myimage.name;  
+    readURL(myimage);
+
+  var temp = document.getElementById("login-image-preview");
+  
+    if(file_name) {
+      markdownLogo = `<img src="/img/${file_name}" alt="BOLO Logo" class="img-responsive" id="login-image-preview" style="margin:0 auto"/>`;
+	console.log(file_name);
+    }
+    else {
+      file_name = mytextarea.substring(15,mytextarea.indexOf(" alt=")-1);
+      markdownLogo = `<img src="/img/${file_name}" alt="BOLO Logo" class="img-responsive" id="login-image-preview" style="margin:0 auto"/>`;
+	console.log(file_name);
+
+    }
+  markdown = document.getElementsByName('in')[0].value;
+    textInputBox.value= markdown;
+    textInputBox.dispatchEvent(new Event('change'));
+  
+console.log(file_name);
+
+}
