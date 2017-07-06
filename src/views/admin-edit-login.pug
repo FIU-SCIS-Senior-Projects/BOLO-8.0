@@ -7,10 +7,10 @@ block jumbo-desc
 
 block admin-content
   .container-fluid
-    form(action= "/admin/edit/login" method="post")
+    form(action= "/admin/edit/login" enctype="multipart/form-data" method="post")
       .form-group
         label.control-label( for=img1 ) Image           
-        input(type="file" name="img1" id="img1")
+        input(type="file" name="login-image" id="login-image")
 
       .form-group
         label.control-label( for=myTextField ) Title
@@ -32,7 +32,6 @@ block admin-content
 
     script(rel='javascript' src='/js/showdown.min.js')
     script(rel='javascript' src='/js/mdEditor.js')
-    script(rel='javascript' src='/src/public/Login.md')
     script(type='text/javascript').
 
       var title;
@@ -46,53 +45,67 @@ block admin-content
       var markdownSubtitle;
       var markdown;
       var mytextarea = document.getElementsByName('in')[0].value;
-      var fii= function(){
+      
+      const readURL = (input) => {
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          
+          reader.onload = (e) => {
+            $('#login-image-preview').attr('src', e.target.result);
+          }
+          
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+      
+      var fii= function() {
 
         document.getElementById("mytitle").addEventListener('change', function(){
           title= document.getElementById("mytitle").value;
           updateMarkdown();
         });
 
-          document.getElementById("mysubtitle").addEventListener('change', function(){
-            subtitle= document.getElementById("mysubtitle").value;
-            markdownStorage = subtitle;
-            updateMarkdown();
+        document.getElementById("mysubtitle").addEventListener('change', function(){
+          subtitle= document.getElementById("mysubtitle").value;
+          updateMarkdown();
         });
 
-          document.getElementById("img1").addEventListener('change', function(){
-            file_name = this.value.split('\\').pop();
-            updateMarkdown();
+        document.getElementById("login-image").addEventListener('change', function() {
+          file_name = 'login-image';
+          readURL(this);
+          updateMarkdown();
         });
 
-        var updateMarkdown = function(){
+        var updateMarkdown = function() {
 
-        var textInputBox = document.getElementsByName('in')[0];
+          var textInputBox = document.getElementsByName('in')[0];
 
-        if(file_name){
-          markdownLogo = `<img src="/img/${file_name}" alt="BOLO Logo"style="height:220px;"/>`;                 
-        }
-        else{
-          file_name = mytextarea.substring(15,mytextarea.indexOf(" alt=")-1);
-          markdownLogo = `<img src="/img/${file_name}" alt="BOLO Logo"style="height:220px;"/>`;
-        }
-        if(title){
-          markdownTitle = title;
-        }
-        else{
-          title = mytextarea.substring(mytextarea.indexOf("#")+1,mytextarea.indexOf("###")-1)
-          markdownTitle = title;
-        }
-        if(subtitle){
-          markdownSubtitle = subtitle;
-        }
-        else{
-          subtitle= mytextarea.substring(mytextarea.indexOf("###")+3,9999);
-          markdownSubtitle = subtitle;
-        }
+          if(file_name) {
+            markdownLogo = `<img src="/img/${file_name}" alt="BOLO Logo" class="img-responsive" id="login-image-preview" style="margin:0 auto"/>`;               
+          }
+          else {
+            file_name = mytextarea.substring(15,mytextarea.indexOf(" alt=")-1);
+            markdownLogo = `<img src="/img/${file_name}" alt="BOLO Logo" class="img-responsive" id="login-image-preview" style="margin:0 auto"/>`;   
+          }
+          if (title) {
+            markdownTitle = title;
+          }
+          else {
+            title = mytextarea.substring(mytextarea.indexOf("#")+1,mytextarea.indexOf("###")-1)
+            markdownTitle = title;
+          }
+          if (subtitle) {
+            markdownSubtitle = subtitle;
+          }
+          else {
+            subtitle= mytextarea.substring(mytextarea.indexOf("###")+3,9999);
+            markdownSubtitle = subtitle;
+          }
 
-        markdown = markdownLogo + '\n#' + markdownTitle + '\n###'+ markdownSubtitle;
-        textInputBox.value= markdown;
-        textInputBox.dispatchEvent(new Event('change'));
+          markdown = markdownLogo + '\n#' + markdownTitle + '\n###'+ markdownSubtitle;
+          textInputBox.value= markdown;
+          textInputBox.dispatchEvent(new Event('change'));
         };
       }
+      
       fii();

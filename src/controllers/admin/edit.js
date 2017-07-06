@@ -30,7 +30,7 @@ exports.getAboutUsForm = function(req, res) {
 };
 
 exports.saveAboutUs = function(req, res) {
-  var newMarkdown = req.body. in;
+  var newMarkdown = req.body.in;
   console.log('Writing to system: ' + newMarkdown);
   fs.writeFile(appRoot + '/public/AboutUs.md', newMarkdown, function(err) {
     if (err) {
@@ -68,7 +68,7 @@ exports.getDataSubscribers = function(req, res) {
 }
 
 exports.saveLoginPage = function(req, res) {
-  var newMarkdown = req.body. in;
+  var newMarkdown = req.body.in;
   console.log('Writing to system: ' + newMarkdown);
   fs.writeFile(appRoot + '/public/Login.md', newMarkdown, function(err) {
     if (err) {
@@ -381,7 +381,7 @@ exports.getNicEditForm = function(req, res) {
 };
 
 exports.saveNicEditForm = function(req, res) {
-  var newMarkdown = req.body. in;
+  var newMarkdown = req.body.in;
   console.log('Writing to system: ' + newMarkdown);
   fs.writeFile('./public/nicEdit/nicEditorIcons.gif', newMarkdown, function(err) {
     if (err) {

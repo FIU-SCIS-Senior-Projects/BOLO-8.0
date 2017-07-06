@@ -29,7 +29,7 @@ config.bootstrap = '/css/vendor/bootswatch/' + bootswatch_theme + '/bootstrap.mi
 config.const = {
   pdf_view_path: path.resolve(__dirname, './views/pdf-view'),
   /* BOLO Page Settings todo*/
-  BOLOS_PER_QUERY: 100,
+  BOLOS_PER_QUERY: 10000,
 
   /* http://momentjs.com/docs/#/displaying/ */
   DATE_FORMAT: 'MM-DD-YY HH:mm:ss'

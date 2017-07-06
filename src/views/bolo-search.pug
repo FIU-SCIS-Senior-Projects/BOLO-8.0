@@ -11,45 +11,17 @@ block content
     form#create-bolo-form(action="/bolo/search" method="post")
 
       +select_options( "agencyName", "Agency", agencies, true, "" )
-
+      
       div#category
         -
           var categoryNames = ['Select a Category']
           for (var num in categories)
           categoryNames.push(categories[num].name);
         +select_options( "categoryName", "Category", categoryNames)
-      div#categoryForms
-      script.
-        var categorySelectorDiv = $('#category');
-        categorySelectorDiv.change(function () {
-          var newForms = document.getElementById('categoryForms')
-          while (newForms.firstChild) {
-            newForms.removeChild(newForms.firstChild);
-          }
-          var val = categorySelectorDiv.find("option:selected").index() - 1;
-          if (val !== -1) {
-            var categories = !{JSON.stringify(categories)};
-            var selectedCategory = categories[val];
-            for (num in selectedCategory.fields) {
-              var newDiv = document.createElement('div'),
-                newLabel = document.createElement('label'),
-                newField = document.createElement('input');
-              newDiv.className = 'form-group';
-              newLabel.className = 'control-label';
-              newLabel.htmlFor = selectedCategory.fields[num];
-              newLabel.innerHTML = selectedCategory.fields[num];
-              newField.className = 'form-control';
-              newField.name = 'field';
-              newDiv.appendChild(newLabel);
-              newDiv.appendChild(newField);
-              newForms.appendChild(newDiv);
-            }
-          }
-        });
       
       div.form-group
-        label(for='wildcard') Wildcard Search:
-        input#wildcard-search.form-control(type='text', placeholder='Enter search term', name='wildcard')
+        label(for='searchTerm') Search:
+        input#search-term.form-control(type='text', placeholder='Enter search term', name='searchTerm')
           
       .form-group
         button.btn.btn-primary( type="submit" value="save") Search
