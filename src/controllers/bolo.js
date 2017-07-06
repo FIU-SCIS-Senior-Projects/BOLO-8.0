@@ -847,7 +847,7 @@ exports.renderBoloAsPDF = function(req, res, next) {
 				  doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
 			  }
 			}
-			
+
 			/*
             // Display a Summary only if there is a value in it
             if (bolo.summary !== "") {
@@ -1001,7 +1001,7 @@ exports.postCreateBolo = function(req, res, next) {
             if (req.body.compressedFeatured) {
               console.log('Using compressed featured image');
 			  var dimensions = sizeOf(req.files['featured'][0].buffer);
-			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.featured = {
                 data: req.body.compressedFeatured,
                 contentType: 'image/jpg',
@@ -1011,7 +1011,7 @@ exports.postCreateBolo = function(req, res, next) {
             } else {
               console.log('Using original featured image');
 			  var dimensions = sizeOf(req.files['featured'][0].buffer);
-			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.featured = {
                 data: req.files['featured'][0].buffer,
                 contentType: req.files['featured'][0].mimeType,
@@ -1026,7 +1026,7 @@ exports.postCreateBolo = function(req, res, next) {
             if (req.body.compressedOther1) {
               console.log('Using compressed other1 image');
 			  var dimensions = sizeOf(req.files['other1'][0].buffer);
-			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other1 = {
                 data: req.body.compressedOther1,
                 contentType: 'image/jpg',
@@ -1036,7 +1036,7 @@ exports.postCreateBolo = function(req, res, next) {
             } else {
               console.log('Using original other1 image');
 			  var dimensions = sizeOf(req.files['other1'][0].buffer);
-			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other1 = {
                 data: req.files['other1'][0].buffer,
                 contentType: req.files['other1'][0].mimeType,
@@ -1051,7 +1051,7 @@ exports.postCreateBolo = function(req, res, next) {
             if (req.body.compressedOther2) {
               console.log('Using compressed other2 image');
 			  var dimensions = sizeOf(req.files['other2'][0].buffer);
-			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other2 = {
                 data: req.body.compressedOther2,
                 contentType: 'image/jpg',
@@ -1061,7 +1061,7 @@ exports.postCreateBolo = function(req, res, next) {
             } else {
               console.log('Using original other2 image');
 			  var dimensions = sizeOf(req.files['other2'][0].buffer);
-			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other2 = {
                 data: req.files['other2'][0].buffer,
                 contentType: req.files['other2'][0].mimeType,
@@ -1711,58 +1711,45 @@ exports.getBoloSearch = function(req, res, next) {
  */
 exports.postBoloSearch = function(req, res, next) {
   console.log('in postBoloSearch function inside bolo controller');
-  const wildcard = req.body.wildcard;
-  const wildcardIsEmpty = wildcard === '';
-  const tier = req.user.tier;
-  console.log('is wildcard empty?', wildcardIsEmpty);
-  console.log(wildcard);
+  const selectedAgency = req.body.agencyName;
+  const selectedCategory = req.body.categoryName;
+  const agencyWasSelected = selectedAgency !== 'All Agencies';
+  const categoryWasSelected = selectedCategory !== 'Select a Category';
+  const searchTerm = req.body.searchTerm;
 
-  if (wildcardIsEmpty) {
-    const tier = req.user.tier;
-    Agency.findAgencyByName(req.body.agencyName, function(err, agency) {
-      if (err)
-        console.log(err);
-      else {
-        Category.findCategoryByName(req.body.categoryName, function(err, category) {
-          if (err)
-            console.log(err);
-          else {
-            if (!agency) {
-              Bolo.searchAllBolosByCategory(tier, req, category !== null
-                ? category._id
-                : null, req.body.field, function(err, listOfBolos) {
-                if (err)
-                  console.log(err);
-                else {
-                  res.render('bolo-search-results', {bolos: listOfBolos});
-                }
-              });
-            } else {
-              Bolo.searchAllBolosByAgencyAndCategory(tier, req, agency._id, category !== null
-                ? category._id
-                : null, req.body.field, function(err, listOfBolos) {
-                if (err)
-                  console.log(err);
-                else
-                  res.render('bolo-search-results', {bolos: listOfBolos});
-                }
-              );
-            }
-          }
+  const options = {
+    searchTerm,
+    req,
+    currentUserAgency: req.user.agency.id,
+    tier: req.user.tier,
+  };
+
+  Bolo.wildcardSearch(options, (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let filteredResults = [];
+      if (agencyWasSelected && categoryWasSelected) {
+        filteredResults = results.filter((retrievedBolo) => {
+          return (retrievedBolo.agency.name === selectedAgency) &&
+            (retrievedBolo.category.name === selectedCategory);
         });
-      }
-    });
-  } else {
-    console.log('Wildcard search triggered');
-    Bolo.wildcardSearch(tier, req, wildcard, (err, results) => {
-      if (err) {
-        console.log(err);
+      } else if (agencyWasSelected && !categoryWasSelected) {
+        filteredResults = results.filter((retrievedBolo) => {
+          return (retrievedBolo.agency.name === selectedAgency);
+        });
+      } else if (!agencyWasSelected && categoryWasSelected) {
+        filteredResults = results.filter((retrievedBolo) => {
+          return (retrievedBolo.category.name === selectedCategory);
+        });
       } else {
-        res.render('bolo-search-results', {
-          bolos: results,
-          searchTerm: wildcard
-        });
+        filteredResults = results;
       }
-    })
-  }
+
+      res.render('bolo-search-results', {
+        searchTerm: req.body.searchTerm,
+        bolos: filteredResults,
+      });
+    }
+  });
 };

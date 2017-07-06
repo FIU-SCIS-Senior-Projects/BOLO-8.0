@@ -57,20 +57,20 @@ var Schema = new mongoose.Schema({
   featured: {
     data: Buffer,
     contentType: String,
-	width: Number,
-	height: Number
+	  width: Number,
+	  height: Number
   },
   other1: {
     data: Buffer,
     contentType: String,
-	width: Number,
-	height: Number
+	  width: Number,
+	  height: Number
   },
   other2: {
     data: Buffer,
     contentType: String,
-	width: Number,
-	height: Number
+	  width: Number,
+	  height: Number
   },
   isConfirmed: {
     type: Boolean,
@@ -123,7 +123,6 @@ module.exports.findBoloByID = function(id, callback) {
 module.exports.findAllBolos = function(tier, req, isConfirmed, isArchived, limit, sortBy, callback) {
   if(tier !== 'ROOT'){
     Bolo.find({
-
       isConfirmed: isConfirmed,
       isArchived: isArchived,
       $or: [
@@ -136,10 +135,7 @@ module.exports.findAllBolos = function(tier, req, isConfirmed, isArchived, limit
             {
               internal: true
             }, {
-
-
                  agency: req.user.agency.id
-
             }
           ]
         }
@@ -151,7 +147,6 @@ module.exports.findAllBolos = function(tier, req, isConfirmed, isArchived, limit
   else
   {
     Bolo.find({
-
       isConfirmed: isConfirmed,
       isArchived: isArchived,
       $or: [
