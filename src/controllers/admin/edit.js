@@ -63,6 +63,10 @@ exports.getLoginPageForm = function(req, res) {
   });
 };
 
+exports.getDataSubscribers = function(req, res) {
+      res.render('admin-data-subscribers');
+}
+
 exports.saveLoginPage = function(req, res) {
   var newMarkdown = req.body. in;
   console.log('Writing to system: ' + newMarkdown);

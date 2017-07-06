@@ -1,0 +1,19 @@
+extends admin-layout
+
+block jumbo-desc
+  p Admin Portal: Data Subscribers
+
+block admin-content
+  p.lead List of Data Subscribers
+
+  a.btn.btn-default(href="") Add New Data Subscriber
+  a.btn.btn-default(href="") CSV Data Subscriber Upload
+
+  table.table.table-striped
+    thead
+      tr
+        th
+        th ID
+        th.hidden-xs  Name
+        th.hidden-sm.hidden-xs Email
+        th.hidden-xs

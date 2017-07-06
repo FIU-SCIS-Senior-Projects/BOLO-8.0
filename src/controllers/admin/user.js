@@ -269,10 +269,59 @@ exports.getList = function(req, res, next) {
  * Responds with a list of all system users.
  *
  * @todo implement sorting, filtering, and paging
+ * Note: This method is not fully finished, and it might not be 100% secure. Make sure to fully test it before deployment
  */
 exports.getSortedList = function(req, res) {
-  req.flash('error_msg', 'Page is not yet ready');
-  res.redirect('/admin');
+  if (req.user.tier === 'ROOT') {
+    if (req.params.id == 'agency'){
+        User.findAllUsersSortedByAgency(function(err, listOfUsers) {
+          if (err)
+            next(err);
+          res.render('admin-user', {users: listOfUsers})
+        });
+    }
+    else if (req.params.id == 'fname'){
+        User.findAllUsersSortedByFirstName(function(err, listOfUsers) {
+          if (err)
+            next(err);
+          res.render('admin-user', {users: listOfUsers})
+        });
+    }
+    else if (req.params.id == 'lname'){
+        User.findAllUsersSortedByLastName(function(err, listOfUsers) {
+          if (err)
+            next(err);
+          res.render('admin-user', {users: listOfUsers})
+        });
+    }
+    else if (req.params.id == 'username'){
+        User.findAllUsersSortedByUsername(function(err, listOfUsers) {
+          if (err)
+            next(err);
+          res.render('admin-user', {users: listOfUsers})
+        });
+    }
+    else if (req.params.id == 'tier'){
+        User.findAllUsersSortedByTier(function(err, listOfUsers) {
+          if (err)
+            next(err);
+          res.render('admin-user', {users: listOfUsers})
+        });
+    }
+    else{
+      req.flash('error_msg', 'ERROR!');
+      setTimeout(res.redirect('/admin/user'), 5000);
+    }
+  }
+  else {
+    req.flash('error_msg', 'Sorting is not yet fully done and must be finished');
+    if (req.user.tier === 'ADMINISTRATOR'){
+      req.flash('error_msg', ' sorting is not finished for Administrator yet.');
+    }
+    setTimeout(res.redirect('/admin/user'), 5000);
+  }
+  //req.flash('error_msg', 'Sorting is not done and must be finished');
+  //setTimeout(res.redirect('/admin/user'), 5000);
 };
 
 /**

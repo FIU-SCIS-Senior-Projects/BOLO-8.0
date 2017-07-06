@@ -5,20 +5,22 @@ block jumbo-desc
   div.row
     div.col-sm-10
       h3 User Management
-    //div.col-sm-2.dropdown
+    div.col-sm-2.dropdown
       button.btn.btn-default.dropdown-toggle(type = "button" data-toggle="dropdown") Sort
         span.caret
       ul.dropdown-menu
         -var dimensions = "width: 100%; margin: auto;"
-        -var route = "/admin/users/sorted/"
+        -var route = "/admin/user/sorted/"
         -var option1 = "agency"
-        -var option2 = "lname"
-        -var option3 = "username"
-        -var option4 = "tier"
+        -var option2 = "fname"
+        -var option3 = "lname"
+        -var option4 = "username"
+        -var option5 = "tier"
         a.btn.btn-default(href=route + option1 style=dimensions) Sort by agency
-        a.btn.btn-default(href=route + option2 style=dimensions) Sort by name
-        a.btn.btn-default(href=route + option3 style=dimensions) Sort by username
-        a.btn.btn-default(href=route + option4 style=dimensions) Sort by role
+        a.btn.btn-default(href=route + option2 style=dimensions) Sort by first name
+        a.btn.btn-default(href=route + option3 style=dimensions) Sort by last name
+        a.btn.btn-default(href=route + option4 style=dimensions) Sort by username
+        a.btn.btn-default(href=route + option5 style=dimensions) Sort by role
 
 block admin-content
   p.lead Total Users: #{users.length}

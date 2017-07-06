@@ -892,6 +892,22 @@ exports.postCreateBolo = function(req, res, next) {
       const reportedTime = req.body.timeReported.split(':');
       console.log(reportedDate[0] + " " + reportedDate[1] + "\n");
       const newDate = new Date(reportedDate[2], reportedDate[0], reportedDate[1] - 1, reportedTime[0], reportedTime[1], 0, 0);
+
+      //Make sure that no word inside Summary is longer than 38 characters(it would break format otherwise)
+      var splitSummary =  req.body.summary.split(" ");
+      var totalSummary = "";
+      var wordInSummary = "";
+      for (var i = 0; i < splitSummary.length; i++){
+          for (var j = 0; j < splitSummary[i].length; j++){
+              wordInSummary = wordInSummary + splitSummary[i].charAt(j);
+              if (j % 37 == 0 && j != 0){
+                wordInSummary = wordInSummary + " ";
+              }
+          }
+          totalSummary = totalSummary + wordInSummary + " ";
+          wordInSummary = "";
+      }
+
       if (isNaN(newDate.getTime()))
         errors.push('Please Enter a Valid Date');
 
@@ -922,7 +938,7 @@ exports.postCreateBolo = function(req, res, next) {
             category: category.id,
             videoURL: req.body.videoURL,
             info: req.body.info,
-            summary: req.body.summary,
+            summary: totalSummary,
             conformationToken: token,
             boloToDelete: 'N/A',
             status: 'ACTIVE',
@@ -1238,6 +1254,21 @@ exports.postEditBolo = function(req, res, next) {
           const reportedDate = req.body.dateReported.split('/');
           const reportedTime = req.body.timeReported.split(':');
           const newDate = new Date(reportedDate[2], reportedDate[0], reportedDate[1] - 1, reportedTime[0], reportedTime[1], 0, 0);
+
+          var splitSummary =  req.body.summary.split(" ");
+          var totalSummary = "";
+          var wordInSummary = "";
+          for (var i = 0; i < splitSummary.length; i++){
+              for (var j = 0; j < splitSummary[i].length; j++){
+                  wordInSummary = wordInSummary + splitSummary[i].charAt(j);
+                  if (j % 37 == 0 && j != 0){
+                    wordInSummary = wordInSummary + " ";
+                  }
+              }
+              totalSummary = totalSummary + wordInSummary + " ";
+              wordInSummary = "";
+          }
+
           if (isNaN(newDate.getTime())) {
             errors.push('Please Enter a Valid Date');
           }
@@ -1287,7 +1318,7 @@ exports.postEditBolo = function(req, res, next) {
               reportedOn: newDate,
               videoURL: req.body.videoURL,
               info: req.body.info,
-              summary: req.body.summary,
+              summary: totalSummary,
               status: req.body.status,
               fields: req.body.field
             });

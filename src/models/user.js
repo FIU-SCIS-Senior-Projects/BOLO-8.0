@@ -110,6 +110,28 @@ module.exports.findAllUsers = function(callback) {
   User.find({}).populate('agency').exec(callback);
 };
 
+//Find All Users Sorted By _______
+module.exports.findAllUsersSortedByAgency = function(callback) {
+  User.find({}).sort({agency: -1}).populate('agency').exec(callback);
+};
+
+module.exports.findAllUsersSortedByFirstName = function(callback) {
+  User.find({}).sort({firstname: 1}).populate('agency').exec(callback);
+};
+
+module.exports.findAllUsersSortedByLastName = function(callback) {
+  User.find({}).sort({lastname: 1}).populate('agency').exec(callback);
+};
+
+module.exports.findAllUsersSortedByUsername = function(callback) {
+  User.find({}).sort({username: 1}).populate('agency').exec(callback);
+};
+
+module.exports.findAllUsersSortedByTier = function(callback) {
+  User.find({}).sort({tier: 1}).populate('agency').exec(callback);
+};
+//End
+
 module.exports.findUserByToken = function(token, callback) {
   User.findOne({resetPasswordToken: token}).populate('agency').exec(callback);
 };

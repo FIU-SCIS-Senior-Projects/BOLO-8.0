@@ -17,6 +17,12 @@ $(function () {
             },
             videoURL: {
                 url: true
+            },
+            summary: {
+               maxlength: 430
+            },
+            info: {
+              maxlength: 200
             }
         },
         // Specify validation error messages
@@ -30,6 +36,12 @@ $(function () {
             },
             videoURL: {
                 url: 'Please enter a valid URL (http://www.abc.com)'
+            },
+            summary: {
+                maxlength: 'You have reached the maximum amount of 430 characters per summary'
+            },
+            info: {
+              maxlength: "You have reached the maximum amount of 200 characters per additional info"
             }
         },
         // Make sure the form is submitted to the destination defined
