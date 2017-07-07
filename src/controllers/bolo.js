@@ -847,7 +847,7 @@ exports.renderBoloAsPDF = function(req, res, next) {
 				  doc.font('Times-Roman').text(bolo.summary, {width: 200}).moveDown();
 			  }
 			}
-			
+
 			/*
             // Display a Summary only if there is a value in it
             if (bolo.summary !== "") {
@@ -947,6 +947,22 @@ exports.postCreateBolo = function(req, res, next) {
           wordInSummary = "";
       }
 
+      //Do the same for Additional info
+      var splitInfo =  req.body.info.split(" ");
+      var totalInfo = "";
+      var wordInInfo = "";
+      for (var i = 0; i < splitInfo.length; i++){
+          for (var j = 0; j < splitInfo[i].length; j++){
+              wordInInfo = wordInInfo + splitInfo[i].charAt(j);
+              if (j % 37 == 0 && j != 0){
+                wordInInfo = wordInInfo + " ";
+              }
+          }
+          totalInfo = totalInfo + wordInInfo + " ";
+          wordInInfo = "";
+      }
+
+
       if (isNaN(newDate.getTime()))
         errors.push('Please Enter a Valid Date');
 
@@ -976,7 +992,7 @@ exports.postCreateBolo = function(req, res, next) {
             reportedOn: newDate,
             category: category.id,
             videoURL: req.body.videoURL,
-            info: req.body.info,
+            info: totalInfo,
             summary: totalSummary,
             conformationToken: token,
             boloToDelete: 'N/A',
@@ -1001,7 +1017,7 @@ exports.postCreateBolo = function(req, res, next) {
             if (req.body.compressedFeatured) {
               console.log('Using compressed featured image');
 			  var dimensions = sizeOf(req.files['featured'][0].buffer);
-			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.featured = {
                 data: req.body.compressedFeatured,
                 contentType: 'image/jpg',
@@ -1011,7 +1027,7 @@ exports.postCreateBolo = function(req, res, next) {
             } else {
               console.log('Using original featured image');
 			  var dimensions = sizeOf(req.files['featured'][0].buffer);
-			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of featured is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.featured = {
                 data: req.files['featured'][0].buffer,
                 contentType: req.files['featured'][0].mimeType,
@@ -1026,7 +1042,7 @@ exports.postCreateBolo = function(req, res, next) {
             if (req.body.compressedOther1) {
               console.log('Using compressed other1 image');
 			  var dimensions = sizeOf(req.files['other1'][0].buffer);
-			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other1 = {
                 data: req.body.compressedOther1,
                 contentType: 'image/jpg',
@@ -1036,7 +1052,7 @@ exports.postCreateBolo = function(req, res, next) {
             } else {
               console.log('Using original other1 image');
 			  var dimensions = sizeOf(req.files['other1'][0].buffer);
-			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other1 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other1 = {
                 data: req.files['other1'][0].buffer,
                 contentType: req.files['other1'][0].mimeType,
@@ -1051,7 +1067,7 @@ exports.postCreateBolo = function(req, res, next) {
             if (req.body.compressedOther2) {
               console.log('Using compressed other2 image');
 			  var dimensions = sizeOf(req.files['other2'][0].buffer);
-			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other2 = {
                 data: req.body.compressedOther2,
                 contentType: 'image/jpg',
@@ -1061,7 +1077,7 @@ exports.postCreateBolo = function(req, res, next) {
             } else {
               console.log('Using original other2 image');
 			  var dimensions = sizeOf(req.files['other2'][0].buffer);
-			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height); 
+			  console.log('Width of other2 is' + dimensions.width + ' and height is' + dimensions.height);
               newBolo.other2 = {
                 data: req.files['other2'][0].buffer,
                 contentType: req.files['other2'][0].mimeType,
@@ -1318,6 +1334,7 @@ exports.postEditBolo = function(req, res, next) {
           const reportedTime = req.body.timeReported.split(':');
           const newDate = new Date(reportedDate[2], reportedDate[0], reportedDate[1] - 1, reportedTime[0], reportedTime[1], 0, 0);
 
+          //Format Summary
           var splitSummary =  req.body.summary.split(" ");
           var totalSummary = "";
           var wordInSummary = "";
@@ -1331,6 +1348,23 @@ exports.postEditBolo = function(req, res, next) {
               totalSummary = totalSummary + wordInSummary + " ";
               wordInSummary = "";
           }
+
+
+          //Do the same for Additional info
+          var splitInfo =  req.body.info.split(" ");
+          var totalInfo = "";
+          var wordInInfo = "";
+          for (var i = 0; i < splitInfo.length; i++){
+              for (var j = 0; j < splitInfo[i].length; j++){
+                  wordInInfo = wordInInfo + splitInfo[i].charAt(j);
+                  if (j % 37 == 0 && j != 0){
+                    wordInInfo = wordInInfo + " ";
+                  }
+              }
+              totalInfo = totalInfo + wordInInfo + " ";
+              wordInInfo = "";
+          }
+
 
           if (isNaN(newDate.getTime())) {
             errors.push('Please Enter a Valid Date');
@@ -1380,7 +1414,7 @@ exports.postEditBolo = function(req, res, next) {
               subscribers: bolo.subscribers,
               reportedOn: newDate,
               videoURL: req.body.videoURL,
-              info: req.body.info,
+              info: totalInfo,
               summary: totalSummary,
               status: req.body.status,
               fields: req.body.field
