@@ -22,9 +22,10 @@ exports.getAboutUs = function(req, res, next) {
   });
 };
 
+/**
 exports.savingImages = function(req, res) {
   console.log("\nSaving Images Now");
-    fs.writeFile(appRoot + '/../public/img/aboutUs/filename', res.body, function(err) {
+    fs.writeFile(appRoot + '/../public/img/filename', res.body, function(err) {
       if (err) {
         res.send('Something when wrong');
       } else {
@@ -32,3 +33,4 @@ exports.savingImages = function(req, res) {
       }
     })
 };
+*/

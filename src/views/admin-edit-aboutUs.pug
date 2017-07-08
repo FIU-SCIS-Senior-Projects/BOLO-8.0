@@ -10,8 +10,9 @@ block admin-content
 
   script(type="text/javascript" language="javascript" rel='javascript' src='/js/nicEdit.js').
   script (bkLib.onDomLoaded(function() { nicEditors.allTextAreas()   }))
+  script(rel='javascript' src='/js/showdown.min.js')
   .container-fluid
-    form(action= "/admin/edit/aboutUs" method="post")
+    form(action= "/admin/edit/aboutUs"  method="post")
       +input_textarea('in', 'AboutUs Markdown Editor', 'Write text here...', true, markdown, 500, 500)
       p(maxHeight : 100)
       .row

@@ -29,9 +29,57 @@ exports.getAboutUsForm = function(req, res) {
   })
 };
 
-exports.saveAboutUs = function(req, res) {
+exports.savingImages = function(req, res) {
+  console.log("\n\n\nI AM IN FOLKS\n\n\n");
+  console.log('Writing to system: ' + newMarkdown);
+  console.log("\nBody: " + req.body);
+  console.log("\nTitle: " + req.body.title);
+  console.log("\nID: " + req.body.id);
+  console.log("\nData: " + req.body.data);
+  console.log("\nParams: " + req.params);
+  console.log("\nParams: " + req.params.id);
+  console.log("\nParams: " + req.params.id);
+  console.log("\nWhat is res and req: " + res.name + " and " + req.name);
   var newMarkdown = req.body.in;
   console.log('Writing to system: ' + newMarkdown);
+  fs.writeFile(appRoot + '/public/img/' + res.name, newMarkdown, function(err) {
+      if (err) {
+        console.log(err);
+        var createStream = fs.createWriteStream("JournalDEV.txt");
+        createStream.end();
+        req.flash('The file did not save...', err);
+        res.send('Something when wrong');
+      } else {
+        console.log('Imaged saved!');
+        req.flash('success_msg', 'Changes are saved');
+        console.log('Saved!');
+      }
+    })
+};
+
+exports.saveImage = function(req, res) {
+  var newMarkdown = req.body.in;
+  console.log('Writing to system: ' + newMarkdown);
+  fs.writeFile(appRoot + '/public/img/temp.jpeg', newMarkdown, function(err) {
+    if (err) {
+      console.log(err);
+      req.flash('The file did not save...', err);
+      res.render('admin-edit-aboutUs', {markdown: newMarkdown});
+    } else {
+      console.log('AboutUs has been over-written');
+      req.flash('success_msg', 'Changes are saved');
+      res.redirect('/admin/edit/aboutUs');
+      //res.contentType('json');
+      //res.send({ some: JSON.stringify({response:'json'}) });
+    }
+  })
+};
+
+exports.saveAboutUs = function(req, res) {
+  var newMarkdown = req.body.in;
+
+  console.log('Writing to system: ' + newMarkdown);
+  console.log('Writing to system: ' + req.body);
   fs.writeFile(appRoot + '/public/AboutUs.md', newMarkdown, function(err) {
     if (err) {
       console.log(err);
@@ -41,8 +89,8 @@ exports.saveAboutUs = function(req, res) {
       console.log('AboutUs has been over-written');
       req.flash('success_msg', 'Changes are saved');
       res.redirect('/admin/edit/aboutUs');
-      res.contentType('json');
-      res.send({ some: JSON.stringify({response:'json'}) });
+      //res.contentType('json');
+      //res.send({ some: JSON.stringify({response:'json'}) });
     }
   })
 };

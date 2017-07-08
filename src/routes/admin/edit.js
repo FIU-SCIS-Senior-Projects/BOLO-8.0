@@ -21,18 +21,21 @@ const storage = multer.diskStorage({
 
 const aboutUsStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, appRoot + '/public/img');
+    console.log("This is destination file : " + file);
+    cb(null, appRoot + '/public/img/');
   },
   filename: function (req, file, cb) {
-    cb(null, 'file');
+    console.log("This is the file name : " + file);
+    cb(null, file.fieldname);
   }
 })
 const upload = multer({ storage });
 const aboutUsUpload = multer({ aboutUsStorage });
 
 router.get('/aboutUs', control.getAboutUsForm);
-//router.post('/aboutUs', control.saveAboutUs);
-router.post('/aboutUs', aboutUsUpload.single('file'), control.saveAboutUs);
+router.post('/aboutUs', control.saveAboutUs);
+router.post('/uploads', aboutUsUpload.single('upload-image'), control.savingImages);
+//router.post('/aboutUs', aboutUsUpload.single('file'), control.saveAboutUs);
 router.get('/login', control.getLoginPageForm);
 router.post('/login', upload.single('login-image'), control.saveLoginPage);
 router.get('/userGuide', control.listUserGuideSectionsAndTitle);

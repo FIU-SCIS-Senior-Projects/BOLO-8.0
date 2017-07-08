@@ -8,3 +8,4 @@ exports.admin = require('./admin/index');
 exports.userGuide = require('./userGuide');
 exports.aboutUs = require('./aboutUs');
 exports.img = require('./img');
+exports.uploads = require('./uploads');

@@ -47,7 +47,9 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
-
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 /**
  * BodyParser Middleware
  */
@@ -231,10 +233,12 @@ app.use(function(req, res, next) {
 });
 
 app.use('/img', mainRoutes.img);
+app.use('/uploads', mainRoutes.uploads);
 app.use('/bolo', mainRoutes.bolo);
 app.use('/account', mainRoutes.account);
 app.use('/userGuide', mainRoutes.userGuide);
 app.use('/agency', mainRoutes.agency);
+app.use('/uploads', mainRoutes.uploads);
 
 /**
  * Only Admins and root users can use these routes
