@@ -7,7 +7,6 @@ var UserGuide = require('../../models/userguide');
 var config = require('../../config');
 var md = require("node-markdown").Markdown;
 var updateFn = require('./updateUserGuide');
-
 /**
  * Gets the about us editor
  */
@@ -30,19 +29,38 @@ exports.getAboutUsForm = function(req, res) {
 };
 
 exports.savingImages = function(req, res) {
-  console.log("\n\n\nI AM IN FOLKS\n\n\n");
-  console.log('Writing to system: ' + newMarkdown);
-  console.log("\nBody: " + req.body);
+
+  console.log('\nWriting to system: ' + newMarkdown);
+  console.log("\nBody: " + req.body.in);
   console.log("\nTitle: " + req.body.title);
   console.log("\nID: " + req.body.id);
-  console.log("\nData: " + req.body.data);
-  console.log("\nParams: " + req.params);
-  console.log("\nParams: " + req.params.id);
-  console.log("\nParams: " + req.params.id);
-  console.log("\nWhat is res and req: " + res.name + " and " + req.name);
+  var name = req.body.src;
+  var file = req.body.data;
+  console.log("\nName: " + name);
+  console.log("\nFile: " + file);
+  console.log("\nParams: " + req.params.files);
+  //console.log("\nParams: " + req.files.file);
+  console.log("\nWhat is res and req: " + name + " and " + file);
   var newMarkdown = req.body.in;
   console.log('Writing to system: ' + newMarkdown);
-  fs.writeFile(appRoot + '/public/img/' + res.name, newMarkdown, function(err) {
+
+  console.log('IN ');
+  for(var property in req.body.in) {
+    console.log(property + " = " + req.body.in[property]);
+  }
+  console.log('File ');
+  for(var property in req.body.file) {
+    console.log(property + " = " + req.body.file[property]);
+  }
+
+  console.log('_readableState ');
+  for(var property in req._readableState) {
+    console.log(property + " = " + req._readableState[property]);
+  }
+
+
+
+  fs.writeFile(appRoot + '/public/img/' + name, newMarkdown[0], function(err) {
       if (err) {
         console.log(err);
         var createStream = fs.createWriteStream("JournalDEV.txt");

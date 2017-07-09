@@ -15,6 +15,8 @@ const storage = multer.diskStorage({
     cb(null, appRoot + '/public/img');
   },
   filename: function (req, file, cb) {
+    console.log("This is destination file : " + file);
+
     cb(null, 'login-image');
   }
 })
@@ -26,7 +28,7 @@ const aboutUsStorage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     console.log("This is the file name : " + file);
-    cb(null, file.fieldname);
+    cb(null, req.body.src);
   }
 })
 const upload = multer({ storage });

@@ -1740,9 +1740,10 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
         alert(A || "Failed to upload image")
     },
     uploadFile: function() {
-		this.fileInput.files[0].src = "../../img/" + this.fileInput.files[0].name;
+		this.fileInput.files[0].src = this.fileInput.files[0].name;
 		this.fileInput.files[0].id = "upload-image-preview";
 		this.fileInput.files[0].class = "img-responsive";
+        this.fileInput.files[0].class = "img-responsive";
         var B = this.fileInput.files[0];
 
 		var imagepath = this.fileInput.files[0];
@@ -1758,6 +1759,7 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
         A.append("image", B);
 		myimage =imagepath;
 		fii();
+        var blob = dataURItoBlob(result);
 
         this.removePane();
         var D = B.link;
@@ -1778,23 +1780,28 @@ var nicUploadButton = nicEditorAdvancedButton.extend({
                 width: 300,
             })
         }
-		
+        this.fileInput.files[0].in = blob;
+
         var formData = new FormData();
         formData.append('section', 'general');
         formData.append('action', 'previewImg');
         // Attach file
-        formData.append('image', this.fileInput.files[0]); 
+        formData.append('image', markdown); 
+        formData.append('name', file_name); 
         console.log("\nWHat is this? " + this.fileInput.files[0]);
+        console.log("\nWHat is FormData? " + formData);
+        this.fileInput.files[0].file = formData;
+
 		var imgdata = new FormData(this);
         $.ajax({
             async: true,
             url: "/admin/edit/uploads",
             type: 'POST',
-            data: JSON.stringify(formData),
-            //data: JSON.stringify(textInputBox),
+            //data: markdown,
+            data: JSON.stringify(this.fileInput.files[0]),
             //data: JSON.stringify(result),
-            contentType: false,
-            processData: false,
+            contentType: 'application/json',
+            //contentType: false,
             dataType:"json",
             success: function(result){
                 console.log("\nImage sent:  Value: " + formData);
@@ -1875,10 +1882,14 @@ var readURL = (input) => {
 
 var fii= function() {
 
+
     //var mytextarea = document.getElementsByName('in')[0].value;
     var temp = document.getElementById("upload-image-preview");
 
     textInputBox = document.getElementsByName('in')[0];
+    console.log(textInputBox);
+    //img_create(myimage.name, 0, myimage.name);
+
     file_name = myimage.name;
     readURL(myimage);
     var temp = document.getElementById("upload-image-preview");
@@ -1893,7 +1904,36 @@ var fii= function() {
 	   //console.log(file_name);
     }
     markdown = markdownLogo;
+
     //textInputBox.value= markdown; 
     //textInputBox.dispatchEvent(new Event('change'));
 	
 }
+
+function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+}
+
+// function img_create(src, alt, title) {
+//     var img = new Image() : document.createElement('img');
+//     img.src = src;
+//     if ( alt != null ) img.alt = alt;
+//     if ( title != null ) img.title = title;
+//     return img;
+// }
