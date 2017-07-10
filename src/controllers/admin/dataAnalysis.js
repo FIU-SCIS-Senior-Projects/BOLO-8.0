@@ -14,6 +14,7 @@ var secondary_fields = ['Info', 'Video URL', 'Summary', 'FeaturedImage',
 /**
  * Respond with a form to create a Data Subscriber.
  */
+
 module.exports.getDataAnalysis = function (req, res, next) {
     Agency.findAllAgencies(function (err, listOfAgencies) {
         if (err) next(err);
