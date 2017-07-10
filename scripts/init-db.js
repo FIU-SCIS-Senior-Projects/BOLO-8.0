@@ -124,6 +124,20 @@ function saveUserGuideSection(section, steps) {
     });
 }
 
+var aboutUs_R = new UserGuide({
+  title: "About Us",
+  content: "",
+  ROOT: false,
+  ADMINISTRATOR: false,
+  SUPERVISOR: false,
+  OFFICER: false
+})
+
+var aboutUsSteps_R = `
+  To edit the actual about us page, please click on the "Edit About Us" link
+  located in the Admin Panel.
+`;
+
 var agencyManagement_R = new UserGuide({
     title: 'Agency Management',
     OFFICER: false,
@@ -454,6 +468,7 @@ var resetPWSteps =
     "5) Enter confirmation password\n" +
     "6) Click 'Submit'";
 
+saveUserGuideSection(aboutUs_R, aboutUsSteps_R);
 saveUserGuideSection(agencyManagement_R, agencyManagementSteps_R);
 saveUserGuideSection(agencyManagement_A, agencyManagementSteps_A);
 saveUserGuideSection(dataAnalysis, dataAnalysisSteps);
