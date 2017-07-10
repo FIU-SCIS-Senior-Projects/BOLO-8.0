@@ -11,21 +11,32 @@ var updateFn = require('./updateUserGuide');
  * Gets the about us editor
  */
 exports.getAboutUsForm = function(req, res) {
-  fs.readFile(appRoot + '/public/AboutUs.md', function(err, data) {
+  UserGuide.findByTitle('About Us', function(err, userGuide) {
     if (err) {
-      console.log(err);
-      res.render('admin-edit-aboutUs', {
-        errors: [
-          {
-            msg: 'Error! AboutUs.md could not be read'
-          }
-        ]
-      });
+      next(err);
     } else {
-      console.log('AboutUs is being read');
-      res.render('admin-edit-aboutUs', {markdown: data.toString()});
+      console.log('userguide content', userGuide.content);
+      res.render('admin-edit-aboutUs', {
+        content: userGuide.content
+      });
     }
-  })
+  });
+
+  // fs.readFile(appRoot + '/public/AboutUs.md', function(err, data) {
+  //   if (err) {
+  //     console.log(err);
+  //     res.render('admin-edit-aboutUs', {
+  //       errors: [
+  //         {
+  //           msg: 'Error! AboutUs.md could not be read'
+  //         }
+  //       ]
+  //     });
+  //   } else {
+  //     console.log('AboutUs is being read');
+  //     res.render('admin-edit-aboutUs', {markdown: data.toString()});
+  //   }
+  // })
 };
 
 exports.savingImages = function(req, res) {
@@ -94,23 +105,36 @@ exports.saveImage = function(req, res) {
 };
 
 exports.saveAboutUs = function(req, res) {
-  var newMarkdown = req.body.in;
-
-  console.log('Writing to system: ' + newMarkdown);
-  console.log('Writing to system: ' + req.body);
-  fs.writeFile(appRoot + '/public/AboutUs.md', newMarkdown, function(err) {
+  console.log(req.body.content);
+  UserGuide.updateUserGuide('About Us', req.body.content, function(err, numAffected) {
     if (err) {
-      console.log(err);
-      req.flash('The file did not save...', err);
-      res.render('admin-edit-aboutUs', {markdown: newMarkdown});
+      console.log('did not save about us');
+      req.flash('Could not update about us page.', err);
+      res.redirect('admin-edit-aboutUs');
     } else {
-      console.log('AboutUs has been over-written');
+      console.log('saved about us');
       req.flash('success_msg', 'Changes are saved');
-      res.redirect('/admin/edit/aboutUs');
-      //res.contentType('json');
-      //res.send({ some: JSON.stringify({response:'json'}) });
+      res.send({redirect: '/admin/edit/aboutUs'});
     }
-  })
+  });
+
+  // var newMarkdown = req.body.in;
+  //
+  // console.log('Writing to system: ' + newMarkdown);
+  // console.log('Writing to system: ' + req.body);
+  // fs.writeFile(appRoot + '/public/AboutUs.md', newMarkdown, function(err) {
+  //   if (err) {
+  //     console.log(err);
+  //     req.flash('The file did not save...', err);
+  //     res.render('admin-edit-aboutUs', {markdown: newMarkdown});
+  //   } else {
+  //     console.log('AboutUs has been over-written');
+  //     req.flash('success_msg', 'Changes are saved');
+  //     res.redirect('/admin/edit/aboutUs');
+  //     //res.contentType('json');
+  //     //res.send({ some: JSON.stringify({response:'json'}) });
+  //   }
+  // })
 };
 
 exports.getLoginPageForm = function(req, res) {

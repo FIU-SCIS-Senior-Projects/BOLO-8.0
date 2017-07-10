@@ -5,7 +5,7 @@
 <pre><code>1) Click on 'Agency Directory' to view a list of partnering agencies.
 2) Select an agency by clicking their name
 * View contact information
-* Verify an agency's 'Logo' and 'Shield</pre></code>
+* Verify an agency's 'Logo' and 'Shield<div><br></div><div>2) I'm just <b>adding </b>this.</div></pre></code>
 
 ###<b>Agency Management</b>
 
@@ -77,11 +77,7 @@ Send the BOLO to the archive files</pre></code>
 
 ###<b>Edit a BOLO</b>
 
-<pre><code>* * You can only edit your BOLOs * *
-1) Click 'Edit'
-2) Select any field you want to edit
-3) Enter any information required
-4) Click 'Submit'</pre></code>
+<pre><code>** You can Only edit a Bolo if... ***</pre></code>
 
 ###<b>Filter by (Me)</b>
 

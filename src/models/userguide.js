@@ -5,6 +5,9 @@ var Schema = new mongoose.Schema({
     type: String,
     required: true
   },
+  content: {
+    type: String,
+  },
   OFFICER: {
     type: Boolean,
     default: false,
@@ -66,3 +69,19 @@ module.exports.findAdministratorUserGuideSections = function(callback) {
     ['title', 1]
   ]).exec(callback);
 };
+
+module.exports.updateUserGuide = function(title, content, callback) {
+  UserGuide.update(
+    { title: title},
+    {
+      $set: {
+        content: content
+      }
+    },
+    callback
+  );
+}
+
+module.exports.findByTitle = function(title, callback) {
+  UserGuide.findOne({ title: title }, callback);
+}
