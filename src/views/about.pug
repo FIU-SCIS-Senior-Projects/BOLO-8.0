@@ -7,7 +7,8 @@ block jumbo
       h3 About Us
 block content
   link(rel='stylesheet', href='https://cdn.quilljs.com/1.2.6/quill.snow.css')
-  div(id='editor-container' style={'height': '100vh', 'width': '80%', 'margin': '0 auto'})
+  
+  div(id='editor-container' style={'height': '100%', 'width': '50%', 'margin': '0 auto'})
   
   .container
 
@@ -29,6 +30,7 @@ block content
       quill.enable(false);
       
       $('#editor-container').css('border', 'none');
-      $("#editor-container").css("overflow", "hidden");
+      $('#editor-container').css('overflow', 'hidden');
+      $('.ql-editor').css('overflow', 'auto');
 
       
