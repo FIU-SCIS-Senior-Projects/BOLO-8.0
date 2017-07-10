@@ -86,77 +86,80 @@ function sendBoloNotificationEmail(bolo, template) {
       doc.image(boloToSend.agency.shield.data, 490, 15, {height: 100});
     }
 
-    //Write BOLO Images based on how many images exist, to the PDF
-    var onePhoto,
-      twoPhotos,
-      threePhotos;
+	//Write BOLO Images based on how many images exist, to the PDF
+	var onePhoto,
+	  twoPhotos,
+	  threePhotos;
+	  
+	 var oneTwo, three;
 
-    //NO PICTURES
-    if ((bolo.featured.data == undefined) && (bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
-      var noPic = appRoot + "/public/img/nopic.png";
-      doc.image(noPic, 170, 135, {
-        width: 290,
-        height: 230,
-        align: 'center'
-      }).moveDown(5);
-      onePhoto =//Only Featured is present
-      true;
-    } else if ((bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
-      doc.image(bolo.featured.data, 170, 135, {
-        width: 290,
-        height: 230,
-        align: 'center'
-      }).moveDown(5);
-      onePhoto =// Only Featured and Other1 are present
-      true;
-    } else if ((bolo.other1.data != undefined) && (bolo.other2.data == undefined)) {
-      doc.image(bolo.featured.data, 320, 135, {
-        width: 270,
-        height: 210,
-        align: 'center'
-      }).moveDown(5);
+	//NO PICTURES
+	if ((bolo.featured.data == undefined) && (bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
+	  var noPic = appRoot + "/public/img/nopic.png";
+	  doc.image(noPic, 170, 135, {
+		width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).width,
+		height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).height,
+		align: 'center'
+	  }).moveDown(5);
+	  onePhoto, oneTwo =//Only Featured is present
+	  true;
+	} else if ((bolo.other1.data == undefined) && (bolo.other2.data == undefined)) {
+	  doc.image(bolo.featured.data, 210, 135, {
+		width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).width,
+		height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 290, 230).height,
+		align: 'center'
+	  }).moveDown(5);
+	  onePhoto, oneTwo =// Only Featured and Other1 are present
+	  true;
+	} else if ((bolo.other1.data != undefined) && (bolo.other2.data == undefined)) {
+	  doc.image(bolo.featured.data, 320, 135, {
+		width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).width,
+		height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).height,
+		align: 'center'
+	  }).moveDown(5);
 
-      doc.image(bolo.other1.data, 30, 135, {
-        width: 270,
-        height: 210,
-        align: 'left'
-      }).moveDown(5);
-      twoPhotos =// Only Featured and Other2 are present
-      true;
-    } else if ((bolo.other2.data != undefined) && (bolo.other1.data == undefined)) {
-      doc.image(bolo.featured.data, 30, 135, {
-        width: 270,
-        height: 210,
-        align: 'center'
-      }).moveDown(5);
+	  doc.image(bolo.other1.data, 30, 135, {
+		width: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 270, 210).width,
+		height: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 270, 210).height,
+		align: 'left'
+	  }).moveDown(5);
+	  twoPhotos, oneTwo =// Only Featured and Other2 are present
+	  true;
+	} else if ((bolo.other2.data != undefined) && (bolo.other1.data == undefined)) {
+	  doc.image(bolo.featured.data, 30, 135, {
+		width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).width,
+		height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 270, 210).height,
+		align: 'center'
+	  }).moveDown(5);
 
-      doc.image(bolo.other2.data, 320, 135, {
-        width: 270,
-        height: 210,
-        align: 'left'
-      }).moveDown(5);
-      twoPhotos =// All Images are present
-      true;
-    } else if ((bolo.other1.data != undefined) && (bolo.other2.data != undefined)) {
-      doc.image(bolo.featured.data, 228, 135, {
-        width: 170,
-        height: 110,
-        align: 'center'
-      }).moveDown(5);
+	  doc.image(bolo.other2.data, 320, 135, {
+		width: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 270, 210).width,
+		height: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 270, 210).height,
+		align: 'left'
+	  }).moveDown(5);
+	  twoPhotos, oneTwo =// All Images are present
+	  true;
+	} else if ((bolo.other1.data != undefined) && (bolo.other2.data != undefined)) {
+	  doc.image(bolo.featured.data, 228, 135, {
+		width: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 170, 110).width,
+		height: calculateAspectRatioFit(bolo.featured.width, bolo.featured.height, 170, 110).height,
+		align: 'center'
+	  }).moveDown(5);
 
-      doc.image(bolo.other1.data, 40, 135, {
-        width: 170,
-        height: 110,
-        align: 'left'
-      }).moveDown(5);
+	  doc.image(bolo.other1.data, 40, 135, {
+		width: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 170, 110).width,
+		height: calculateAspectRatioFit(bolo.other1.width, bolo.other1.height, 170, 110).height,
+		align: 'left'
+	  }).moveDown(5);
 
-      doc.image(bolo.other2.data, 415, 135, {
-        width: 170,
-        height: 110,
-        align: 'right'
-      }).moveDown(5);
-      threePhotos = true;
-    }
+	  doc.image(bolo.other2.data, 415, 135, {
+		width: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 170, 110).width,
+		height: calculateAspectRatioFit(bolo.other2.width, bolo.other2.height, 170, 110).height,
+		align: 'right'
+	  }).moveDown(5);
+	  threePhotos = true;
+	  three = true;
+	}
 
     //--------------TEXT PORTION-----------------------
 
@@ -218,8 +221,8 @@ function sendBoloNotificationEmail(bolo, template) {
           moveDown();
         }
 
-        doc.text("A BOLO has been issued! Details have been purposely hidden for security.", {align: 'center'}).moveDown(0.50);
-        doc.text("Please login to the BOLO database to view the full details of this BOLO.", {align: 'center'}).moveDown(0.50);
+        doc.text("A BOLO has been issued! Details have been purposely hidden for security.",100, 400, {align: 'center'}).moveDown(0.50);
+        doc.text("Please login to the BOLO database to view the full details of this BOLO.",100, 470, {align: 'center'}).moveDown(0.50);
         doc.end();
       }
     });
