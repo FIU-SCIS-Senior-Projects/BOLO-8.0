@@ -157,8 +157,13 @@ exports.postCreateForm = function(req, res, next) {
   //Validation of form
   var errors = [];
   req.checkBody('username', 'Username is required').notEmpty();
+  req.checkBody('fname', 'First Name is required').notEmpty();
+  req.checkBody('lname', 'Last Name is required').notEmpty();
   req.checkBody('email', 'Email is required').notEmpty();
   req.checkBody('email', 'Email is not valid').isEmailNoDomain();
+  req.checkBody('badge', 'Badge No is required').notEmpty();
+  req.checkBody('sectunit', 'Section/Unit is required').notEmpty();
+  req.checkBody('ranktitle', 'Rank/Title is required').notEmpty();
   var valErrors = req.validationErrors();
   for (var x in valErrors)
     errors.push(valErrors[x]);
