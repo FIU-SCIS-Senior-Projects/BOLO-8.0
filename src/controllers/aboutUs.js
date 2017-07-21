@@ -14,7 +14,7 @@ exports.getAboutUs = function(req, res, next) {
     if (err) {
       next(err);
     } else {
-      console.log('userguide content', userGuide.content);
+      console.log('userguide content:', userGuide.content);
       res.render('about', {
         content: userGuide.content
       });
