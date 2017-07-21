@@ -13,11 +13,11 @@ exports.updateUserGuide = function(OFFICER, SUPERVISOR, ADMINISTRATOR, ROOT) {
         console.log('Could not find any sections of the user guide accessible to root users: ' + err);
       } else {
         var files = [];
-        files.push('./public/UserGuide/UserGuideTitle.md'); //User Guide title
+        files.push(appRoot + '/public/UserGuide/UserGuideTitle.md'); //User Guide title
 
         //User Guide sections
         for (var i in sections) {
-          files.push('./public/UserGuide/' + sections[i].id + '.md');
+          files.push(appRoot + '/public/UserGuide/' + sections[i].id + '.md');
         }
         readMultipleFiles(files, 'utf8', function(err, contents) {
           if (err) {
@@ -38,7 +38,7 @@ exports.updateUserGuide = function(OFFICER, SUPERVISOR, ADMINISTRATOR, ROOT) {
               }
             }
 
-            fs.writeFile('./public/UserGuide/Root.md', data.join('\n\n'), function(err) {
+            fs.writeFile(appRoot + '/public/UserGuide/Root.md', data.join('\n\n'), function(err) {
               if (err) {
                 console.log('Could not update the Root User Guide');
               } else {
@@ -57,11 +57,11 @@ exports.updateUserGuide = function(OFFICER, SUPERVISOR, ADMINISTRATOR, ROOT) {
         console.log('Could not find any sections of the user guide accessible to supervisor users: ' + err);
       } else {
         var files = [];
-        files.push('./public/UserGuide/UserGuideTitle.md'); //User Guide title
+        files.push(appRoot + '/public/UserGuide/UserGuideTitle.md'); //User Guide title
 
         //User Guide sections
         for (var i in sections) {
-          files.push('./public/UserGuide/' + sections[i].id + '.md');
+          files.push(appRoot + '/public/UserGuide/' + sections[i].id + '.md');
         }
         readMultipleFiles(files, 'utf8', function(err, contents) {
           if (err) {
@@ -82,7 +82,7 @@ else {
               }
             }
 
-            fs.writeFile('./public/UserGuide/Supervisor.md', data.join('\n\n'), function(err) {
+            fs.writeFile(appRoot + '/public/UserGuide/Supervisor.md', data.join('\n\n'), function(err) {
               if (err) {
                 console.log('Could not update the Supervisor User Guide');
               } else {
@@ -101,11 +101,11 @@ else {
         console.log('Could not find any sections of the user guide accessible to administrator users: ' + err);
       } else {
         var files = [];
-        files.push('./public/UserGuide/UserGuideTitle.md'); //User Guide title
+        files.push(appRoot + '/public/UserGuide/UserGuideTitle.md'); //User Guide title
 
         //User Guide sections
         for (var i in sections) {
-          files.push('./public/UserGuide/' + sections[i].id + '.md');
+          files.push(appRoot + '/public/UserGuide/' + sections[i].id + '.md');
         }
         readMultipleFiles(files, 'utf8', function(err, contents) {
           if (err) {
@@ -126,7 +126,7 @@ else {
               }
             }
 
-            fs.writeFile('./public/UserGuide/Administrator.md', data.join('\n\n'), function(err) {
+            fs.writeFile(appRoot + '/public/UserGuide/Administrator.md', data.join('\n\n'), function(err) {
               if (err) {
                 console.log('Could not update the Administrator User Guide');
               } else {
@@ -145,11 +145,11 @@ else {
         console.log('Could not find any sections of the user guide accessible to officer users: ' + err);
       } else {
         var files = [];
-        files.push('./public/UserGuide/UserGuideTitle.md'); //User Guide title
+        files.push(appRoot + '/public/UserGuide/UserGuideTitle.md'); //User Guide title
 
         //User Guide sections
         for (var i in sections) {
-          files.push('./public/UserGuide/' + sections[i].id + '.md');
+          files.push(appRoot + '/public/UserGuide/' + sections[i].id + '.md');
         }
         readMultipleFiles(files, 'utf8', function(err, contents) {
           if (err) {
@@ -170,7 +170,7 @@ else {
               }
             }
 
-            fs.writeFile('./public/UserGuide/Officer.md', data.join('\n\n'), function(err) {
+            fs.writeFile(appRoot + '/public/UserGuide/Officer.md', data.join('\n\n'), function(err) {
               if (err) {
                 console.log('Could not update the Officer User Guide');
               } else {

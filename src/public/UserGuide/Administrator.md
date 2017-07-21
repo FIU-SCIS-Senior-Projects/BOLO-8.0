@@ -4,7 +4,7 @@
 
 <pre><code>1) Click on 'Agency Directory' to view a list of partnering agencies.&nbsp;<div><br></div><div>2) Select an agency by clicking their name
 * View contact information
-* Verify an agency's 'Logo' and 'Shield<div><br></div><div>3) Just edited again.</div></div></pre></code>
+* Verify an agency's 'Logo' and 'Shield<div><br></div><div>3) UPDATE.</div></div></pre></code>
 
 ###<b>Agency Management</b>
 
