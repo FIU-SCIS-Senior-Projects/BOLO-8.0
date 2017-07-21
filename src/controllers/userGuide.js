@@ -13,13 +13,13 @@ exports.getUserGuide = function(req, res, next) {
   var file = '';
 
   if (res.locals.userTier == "ROOT")
-    file = __dirname + '/../public/UserGuide/Root.md';
+    file = appRoot + '/public/UserGuide/Root.md';
   if (res.locals.userTier == "SUPERVISOR")
-    file = __dirname + '/../public/UserGuide/Supervisor.md';
+    file = appRoot + '/public/UserGuide/Supervisor.md';
   if (res.locals.userTier == "ADMINISTRATOR")
-    file = __dirname + '/../public/UserGuide/Administrator.md';
+    file = appRoot + '/public/UserGuide/Administrator.md';
   if (res.locals.userTier == "OFFICER")
-    file = __dirname + '/../public/UserGuide/Officer.md';
+    file = appRoot + '/public/UserGuide/Officer.md';
 
   fs.readFile(file, function(err, data) {
     if (err)
