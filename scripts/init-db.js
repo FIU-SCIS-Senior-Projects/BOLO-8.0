@@ -126,7 +126,7 @@ function saveUserGuideSection(section, steps) {
 
 var aboutUs_R = new UserGuide({
   title: "About Us",
-  content: "",
+  content: "{\"ops\":[{\"attributes\":{\"bold\":true},\"insert\":\"About Us\"},{\"attributes\":{\"align\":\"center\",\"header\":1},\"insert\":\"\\n\"}]}",
   ROOT: false,
   ADMINISTRATOR: false,
   SUPERVISOR: false,
