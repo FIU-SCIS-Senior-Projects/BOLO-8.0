@@ -178,7 +178,7 @@ exports.saveLoginPage = function(req, res) {
 exports.listUserGuideSectionsAndTitle = function(req, res, next) {
 
   //Get sections
-  UserGuide.findAllSections(function(err, listOfSections) {
+  UserGuide.findAllSectionsButAboutUs(function(err, listOfSections) {
     if (err)
       next(err);
     else {

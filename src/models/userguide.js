@@ -46,6 +46,12 @@ module.exports.findAllSections = function(callback) {
   ]).exec(callback);
 };
 
+module.exports.findAllSectionsButAboutUs = function(callback) {
+  UserGuide.find({ title: { $ne:"About Us" }}).sort([
+    ['title', 1]
+  ]).exec(callback);
+};
+
 module.exports.findRootUserGuideSections = function(callback) {
   UserGuide.find({ROOT: true}).sort([
     ['title', 1]
