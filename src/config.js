@@ -17,11 +17,7 @@ var core = path.resolve(__dirname, '../core');
 var config = {};
 
 /* Application Config */
-if (process.env.NODE_ENV === 'production') {
-  config.appURL = 'https://lit-refuge-87716.herokuapp.com';
-} else {
-  config.appURL = 'http://localhost:3000';
-}
+config.appURL = process.env.APP_URL || 'http://localhost:3000';
 
 var bootswatch_theme = 'yeti-custom';
 config.bootstrap = '/css/vendor/bootswatch/' + bootswatch_theme + '/bootstrap.min.css';

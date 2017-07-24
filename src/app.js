@@ -183,21 +183,21 @@ app.use(function(req, res, next) {
  * To be uncommented when going into production
  * This ensures that the site is always using https
  */
-/*
- app.use(function (req, res, next) {
- var schema = (req.headers['x-forwarded-proto'] || '').toLowerCase();
- if (schema === 'https') {
- next();
- } else {
- res.redirect('https://' + req.headers.host + req.url);
- }
- });
- */
+
+// app.use(function (req, res, next) {
+//  var schema = (req.headers['x-forwarded-proto'] || '').toLowerCase();
+//  if (schema === 'https') {
+//    next();
+//  } else {
+//    res.redirect('https://' + req.headers.host + req.url);
+//  }
+// });
 
 //Main Routes
 /**
  * Anyone can access these routes without logging in
  */
+
 app.get('/', function(req, res) {
   res.redirect('/bolo');
 });
@@ -213,7 +213,9 @@ app.use(function(req, res, next) {
     login_redirect = req.session.login_redirect;
     req.session.login_redirect = null;
     if (login_redirect !== null && login_redirect.indexOf('.') == -1) {
-      res.redirect(config.appURL + login_redirect);
+      // MODIFIED APP.JS
+      // res.redirect(config.appURL + login_redirect);
+      res.redirect(login_redirect);
     }
   } else {
     next();
